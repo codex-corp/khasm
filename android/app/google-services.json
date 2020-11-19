@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "712666927026",
-    "firebase_url": "https://fooddeliver192.firebaseio.com",
-    "project_id": "fooddeliver192",
-    "storage_bucket": "fooddeliver192.appspot.com"
+    "project_number": "501609303833",
+    "firebase_url": "https://khasm-be1d8.firebaseio.com",
+    "project_id": "khasm-be1d8",
+    "storage_bucket": "khasm-be1d8.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:712666927026:android:3df2b8eb7bb9b9df96deab",
+        "mobilesdk_app_id": "1:501609303833:android:8e32849deb227f2f91bf88",
         "android_client_info": {
-          "package_name": "com.smartersvision.food_delivery_app"
+          "package_name": "com.codexperts.khasm"
         }
       },
       "oauth_client": [
         {
-          "client_id": "712666927026-tiebtpficqog3dhskbnsgl77291t8t6e.apps.googleusercontent.com",
+          "client_id": "501609303833-68srg81lgvfshvn0tklsek635n6l3mqt.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBCOwMtkYXmDXtI5UkKmNoLQRHd1BUHF5M"
+          "current_key": "AIzaSyBNhaTshZUt_pXrMHdb0hp0hnXzfdtMFMY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "712666927026-tiebtpficqog3dhskbnsgl77291t8t6e.apps.googleusercontent.com",
+              "client_id": "501609303833-68srg81lgvfshvn0tklsek635n6l3mqt.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
