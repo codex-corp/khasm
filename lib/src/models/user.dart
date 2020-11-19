@@ -5,14 +5,20 @@ class User {
   String id;
   String name;
   String email;
+  String code;
   String password;
   String apiToken;
   String deviceToken;
   String phone;
   String address;
   String bio;
-  Media image;
+  String gender;
+  String date_of_birth;
+  bool isActive;
+  bool isEnded;
 
+  Media image;
+int first_time;
   // used for indicate if client logged in or not
   bool auth;
 
@@ -25,6 +31,11 @@ class User {
       id = jsonMap['id'].toString();
       name = jsonMap['name'] != null ? jsonMap['name'] : '';
       email = jsonMap['email'] != null ? jsonMap['email'] : '';
+      code = jsonMap['code'] != null ? jsonMap['code'] : '';
+      first_time = jsonMap['first_time'] != null ? jsonMap['first_time'] : '0';
+      isActive = jsonMap['isActive'] != null ? jsonMap['isActive'] : false;
+      isEnded = jsonMap['isEnded'] != null ? jsonMap['isEnded'] : false;
+
       apiToken = jsonMap['api_token'];
       deviceToken = jsonMap['device_token'];
       try {
@@ -32,6 +43,21 @@ class User {
       } catch (e) {
         phone = "";
       }
+
+
+      try {
+        gender = jsonMap['custom_fields']['gender']['view'].toString();
+      } catch (e) {
+        gender = "";
+      }
+      try {
+        date_of_birth = jsonMap['custom_fields'][' date_of_birth']['view'];
+      } catch (e) {
+        date_of_birth = "";
+      }
+
+
+
       try {
         address = jsonMap['custom_fields']['address']['view'];
       } catch (e) {
@@ -52,6 +78,9 @@ class User {
     var map = new Map<String, dynamic>();
     map["id"] = id;
     map["email"] = email;
+    map["code"] = code;
+    map["first_time"] = first_time;
+
     map["name"] = name;
     map["password"] = password;
     map["api_token"] = apiToken;
@@ -60,6 +89,9 @@ class User {
     }
     map["phone"] = phone;
     map["address"] = address;
+    map["date_of_birth"] = date_of_birth;
+    map["gender"] = gender.toString();
+
     map["bio"] = bio;
     map["media"] = image?.toMap();
     return map;

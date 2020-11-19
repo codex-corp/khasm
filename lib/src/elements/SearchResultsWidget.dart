@@ -82,32 +82,7 @@ class _SearchResultWidgetState extends StateMVC<SearchResultWidget> {
               : Expanded(
                   child: ListView(
                     children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: ListTile(
-                          dense: true,
-                          contentPadding: EdgeInsets.symmetric(vertical: 0),
-                          title: Text(
-                            S.of(context).foods_results,
-                            style: Theme.of(context).textTheme.subtitle1,
-                          ),
-                        ),
-                      ),
-                      ListView.separated(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        primary: false,
-                        itemCount: _con.foods.length,
-                        separatorBuilder: (context, index) {
-                          return SizedBox(height: 10);
-                        },
-                        itemBuilder: (context, index) {
-                          return FoodItemWidget(
-                            heroTag: 'search_list',
-                            food: _con.foods.elementAt(index),
-                          );
-                        },
-                      ),
+
                       Padding(
                         padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
                         child: ListTile(

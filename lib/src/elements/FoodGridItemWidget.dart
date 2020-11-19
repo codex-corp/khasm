@@ -54,7 +54,7 @@ class _FoodGridItemWidgetState extends State<FoodGridItemWidget> {
               )
             ],
           ),
-          Container(
+        /*  Container(
             margin: EdgeInsets.all(10),
             width: 40,
             height: 40,
@@ -71,7 +71,7 @@ class _FoodGridItemWidgetState extends State<FoodGridItemWidget> {
               color: Theme.of(context).accentColor.withOpacity(0.9),
               shape: StadiumBorder(),
             ),
-          ),
+          ),*/
         ],
       ),
     );

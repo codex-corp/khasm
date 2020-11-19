@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/src/models/route_argument.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'settings.dart';
 
 import '../../generated/l10n.dart';
 import '../controllers/profile_controller.dart';
@@ -13,8 +15,9 @@ import '../repository/user_repository.dart';
 
 class ProfileWidget extends StatefulWidget {
   final GlobalKey<ScaffoldState> parentScaffoldKey;
+  final RouteArgument routeArgument;
+  ProfileWidget({Key key, this.parentScaffoldKey, this.routeArgument,}) : super(key: key);
 
-  ProfileWidget({Key key, this.parentScaffoldKey}) : super(key: key);
   @override
   _ProfileWidgetState createState() => _ProfileWidgetState();
 }
@@ -29,7 +32,7 @@ class _ProfileWidgetState extends StateMVC<ProfileWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _con.scaffoldKey,
+     // key: _con.scaffoldKey,
       drawer: DrawerWidget(),
       appBar: AppBar(
         leading: new IconButton(
@@ -44,8 +47,18 @@ class _ProfileWidgetState extends StateMVC<ProfileWidget> {
           S.of(context).profile,
           style: Theme.of(context).textTheme.headline6.merge(TextStyle(letterSpacing: 1.3, color: Theme.of(context).primaryColor)),
         ),
+
         actions: <Widget>[
-          new ShoppingCartButtonWidget(iconColor: Theme.of(context).primaryColor, labelColor: Theme.of(context).hintColor),
+          GestureDetector(child: Padding(padding:EdgeInsets.fromLTRB(10, 0, 10, 0),child:Icon(Icons.settings,color:Colors.white)),
+          onTap:(){
+            Navigator.of(context).pushNamed('/Settings');
+            Navigator.of(context).push(
+              PageRouteBuilder(
+                pageBuilder: (_, __, ___) =>  SettingsWidget(),
+              ),
+            );
+
+          })
         ],
       ),
       body: currentUser.value.apiToken == null
@@ -55,6 +68,49 @@ class _ProfileWidgetState extends StateMVC<ProfileWidget> {
               child: Column(
                 children: <Widget>[
                   ProfileAvatarWidget(user: currentUser.value),
+                  Wrap(
+                    runSpacing: 2,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                            flex: 3,
+                            child:  ListTile(
+                              contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                              leading: Icon(
+                                Icons.tag_faces,
+                                color: Theme.of(context).accentColor,
+                              ),
+                              title: Text(
+                                '10',
+                                style: Theme.of(context).textTheme.headline4,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child:  ListTile(
+                              contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+                              leading: Icon(
+                                Icons.save,
+                                color: Theme.of(context).accentColor,
+                              ),
+                              title: Text(
+                                '450',
+                                style: Theme.of(context).textTheme.headline4,
+                              ),
+                            ),
+                          )                        ],
+                      ),
+
+                      Divider(height: 20),
+
+
+
+
+                    ],
+                  ),
                   ListTile(
                     contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     leading: Icon(
@@ -73,7 +129,8 @@ class _ProfileWidgetState extends StateMVC<ProfileWidget> {
                       style: Theme.of(context).textTheme.bodyText2,
                     ),
                   ),
-                  ListTile(
+
+                 /* ListTile(
                     contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     leading: Icon(
                       Icons.shopping_basket,
@@ -98,7 +155,7 @@ class _ProfileWidgetState extends StateMVC<ProfileWidget> {
                           separatorBuilder: (context, index) {
                             return SizedBox(height: 20);
                           },
-                        ),
+                        ),*/
                 ],
               ),
             ),

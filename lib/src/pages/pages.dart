@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/src/pages/profile.dart';
 
 import '../elements/DrawerWidget.dart';
 import '../elements/FilterWidget.dart';
@@ -63,7 +64,10 @@ class _PagesWidgetState extends State<PagesWidget> {
           widget.currentPage = HomeWidget(parentScaffoldKey: widget.scaffoldKey);
           break;
         case 3:
-          widget.currentPage = OrdersWidget(parentScaffoldKey: widget.scaffoldKey);
+          widget.currentPage = ProfileWidget(parentScaffoldKey: widget.scaffoldKey, routeArgument: widget.routeArgument);
+
+
+
           break;
         case 4:
           widget.currentPage = FavoritesWidget(parentScaffoldKey: widget.scaffoldKey);
@@ -125,7 +129,7 @@ class _PagesWidgetState extends State<PagesWidget> {
                   child: new Icon(Icons.home, color: Theme.of(context).primaryColor),
                 )),
             BottomNavigationBarItem(
-              icon: new Icon(Icons.fastfood),
+              icon: new Icon(Icons.perm_contact_calendar),
               title: new Container(height: 0.0),
             ),
             BottomNavigationBarItem(

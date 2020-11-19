@@ -1,6 +1,8 @@
+import 'package:barcode_scan/barcode_scan.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -14,6 +16,7 @@ import '../elements/ShoppingCartFloatButtonWidget.dart';
 import '../helpers/helper.dart';
 import '../models/route_argument.dart';
 import '../repository/settings_repository.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class DetailsWidget extends StatefulWidget {
   final RouteArgument routeArgument;
@@ -28,7 +31,21 @@ class DetailsWidget extends StatefulWidget {
 
 class _DetailsWidgetState extends StateMVC<DetailsWidget> {
   RestaurantController _con;
+  static final _possibleFormats = BarcodeFormat.values.toList()
+    ..removeWhere((e) => e == BarcodeFormat.unknown);
+  List<BarcodeFormat> selectedFormats = [..._possibleFormats];
 
+  final _flashOnController = TextEditingController(text: "Flash on");
+  final _flashOffController = TextEditingController(text: "Flash off");
+  final _cancelController = TextEditingController(text: "Cancel");
+
+  var _aspectTolerance = 0.00;
+  var _numberOfCameras = 0;
+  var _selectedCamera = -1;
+  var _useAutoFocus = true;
+  ScanResult scanResult;
+
+  var _autoEnableFlash = false;
   _DetailsWidgetState() : super(RestaurantController()) {
     _con = controller;
   }
@@ -46,7 +63,7 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _con.scaffoldKey,
-        floatingActionButton: FloatingActionButton.extended(
+     /*   floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             Navigator.of(context).pushNamed('/Menu', arguments: new RouteArgument(id: widget.routeArgument.id));
           },
@@ -61,7 +78,7 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
             style: TextStyle(color: Theme.of(context).primaryColor),
           ),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,*/
         body: RefreshIndicator(
           onRefresh: _con.refreshRestaurant,
           child: _con.restaurant == null
@@ -77,7 +94,7 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                           backgroundColor: Theme.of(context).accentColor.withOpacity(0.9),
                           expandedHeight: 300,
                           elevation: 0,
-                          iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+                         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
                           flexibleSpace: FlexibleSpaceBar(
                             collapseMode: CollapseMode.parallax,
                             background: Hero(
@@ -268,7 +285,7 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                                         dense: true,
                                         contentPadding: EdgeInsets.symmetric(vertical: 0),
                                         leading: Icon(
-                                          Icons.restaurant,
+                                          Icons.local_offer,
                                           color: Theme.of(context).hintColor,
                                         ),
                                         title: Text(
@@ -289,10 +306,26 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                                         return SizedBox(height: 10);
                                       },
                                       itemBuilder: (context, index) {
-                                        return FoodItemWidget(
-                                          heroTag: 'details_featured_food',
-                                          food: _con.featuredFoods.elementAt(index),
-                                        );
+                                        print(_con.featuredFoods[index].isvalid.toString());
+                                        return _con.featuredFoods[index].isvalid.toString()=='0'?
+                                        Container(color: Color(0xFFBF360C),child: GestureDetector(
+                                          child: FoodItemWidget(
+                                            heroTag: 'details_featured_food',
+                                            food: _con.featuredFoods.elementAt(index),
+                                          ),onTap: (){
+                                          //  scan();
+                                         // Navigator.of(context).pushNamed('/Food', arguments: RouteArgument(id: _con.featuredFoods.elementAt(index).id, heroTag: 'home_food_carousel'));
+                                          Fluttertoast.showToast(msg:_con.featuredFoods[index].msgUsag.toString());
+                                        },),):
+                                        GestureDetector(
+                                          child: FoodItemWidget(
+                                            heroTag: 'details_featured_food',
+                                            food: _con.featuredFoods.elementAt(index),
+                                          ),onTap: (){
+                                          //  scan();
+                                          Navigator.of(context).pushNamed('/Food', arguments: RouteArgument(id: _con.featuredFoods.elementAt(index).id, heroTag: 'home_food_carousel'));
+
+                                        },);
                                       },
                                     ),
                               SizedBox(height: 100),
@@ -324,17 +357,56 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                         ),
                       ],
                     ),
-                    Positioned(
-                      top: 32,
-                      right: 20,
-                      child: ShoppingCartFloatButtonWidget(
-                        iconColor: Theme.of(context).primaryColor,
-                        labelColor: Theme.of(context).hintColor,
-                        routeArgument: RouteArgument(param: '/Details', id: widget.routeArgument.id),
-                      ),
-                    ),
+
                   ],
                 ),
         ));
   }
+  Future scan() async {
+    try {
+      var options = ScanOptions(
+        strings: {
+          "cancel": _cancelController.text,
+          "flash_on": _flashOnController.text,
+          "flash_off": _flashOffController.text,
+        },
+        restrictFormat: selectedFormats,
+        useCamera: _selectedCamera,
+        autoEnableFlash: _autoEnableFlash,
+        android: AndroidOptions(
+          aspectTolerance: _aspectTolerance,
+          useAutoFocus: _useAutoFocus,
+        ),
+      );
+
+      var result = await BarcodeScanner.scan(options: options);
+      setState(() {
+        scanResult = result;
+
+      });
+      /*showDialog(
+          context: context,
+          child: Dialog(
+            shape: BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+            child: RatingDialog('1'),
+          ));*/
+    } on PlatformException catch (e) {
+      var result = ScanResult(
+        type: ResultType.Error,
+        format: BarcodeFormat.unknown,
+      );
+
+      if (e.code == BarcodeScanner.cameraAccessDenied) {
+        setState(() {
+          result.rawContent = 'The user did not grant the camera permission!';
+        });
+      } else {
+        result.rawContent = 'Unknown error: $e';
+      }
+      setState(() {
+        scanResult = result;
+      });
+    }
+  }
+
 }

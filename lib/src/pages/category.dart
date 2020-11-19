@@ -62,7 +62,7 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
           S.of(context).category,
           style: Theme.of(context).textTheme.headline6.merge(TextStyle(letterSpacing: 0)),
         ),
-        actions: <Widget>[
+       /* actions: <Widget>[
           _con.loadCart
               ? Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 22.5, vertical: 15),
@@ -74,7 +74,7 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                   ),
                 )
               : ShoppingCartButtonWidget(iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
-        ],
+        ],*/
       ),
       body: RefreshIndicator(
         onRefresh: _con.refreshCategory,

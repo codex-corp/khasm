@@ -48,4 +48,9 @@ class Address {
       "longitude": longitude,
     });
   }
+
+  void setLoc(lat,lon){
+    latitude= lat;
+    longitude: lon;
+  }
 }

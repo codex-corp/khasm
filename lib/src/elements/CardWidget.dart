@@ -15,7 +15,7 @@ class CardWidget extends StatelessWidget {
   CardWidget({Key key, this.restaurant, this.heroTag}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return  Container(
       width: 292,
       margin: EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 20),
       decoration: BoxDecoration(
@@ -40,7 +40,7 @@ class CardWidget extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
                   child: CachedNetworkImage(
-                    height: 150,
+                    height: 100,
                     width: double.infinity,
                     fit: BoxFit.cover,
                     imageUrl: restaurant.image.url,
@@ -48,7 +48,7 @@ class CardWidget extends StatelessWidget {
                       'assets/img/loading.gif',
                       fit: BoxFit.cover,
                       width: double.infinity,
-                      height: 150,
+                      height: 100,
                     ),
                     errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
@@ -62,13 +62,13 @@ class CardWidget extends StatelessWidget {
                     decoration: BoxDecoration(color: restaurant.closed ? Colors.grey : Colors.green, borderRadius: BorderRadius.circular(24)),
                     child: restaurant.closed
                         ? Text(
-                            S.of(context).closed,
-                            style: Theme.of(context).textTheme.caption.merge(TextStyle(color: Theme.of(context).primaryColor)),
-                          )
+                      S.of(context).closed,
+                      style: Theme.of(context).textTheme.caption.merge(TextStyle(color: Theme.of(context).primaryColor)),
+                    )
                         : Text(
-                            S.of(context).open,
-                            style: Theme.of(context).textTheme.caption.merge(TextStyle(color: Theme.of(context).primaryColor)),
-                          ),
+                      S.of(context).open,
+                      style: Theme.of(context).textTheme.caption.merge(TextStyle(color: Theme.of(context).primaryColor)),
+                    ),
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
@@ -76,13 +76,13 @@ class CardWidget extends StatelessWidget {
                     decoration: BoxDecoration(color: Helper.canDelivery(restaurant) ? Colors.green : Colors.orange, borderRadius: BorderRadius.circular(24)),
                     child: Helper.canDelivery(restaurant)
                         ? Text(
-                            S.of(context).delivery,
-                            style: Theme.of(context).textTheme.caption.merge(TextStyle(color: Theme.of(context).primaryColor)),
-                          )
+                      S.of(context).delivery,
+                      style: Theme.of(context).textTheme.caption.merge(TextStyle(color: Theme.of(context).primaryColor)),
+                    )
                         : Text(
-                            S.of(context).pickup,
-                            style: Theme.of(context).textTheme.caption.merge(TextStyle(color: Theme.of(context).primaryColor)),
-                          ),
+                      S.of(context).pickup,
+                      style: Theme.of(context).textTheme.caption.merge(TextStyle(color: Theme.of(context).primaryColor)),
+                    ),
                   ),
                 ],
               ),
@@ -134,11 +134,11 @@ class CardWidget extends StatelessWidget {
                       ),
                       restaurant.distance > 0
                           ? Text(
-                              Helper.getDistance(restaurant.distance, Helper.of(context).trans(setting.value.distanceUnit)),
-                              overflow: TextOverflow.fade,
-                              maxLines: 1,
-                              softWrap: false,
-                            )
+                        Helper.getDistance(restaurant.distance, Helper.of(context).trans(setting.value.distanceUnit)),
+                        overflow: TextOverflow.fade,
+                        maxLines: 1,
+                        softWrap: false,
+                      )
                           : SizedBox(height: 0)
                     ],
                   ),

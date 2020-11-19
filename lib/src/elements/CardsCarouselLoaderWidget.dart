@@ -8,7 +8,7 @@ class CardsCarouselLoaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 288,
+      height: 28,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: 3,

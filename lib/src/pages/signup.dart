@@ -101,7 +101,28 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                           enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
                         ),
                       ),
+
                       SizedBox(height: 30),
+
+                      TextFormField(
+                     //   obscureText: _con.hidePassword,
+                        onSaved: (input) => _con.user.phone = input,
+                      //  validator: (input) => input.length < 6 ? S.of(context).should_be_more_than_6_letters : null,
+                        decoration: InputDecoration(
+                          labelText: S.of(context).phone,
+                          labelStyle: TextStyle(color: Theme.of(context).accentColor),
+                          contentPadding: EdgeInsets.all(12),
+                          hintText: '09 999 9999',
+                          hintStyle: TextStyle(color: Theme.of(context).focusColor.withOpacity(0.7)),
+                          prefixIcon: Icon(Icons.phone, color: Theme.of(context).accentColor),
+
+                          border: OutlineInputBorder(borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
+                          focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.5))),
+                          enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
+                        ),
+                      ),
+                      SizedBox(height: 30),
+
                       TextFormField(
                         obscureText: _con.hidePassword,
                         onSaved: (input) => _con.user.password = input,

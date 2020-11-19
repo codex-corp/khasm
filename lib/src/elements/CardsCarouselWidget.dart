@@ -9,8 +9,8 @@ import 'CardWidget.dart';
 class CardsCarouselWidget extends StatefulWidget {
   List<Restaurant> restaurantsList;
   String heroTag;
-
-  CardsCarouselWidget({Key key, this.restaurantsList, this.heroTag}) : super(key: key);
+BuildContext con;
+  CardsCarouselWidget({Key key, this.restaurantsList, this.heroTag,this.con}) : super(key: key);
 
   @override
   _CardsCarouselWidgetState createState() => _CardsCarouselWidgetState();
@@ -27,21 +27,27 @@ class _CardsCarouselWidgetState extends State<CardsCarouselWidget> {
     return widget.restaurantsList.isEmpty
         ? CardsCarouselLoaderWidget()
         : Container(
-            height: 288,
+            height: 250,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: widget.restaurantsList.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
+
+
                     Navigator.of(context).pushNamed('/Details',
                         arguments: RouteArgument(
                           id: widget.restaurantsList.elementAt(index).id,
                           heroTag: widget.heroTag,
                         ));
+
                   },
-                  child: CardWidget(restaurant: widget.restaurantsList.elementAt(index), heroTag: widget.heroTag),
-                );
+                  child:
+
+
+                  CardWidget(restaurant: widget.restaurantsList.elementAt(index), heroTag: widget.heroTag),
+                  );
               },
             ),
           );

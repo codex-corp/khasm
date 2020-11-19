@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../elements/GalleryItemWidget.dart';
@@ -26,7 +27,33 @@ class _ImageThumbCarouselWidgetState extends State<ImageThumbCarouselWidget> {
                 return InkWell(
                   splashColor: Theme.of(context).accentColor.withOpacity(0.8),
                   highlightColor: Colors.transparent,
-                  onTap: () {},
+                  onTap: () {
+print( widget.galleriesList.elementAt(index).image.url);
+                    showDialog(
+                        context: context,
+                        builder:
+                            (BuildContext context) {
+                          return AlertDialog(
+                            //  title: Text("Alert Dialog"),
+                            contentPadding:
+                            EdgeInsets.zero,
+
+                            content:ClipRRect(
+                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                              child: CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                imageUrl: widget.galleriesList.elementAt(index).image.url,
+                                placeholder: (context, url) => Image.asset(
+                                  'assets/img/loading.gif',
+                                  fit: BoxFit.cover,
+                                ),
+                                errorWidget: (context, url, error) => Icon(Icons.error),
+                              ),
+                            ),
+                          );
+                        });
+
+                  },
                   child: GalleryItemWidget(gallery: widget.galleriesList.elementAt(index)),
                 );
               },

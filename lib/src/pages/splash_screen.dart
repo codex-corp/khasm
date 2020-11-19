@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/src/repository/user_repository.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../controllers/splash_screen_controller.dart';
@@ -29,9 +30,23 @@ class SplashScreenState extends StateMVC<SplashScreen> {
       _con.progress.value.values.forEach((_progress) {
         progress += _progress;
       });
+     /* if (progress == 100) {
+        try {
+          Navigator.of(context).pushReplacementNamed('/Login', arguments: 2);
+        } catch (e) {}
+      }*/
       if (progress == 100) {
         try {
-          Navigator.of(context).pushReplacementNamed('/Pages', arguments: 2);
+          print(currentUser.value.apiToken);
+          //  userRepo.currentUser.value.apiToken != null
+          if (currentUser.value.apiToken != null) {
+            // Navigator.of(context).pushReplacementNamed('/Login');
+
+            Navigator.of(context).pushReplacementNamed('/Pages', arguments: 2);
+          }else {
+            Navigator.of(context).pushReplacementNamed('/Login');
+
+          }
         } catch (e) {}
       }
     });
@@ -52,8 +67,8 @@ class SplashScreenState extends StateMVC<SplashScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image.asset(
-                'assets/img/logo.png',
-                width: 150,
+                'assets/img/logg.png',
+                width: 193,
                 fit: BoxFit.cover,
               ),
               SizedBox(height: 50),

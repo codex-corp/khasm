@@ -17,6 +17,9 @@ class Food {
   String description;
   String ingredients;
   String weight;
+  String isvalid;
+  bool isOpen,isClosed;
+  String msgUsag;
   String unit;
   String packageItemsCount;
   bool featured;
@@ -33,6 +36,13 @@ class Food {
   Food.fromJSON(Map<String, dynamic> jsonMap) {
     try {
       id = jsonMap['id'].toString();
+
+      //subscription attr
+      isvalid = jsonMap['is_valid'].toString();
+      isOpen = jsonMap['is_open'];
+      isClosed = jsonMap['is_closed'];
+      msgUsag = jsonMap['usage_message'].toString();
+
       name = jsonMap['name'];
       price = jsonMap['price'] != null ? jsonMap['price'].toDouble() : 0.0;
       discountPrice = jsonMap['discount_price'] != null ? jsonMap['discount_price'].toDouble() : 0.0;
@@ -86,6 +96,11 @@ class Food {
   Map toMap() {
     var map = new Map<String, dynamic>();
     map["id"] = id;
+    map["is_valid"] = isvalid.toString();
+    map["is_open"] = isOpen;
+    map["is_closed"] = isClosed;
+    map["usage_message"] = msgUsag;
+
     map["name"] = name;
     map["price"] = price;
     map["discountPrice"] = discountPrice;

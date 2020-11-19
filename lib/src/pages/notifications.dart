@@ -41,9 +41,9 @@ class _NotificationsWidgetState extends StateMVC<NotificationsWidget> {
           S.of(context).notifications,
           style: Theme.of(context).textTheme.headline6.merge(TextStyle(letterSpacing: 1.3)),
         ),
-        actions: <Widget>[
+       /* actions: <Widget>[
           new ShoppingCartButtonWidget(iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
-        ],
+        ],*/
       ),
       body: currentUser.value.apiToken == null
           ? PermissionDeniedWidget()

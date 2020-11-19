@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../generated/l10n.dart';
 import '../models/user.dart';
+import 'package:intl/intl.dart' as intl;
+import 'package:toast/toast.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
+import 'package:intl/date_symbol_data_local.dart';
 class ProfileSettingsDialog extends StatefulWidget {
   final User user;
   final VoidCallback onChanged;
@@ -15,7 +19,16 @@ class ProfileSettingsDialog extends StatefulWidget {
 
 class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
   GlobalKey<FormState> _profileSettingsFormKey = new GlobalKey<FormState>();
-
+  int _value = 1;
+  var fromdate = GlobalKey<FormState>();
+  intl.DateFormat dateFormat ;
+@override
+  void initState() {
+    // TODO: implement initState
+  initializeDateFormatting();
+  dateFormat   = intl.DateFormat("yyyy-MM-dd");
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return FlatButton(
@@ -57,14 +70,7 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
                           validator: (input) => !input.contains('@') ? S.of(context).not_a_valid_email : null,
                           onSaved: (input) => widget.user.email = input,
                         ),
-                        new TextFormField(
-                          style: TextStyle(color: Theme.of(context).hintColor),
-                          keyboardType: TextInputType.text,
-                          decoration: getInputDecoration(hintText: '+136 269 9765', labelText: S.of(context).phone),
-                          initialValue: widget.user.phone,
-                          validator: (input) => input.trim().length < 3 ? S.of(context).not_a_valid_phone : null,
-                          onSaved: (input) => widget.user.phone = input,
-                        ),
+
                         new TextFormField(
                           style: TextStyle(color: Theme.of(context).hintColor),
                           keyboardType: TextInputType.text,
@@ -80,6 +86,68 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
                           initialValue: widget.user.bio,
                           validator: (input) => input.trim().length < 3 ? S.of(context).not_a_valid_biography : null,
                           onSaved: (input) => widget.user.bio = input,
+                        ),
+                        new TextFormField(
+                          style: TextStyle(color: Theme.of(context).hintColor),
+                          keyboardType: TextInputType.text,
+                          decoration: getInputDecoration(hintText:'gender', labelText:'gender'),
+                          initialValue: widget.user.gender,
+                        //  validator: (input) => input.trim().length < 3 ? S.of(context).not_a_valid_biography : null,
+                          onSaved: (input) => widget.user.gender = input,
+                        ),
+                      /*  DropdownButton(
+                            value: _value,
+                            items: [
+                              DropdownMenuItem(
+                                child: Text("Female"),
+                                value: 1,
+                              ),
+                              DropdownMenuItem(
+                                child: Text("Male"),
+                                value: 2,
+                              ),
+
+
+                            ],
+                            onChanged: (value) {
+                              setState(() {
+                                _value =value;
+
+
+                              });
+                            }),*/
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
+                          child: Visibility(
+                            child: Form(
+                              key: fromdate,
+                              child: DateTimeField(
+                                onShowPicker: (context, currentValue) {
+                                  return showDatePicker(
+                                      context: context,
+                                      firstDate: DateTime(1900),
+                                      initialDate: DateTime.now(),
+                                      lastDate: DateTime(2100));
+                                },
+                                format: dateFormat,
+                                validator: (val) {
+                                  if (val != null) {
+                                    return null;
+                                  } else {
+                                    return  'Birthday';
+                                  }
+                                },
+                                decoration: InputDecoration(labelText:  'Birthday'),
+                                //   initialValue: DateTime.now(), //Add this in your Code.
+                                // initialDate: DateTime(2017),
+                                onSaved: (value) {
+                                //  dateD = value.toString().substring(0, 10);
+                                  debugPrint(value.toString());
+                                },
+                              ),
+                            ),
+                            visible: true,
+                          ),
                         ),
                       ],
                     ),

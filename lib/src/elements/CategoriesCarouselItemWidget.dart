@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -33,11 +34,12 @@ class CategoriesCarouselItemWidget extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                   boxShadow: [BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.2), offset: Offset(0, 2), blurRadius: 7.0)]),
               child: Padding(
-                padding: const EdgeInsets.all(15),
+                padding: const EdgeInsets.all(0),
                 child: category.image.url.toLowerCase().endsWith('.svg')
                     ? SvgPicture.network(
                         category.image.url,
                         color: Theme.of(context).accentColor,
+                  fit: BoxFit.fill,
                       )
                     : CachedNetworkImage(
                         fit: BoxFit.cover,

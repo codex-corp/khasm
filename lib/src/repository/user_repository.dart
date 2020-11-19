@@ -15,14 +15,15 @@ import '../repository/user_repository.dart' as userRepo;
 
 ValueNotifier<User> currentUser = new ValueNotifier(User());
 
-Future<User> login(User user) async {
-  final String url = '${GlobalConfiguration().getString('api_base_url')}login';
+Future<User> login(String phone,String token,String codeC) async {
+  final String url = '${GlobalConfiguration().getString('api_base_url')}signin?mobile_no='+phone+'&country_code='+codeC+'&otp='+'1'+'&device_token='+token;
   final client = new http.Client();
-  final response = await client.post(
+  final response = await client.get(
     url,
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-    body: json.encode(user.toMap()),
+   // body: json.encode(user.toMap()),
   );
+  print(response.body);
   if (response.statusCode == 200) {
     setCurrentUser(response.body);
     currentUser.value = User.fromJSON(json.decode(response.body)['data']);
@@ -96,6 +97,8 @@ Future<User> getCurrentUser() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   //prefs.clear();
   if (currentUser.value.auth == null && prefs.containsKey('current_user')) {
+
+
     currentUser.value = User.fromJSON(json.decode(await prefs.get('current_user')));
     currentUser.value.auth = true;
   } else {
@@ -125,6 +128,25 @@ Future<User> update(User user) async {
     body: json.encode(user.toMap()),
   );
   setCurrentUser(response.body);
+  currentUser.value = User.fromJSON(json.decode(response.body)['data']);
+
+  return currentUser.value;
+
+}
+
+
+
+Future<User> updateregister(User user,String token) async {
+  final String _apiToken = 'api_token=${currentUser.value.apiToken}';
+  final String url = '${GlobalConfiguration().getString('api_base_url')}users/${currentUser.value.id}?$_apiToken';
+  final client = new http.Client();
+  print(url);
+  final response = await client.post(
+    url,
+    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+    body: json.encode(user.toMap()),
+  );
+ setCurrentUser(response.body);
   currentUser.value = User.fromJSON(json.decode(response.body)['data']);
   return currentUser.value;
 }

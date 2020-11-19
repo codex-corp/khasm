@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'src/pages/categoryPAge.dart';
+import 'src/pages/codePage.dart';
+import 'src/pages/packagePage.dart';
+import 'src/pages/editProfile.dart';
 
 import 'src/models/route_argument.dart';
 import 'src/pages/cart.dart';
@@ -43,6 +47,15 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SignUpWidget());
       case '/Login':
         return MaterialPageRoute(builder: (_) => LoginWidget());
+      case '/code':
+        return MaterialPageRoute(builder: (_) => codePAge());
+      case '/edit':
+        return MaterialPageRoute(builder: (_) => editProfile());
+
+      case '/package':
+        return MaterialPageRoute(builder: (_) => packagePAge());
+      case '/category':
+        return MaterialPageRoute(builder: (_) => categoryPage());
       case '/Profile':
         return MaterialPageRoute(builder: (_) => ProfileWidget());
       case '/ForgetPassword':

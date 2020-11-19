@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../helpers/helper.dart';
 import '../models/food.dart';
 import '../models/route_argument.dart';
+import '../repository/user_repository.dart';
 
 class FoodItemWidget extends StatelessWidget {
   final String heroTag;
@@ -17,9 +18,7 @@ class FoodItemWidget extends StatelessWidget {
       splashColor: Theme.of(context).accentColor,
       focusColor: Theme.of(context).accentColor,
       highlightColor: Theme.of(context).primaryColor,
-      onTap: () {
-        Navigator.of(context).pushNamed('/Food', arguments: RouteArgument(id: food.id, heroTag: this.heroTag));
-      },
+
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         decoration: BoxDecoration(
@@ -31,11 +30,12 @@ class FoodItemWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
+
             Hero(
               tag: heroTag + food.id,
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(5)),
-                child: CachedNetworkImage(
+                child: Stack(children: <Widget>[CachedNetworkImage(
                   height: 60,
                   width: 60,
                   fit: BoxFit.cover,
@@ -48,6 +48,13 @@ class FoodItemWidget extends StatelessWidget {
                   ),
                   errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
+
+                  currentUser.value.apiToken == null?Visibility(visible: true,child: Padding(
+                    padding: EdgeInsets.fromLTRB(40, 45, 10, 10),child: Icon(Icons.lock,color: Colors.black,),) ,):
+                      Visibility(child:  Padding(
+                        padding: EdgeInsets.fromLTRB(40, 45, 10, 10),child: Icon(Icons.lock,color: Colors.black,),),visible: false,)
+
+                 ,],),
               ),
             ),
             SizedBox(width: 15),

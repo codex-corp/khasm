@@ -20,6 +20,8 @@ class SettingsController extends ControllerMVC {
     user.deviceToken = null;
     repository.update(user).then((value) {
       setState(() {});
+      Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/code');
+
       scaffoldKey?.currentState?.showSnackBar(SnackBar(
         content: Text(S.of(context).profile_settings_updated_successfully),
       ));
