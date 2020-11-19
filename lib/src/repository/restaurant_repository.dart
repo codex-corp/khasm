@@ -20,6 +20,7 @@ Future<Stream<Restaurant>> getNearRestaurants(Address myLocation, Address areaLo
   Filter filter = Filter.fromJSON(json.decode(prefs.getString('filter') ?? '{}'));
 
   _queryParams['limit'] = '6';
+  _queryParams['with'] = 'cuisines';
   if (!myLocation.isUnknown() && !areaLocation.isUnknown()) {
     _queryParams['myLon'] = myLocation.longitude.toString();
     _queryParams['myLat'] = myLocation.latitude.toString();

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_html/style.dart';
+
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -60,10 +60,19 @@ class Helper {
   }
 
   static Future<Marker> getMarker(Map<String, dynamic> res) async {
-    final Uint8List markerIcon = await getBytesFromAsset('assets/img/marker.png', 120);
+    Uint8List finalIcon;
+
+    if ((res['cuisine_icon'] ?? '') != ''){
+      final ByteData imageData = await NetworkAssetBundle(Uri.parse(res['cuisine_icon'])).load("");
+      final Uint8List markerIcon = imageData.buffer.asUint8List();
+      finalIcon = markerIcon;
+    }else{
+      final Uint8List markerIcon = await getBytesFromAsset('assets/img/marker.png', 120);
+      finalIcon = markerIcon; 
+    }
     final Marker marker = Marker(
         markerId: MarkerId(res['id']),
-        icon: BitmapDescriptor.fromBytes(markerIcon),
+        icon: BitmapDescriptor.fromBytes(finalIcon),
 //        onTap: () {
 //          //print(res.name);
 //        },
@@ -224,7 +233,7 @@ class Helper {
   static Html applyHtml(context, String html, {TextStyle style}) {
     return Html(
       data: html ?? '',
-      style: {
+      /*style: {
         "*": Style(
           padding: EdgeInsets.all(0),
           margin: EdgeInsets.all(0),
@@ -245,7 +254,7 @@ class Helper {
         "p": Style(
           fontSize: FontSize(16.0),
         )
-      },
+      },*/
     );
   }
 

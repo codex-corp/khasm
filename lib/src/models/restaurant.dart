@@ -20,6 +20,7 @@ class Restaurant {
   bool availableForDelivery;
   double deliveryRange;
   double distance;
+  String cuisine_icon;
 
   Restaurant();
 
@@ -43,6 +44,7 @@ class Restaurant {
       closed = jsonMap['closed'] ?? false;
       availableForDelivery = jsonMap['available_for_delivery'] ?? false;
       distance = jsonMap['distance'] != null ? double.parse(jsonMap['distance'].toString()) : 0.0;
+      cuisine_icon = jsonMap['cuisines'] != null && (jsonMap['cuisines'] as List).length > 0 ? jsonMap['cuisines'][0]['icon'] : '';
     } catch (e) {
       id = '';
       name = '';
@@ -62,6 +64,7 @@ class Restaurant {
       closed = false;
       availableForDelivery = false;
       distance = 0.0;
+      cuisine_icon = '';
       print(CustomTrace(StackTrace.current, message: e));
     }
   }
@@ -74,6 +77,7 @@ class Restaurant {
       'longitude': longitude,
       'delivery_fee': deliveryFee,
       'distance': distance,
+      'cuisine_icon': cuisine_icon,
     };
   }
 }
