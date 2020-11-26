@@ -2504,6 +2504,226 @@ class S {
       args: [],
     );
   }
+
+  /// `Messages`
+  String get messages {
+    return Intl.message(
+      'Messages',
+      name: 'messages',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You don't have any conversations`
+  String get youDontHaveAnyConversations {
+    return Intl.message(
+      'You don\'t have any conversations',
+      name: 'youDontHaveAnyConversations',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New message from`
+  String get newMessageFrom {
+    return Intl.message(
+      'New message from',
+      name: 'newMessageFrom',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `For more details, please chat with our managers`
+  String get forMoreDetailsPleaseChatWithOurManagers {
+    return Intl.message(
+      'For more details, please chat with our managers',
+      name: 'forMoreDetailsPleaseChatWithOurManagers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign-In to chat with our managers`
+  String get signinToChatWithOurManagers {
+    return Intl.message(
+      'Sign-In to chat with our managers',
+      name: 'signinToChatWithOurManagers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Type to start chat`
+  String get typeToStartChat {
+    return Intl.message(
+      'Type to start chat',
+      name: 'typeToStartChat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Make it default`
+  String get makeItDefault {
+    return Intl.message(
+      'Make it default',
+      name: 'makeItDefault',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not valid address`
+  String get notValidAddress {
+    return Intl.message(
+      'Not valid address',
+      name: 'notValidAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swipe left the notification to delete or read / unread it`
+  String get swipeLeftTheNotificationToDeleteOrReadUnreadIt {
+    return Intl.message(
+      'Swipe left the notification to delete or read / unread it',
+      name: 'swipeLeftTheNotificationToDeleteOrReadUnreadIt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This notification has marked as unread`
+  String get thisNotificationHasMarkedAsUnread {
+    return Intl.message(
+      'This notification has marked as unread',
+      name: 'thisNotificationHasMarkedAsUnread',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notification was removed`
+  String get notificationWasRemoved {
+    return Intl.message(
+      'Notification was removed',
+      name: 'notificationWasRemoved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This notification has marked as read`
+  String get thisNotificationHasMarkedAsRead {
+    return Intl.message(
+      'This notification has marked as read',
+      name: 'thisNotificationHasMarkedAsRead',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subscription`
+  String get sub {
+    return Intl.message(
+      'Subscription',
+      name: 'sub',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your Subscription`
+  String get your_sub {
+    return Intl.message(
+      'Your Subscription',
+      name: 'your_sub',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subscription status`
+  String get statusS {
+    return Intl.message(
+      'Subscription status',
+      name: 'statusS',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Active`
+  String get active {
+    return Intl.message(
+      'Active',
+      name: 'active',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Close`
+  String get ended {
+    return Intl.message(
+      'Close',
+      name: 'ended',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Trail`
+  String get trail {
+    return Intl.message(
+      'Trail',
+      name: 'trail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Type`
+  String get type {
+    return Intl.message(
+      'Type',
+      name: 'type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create date`
+  String get createD {
+    return Intl.message(
+      'Create date',
+      name: 'createD',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `End date`
+  String get endD {
+    return Intl.message(
+      'End date',
+      name: 'endD',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start date`
+  String get startd {
+    return Intl.message(
+      'Start date',
+      name: 'startd',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
