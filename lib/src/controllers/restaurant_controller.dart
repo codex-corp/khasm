@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
@@ -27,22 +29,27 @@ class RestaurantController extends ControllerMVC {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
   }
 
-  void listenForRestaurant({String id, String message}) async {
+  Future<dynamic> listenForRestaurant({String id, String message}) async {
+    final whenDone = new Completer();
     final Stream<Restaurant> stream = await getRestaurant(id, deliveryAddress.value);
     stream.listen((Restaurant _restaurant) {
       setState(() => restaurant = _restaurant);
+      return whenDone.complete(_restaurant);
     }, onError: (a) {
       print(a);
       scaffoldKey?.currentState?.showSnackBar(SnackBar(
         content: Text(S.of(context).verify_your_internet_connection),
       ));
+      return whenDone.complete(Restaurant.fromJSON({}));
     }, onDone: () {
       if (message != null) {
         scaffoldKey?.currentState?.showSnackBar(SnackBar(
           content: Text(message),
         ));
+        return whenDone.complete(restaurant);
       }
     });
+    return whenDone.future;
   }
 
   void listenForGalleries(String idRestaurant) async {

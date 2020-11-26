@@ -65,6 +65,8 @@ class SplashScreenController extends ControllerMVC {
     try {
       if (message['data']['id'] == "orders") {
         settingRepo.navigatorKey.currentState.pushReplacementNamed('/Pages', arguments: 3);
+      } else if (message['data']['id'] == "messages") {
+        settingRepo.navigatorKey.currentState.pushReplacementNamed('/Pages', arguments: 4);
       }
     } catch (e) {
       print(CustomTrace(StackTrace.current, message: e));
@@ -75,9 +77,11 @@ class SplashScreenController extends ControllerMVC {
     String messageId = await settingRepo.getMessageId();
     try {
       if (messageId != message['google.message_id']) {
+        await settingRepo.saveMessageId(message['google.message_id']);
         if (message['data']['id'] == "orders") {
-          await settingRepo.saveMessageId(message['google.message_id']);
           settingRepo.navigatorKey.currentState.pushReplacementNamed('/Pages', arguments: 3);
+        } else if (message['data']['id'] == "messages") {
+          settingRepo.navigatorKey.currentState.pushReplacementNamed('/Pages', arguments: 4);
         }
       }
     } catch (e) {
@@ -90,7 +94,7 @@ class SplashScreenController extends ControllerMVC {
       msg: message['notification']['title'],
       toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.TOP,
-      timeInSecForIosWeb: 5,
+      timeInSecForIosWeb: 6,
     );
   }
 }

@@ -197,7 +197,7 @@ String codeC;
                           }
                           print(codeC);
 
-                            _con.login(_email.text,toke,codeC);
+                            _con.login(_email.text,toke,codeC,'1');
 
 
 
@@ -207,16 +207,16 @@ String codeC;
                       ),
                       SizedBox(height: 15),
 
-                      FlatButton(
-                        onPressed: () {
-                          Navigator.of(context).pushReplacementNamed('/SignUp');
-                                                },
-                        shape: StadiumBorder(),
-                        textColor: Theme.of(context).hintColor,
-                        child: Text(S.of(context).register),
-                        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 14),
-                      ),
-                      SizedBox(height: 15),
+                      // FlatButton(
+                      //   onPressed: () {
+                      //     Navigator.of(context).pushReplacementNamed('/SignUp');
+                      //                           },
+                      //   shape: StadiumBorder(),
+                      //   textColor: Theme.of(context).hintColor,
+                      //   child: Text(S.of(context).register),
+                      //   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 14),
+                      // ),
+                      // SizedBox(height: 15),
                       FlatButton(
                         onPressed: () {
                           Navigator.of(context).pushReplacementNamed('/Pages', arguments: 2);

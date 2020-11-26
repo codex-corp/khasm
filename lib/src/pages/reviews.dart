@@ -235,7 +235,7 @@ class _ReviewsWidgetState extends StateMVC<ReviewsWidget> {
                                   FlatButton.icon(
                                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 18),
                                     onPressed: () {
-                                      _con.addFoodReview(_con.foodsReviews[index], _con.foodsOfOrder[index]);
+                                    //_con.addFoodReview(_con.foodsReviews[index], _con.foodsOfOrder[index]);
                                       FocusScope.of(context).unfocus();
                                     },
                                     shape: StadiumBorder(),

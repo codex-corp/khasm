@@ -15,8 +15,16 @@ import '../repository/user_repository.dart' as userRepo;
 
 ValueNotifier<User> currentUser = new ValueNotifier(User());
 
-Future<User> login(String phone,String token,String codeC) async {
-  final String url = '${GlobalConfiguration().getString('api_base_url')}signin?mobile_no='+phone+'&country_code='+codeC+'&otp='+'1'+'&device_token='+token;
+Future<User> login(String phone,String token,String codeC,String islog) async {
+   String url;
+  if(islog=='1'){
+      url = '${GlobalConfiguration().getString('api_base_url')}signin?mobile_no='+phone+'&country_code='+codeC+'&otp='+'1'+'&device_token='+token;
+
+  }else{
+    url = '${GlobalConfiguration().getString('api_base_url')}signin?mobile_no='+phone+'&country_code='+codeC+'&device_token='+token;
+
+  }
+ print(url);
   final client = new http.Client();
   final response = await client.get(
     url,
@@ -72,11 +80,18 @@ Future<void> logout() async {
   currentUser.value = new User();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.remove('current_user');
+  await prefs.remove('phoneM');
+  await prefs.remove('codeC');
+  await prefs.remove('token');
+
+  await prefs.clear();
+
 }
 
 void setCurrentUser(jsonString) async {
   try {
     if (json.decode(jsonString)['data'] != null) {
+     // currentUser.value=json.decode(jsonString)['data'];
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('current_user', json.encode(json.decode(jsonString)['data']));
     }

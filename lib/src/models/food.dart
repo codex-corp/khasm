@@ -18,9 +18,10 @@ class Food {
   String ingredients;
   String weight;
   String isvalid;
-  bool isOpen,isClosed;
+  bool isOpen = false;
+  bool isClosed=false;
   String msgUsag;
-  String unit;
+  String unit,smileA;
   String packageItemsCount;
   bool featured;
   bool deliverable;
@@ -37,7 +38,8 @@ class Food {
     try {
       id = jsonMap['id'].toString();
 
-      //subscription attr
+      smileA = jsonMap['smiles_amount'].toString();
+
       isvalid = jsonMap['is_valid'].toString();
       isOpen = jsonMap['is_open'];
       isClosed = jsonMap['is_closed'];
@@ -74,6 +76,7 @@ class Food {
       id = '';
       name = '';
       price = 0.0;
+      smileA='';
       discountPrice = 0.0;
       description = '';
       weight = '';
@@ -102,6 +105,8 @@ class Food {
     map["usage_message"] = msgUsag;
 
     map["name"] = name;
+    map["smiles_amount"] = smileA;
+
     map["price"] = price;
     map["discountPrice"] = discountPrice;
     map["description"] = description;

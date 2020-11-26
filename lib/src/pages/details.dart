@@ -1,4 +1,3 @@
-import 'package:barcode_scan/barcode_scan.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -31,19 +30,7 @@ class DetailsWidget extends StatefulWidget {
 
 class _DetailsWidgetState extends StateMVC<DetailsWidget> {
   RestaurantController _con;
-  static final _possibleFormats = BarcodeFormat.values.toList()
-    ..removeWhere((e) => e == BarcodeFormat.unknown);
-  List<BarcodeFormat> selectedFormats = [..._possibleFormats];
 
-  final _flashOnController = TextEditingController(text: "Flash on");
-  final _flashOffController = TextEditingController(text: "Flash off");
-  final _cancelController = TextEditingController(text: "Cancel");
-
-  var _aspectTolerance = 0.00;
-  var _numberOfCameras = 0;
-  var _selectedCamera = -1;
-  var _useAutoFocus = true;
-  ScanResult scanResult;
 
   var _autoEnableFlash = false;
   _DetailsWidgetState() : super(RestaurantController()) {
@@ -361,52 +348,6 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                   ],
                 ),
         ));
-  }
-  Future scan() async {
-    try {
-      var options = ScanOptions(
-        strings: {
-          "cancel": _cancelController.text,
-          "flash_on": _flashOnController.text,
-          "flash_off": _flashOffController.text,
-        },
-        restrictFormat: selectedFormats,
-        useCamera: _selectedCamera,
-        autoEnableFlash: _autoEnableFlash,
-        android: AndroidOptions(
-          aspectTolerance: _aspectTolerance,
-          useAutoFocus: _useAutoFocus,
-        ),
-      );
-
-      var result = await BarcodeScanner.scan(options: options);
-      setState(() {
-        scanResult = result;
-
-      });
-      /*showDialog(
-          context: context,
-          child: Dialog(
-            shape: BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-            child: RatingDialog('1'),
-          ));*/
-    } on PlatformException catch (e) {
-      var result = ScanResult(
-        type: ResultType.Error,
-        format: BarcodeFormat.unknown,
-      );
-
-      if (e.code == BarcodeScanner.cameraAccessDenied) {
-        setState(() {
-          result.rawContent = 'The user did not grant the camera permission!';
-        });
-      } else {
-        result.rawContent = 'Unknown error: $e';
-      }
-      setState(() {
-        scanResult = result;
-      });
-    }
   }
 
 }

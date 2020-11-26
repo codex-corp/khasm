@@ -75,11 +75,11 @@ class MapController extends ControllerMVC {
           zoom: 14.4746,
         );
       });
-      Helper.getMyPositionMarker(currentAddress.latitude, currentAddress.longitude).then((marker) {
-        setState(() {
-          allMarkers.add(marker);
+        Helper.getMyPositionMarker(currentAddress.latitude, currentAddress.longitude).then((marker) {
+          setState(() {
+            allMarkers.add(marker);
+          });
         });
-      });
     } on PlatformException catch (e) {
       if (e.code == 'PERMISSION_DENIED') {
         print('Permission denied');
@@ -116,27 +116,27 @@ class MapController extends ControllerMVC {
 
   void getDirectionSteps() async {
     currentAddress = await sett.getCurrentLocation();
-    mapsUtil
-        .get("origin=" +
-            currentAddress.latitude.toString() +
-            "," +
-            currentAddress.longitude.toString() +
-            "&destination=" +
-            currentRestaurant.latitude +
-            "," +
-            currentRestaurant.longitude +
-            "&key=${sett.setting.value?.googleMapsKey}")
-        .then((dynamic res) {
-      if (res != null) {
-        List<LatLng> _latLng = res as List<LatLng>;
-        _latLng?.insert(0, new LatLng(currentAddress.latitude, currentAddress.longitude));
-        setState(() {
-          polylines.add(new Polyline(
+      mapsUtil
+          .get("origin=" +
+              currentAddress.latitude.toString() +
+              "," +
+              currentAddress.longitude.toString() +
+              "&destination=" +
+              currentRestaurant.latitude +
+              "," +
+              currentRestaurant.longitude +
+              "&key=${sett.setting.value?.googleMapsKey}")
+          .then((dynamic res) {
+        if (res != null) {
+          List<LatLng> _latLng = res as List<LatLng>;
+          _latLng?.insert(0, new LatLng(currentAddress.latitude, currentAddress.longitude));
+          setState(() {
+            polylines.add(new Polyline(
               visible: true, polylineId: new PolylineId(currentAddress.hashCode.toString()), points: _latLng, color: config.Colors().mainColor(0.8), width: 6));
-        });
-      }
-    });
-  }
+          });
+        }
+      });
+    }
 
   Future refreshMap() async {
     setState(() {

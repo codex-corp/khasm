@@ -104,7 +104,7 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
                               child: ProfileSettingsDialog(
                                 user: currentUser.value,
                                 onChanged: () {
-                                  _con.update(currentUser.value);
+                                  _con.update(currentUser.value,'2');
 //                                  setState(() {});
                                 },
                               ),

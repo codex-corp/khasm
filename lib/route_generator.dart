@@ -16,6 +16,7 @@ import 'src/pages/food.dart';
 import 'src/pages/forget_password.dart';
 import 'src/pages/help.dart';
 import 'src/pages/languages.dart';
+import 'src/pages/subscriptionPage.dart';
 import 'src/pages/login.dart';
 import 'src/pages/menu_list.dart';
 import 'src/pages/order_success.dart';
@@ -96,6 +97,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => OrderSuccessWidget(routeArgument: args as RouteArgument));
       case '/Languages':
         return MaterialPageRoute(builder: (_) => LanguagesWidget());
+      case '/subScription':
+        return MaterialPageRoute(builder: (_) => SubscriptionWidget());
       case '/Help':
         return MaterialPageRoute(builder: (_) => HelpWidget());
       case '/Settings':

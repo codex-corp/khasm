@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/src/controllers/user_controller.dart';
 import 'package:food_delivery_app/src/models/route_argument.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'settings.dart';
 
 import '../../generated/l10n.dart';
@@ -24,11 +26,18 @@ class ProfileWidget extends StatefulWidget {
 
 class _ProfileWidgetState extends StateMVC<ProfileWidget> {
   ProfileController _con;
+  UserController _conu;
 
   _ProfileWidgetState() : super(ProfileController()) {
     _con = controller;
   }
+@override
+  void initState() {
+  _conu=new UserController();
 
+  // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +46,15 @@ class _ProfileWidgetState extends StateMVC<ProfileWidget> {
       appBar: AppBar(
         leading: new IconButton(
           icon: new Icon(Icons.sort, color: Theme.of(context).primaryColor),
-          onPressed: () => _con.scaffoldKey?.currentState?.openDrawer(),
+          onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            String mobile = prefs.getString('phoneM');
+            String code=   prefs.getString('codeC');
+            String tok=   prefs.getString('tok');
+
+            _conu.loginUpdatae(mobile,tok,code,'2');
+
+            _con.scaffoldKey?.currentState?.openDrawer();}
         ),
         automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).accentColor,

@@ -145,6 +145,24 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
           ),
           ListTile(
             onTap: () {
+              if (currentUser.value.apiToken != null) {
+                Navigator.of(context).pushNamed('/subScription');
+              }else{
+                Navigator.of(context).pushReplacementNamed('/Login');
+              }
+            },
+            leading: Icon(
+              Icons.subscriptions,
+              color: Theme.of(context).focusColor.withOpacity(1),
+            ),
+            title: Text(
+              S.of(context).sub,
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
+          ),
+
+          ListTile(
+            onTap: () {
               Navigator.of(context).pushNamed('/Languages');
             },
             leading: Icon(
@@ -195,21 +213,21 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
               style: Theme.of(context).textTheme.subtitle1,
             ),
           ),
-          currentUser.value.apiToken == null
-              ? ListTile(
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/SignUp');
-                  },
-                  leading: Icon(
-                    Icons.person_add,
-                    color: Theme.of(context).focusColor.withOpacity(1),
-                  ),
-                  title: Text(
-                    S.of(context).register,
-                    style: Theme.of(context).textTheme.subtitle1,
-                  ),
-                )
-              : SizedBox(height: 0),
+          // currentUser.value.apiToken == null
+          //     ? ListTile(
+          //         onTap: () {
+          //           Navigator.of(context).pushNamed('/SignUp');
+          //         },
+          //         leading: Icon(
+          //           Icons.person_add,
+          //           color: Theme.of(context).focusColor.withOpacity(1),
+          //         ),
+          //         title: Text(
+          //           S.of(context).register,
+          //           style: Theme.of(context).textTheme.subtitle1,
+          //         ),
+          //       )
+          //     : SizedBox(height: 0),
           setting.value.enableVersion
               ? ListTile(
                   dense: true,

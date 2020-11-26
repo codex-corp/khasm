@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:food_delivery_app/src/controllers/user_controller.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../helpers/helper.dart';
 import '../models/category.dart';
@@ -20,6 +22,7 @@ class HomeController extends ControllerMVC {
   List<Restaurant> popularRestaurants = <Restaurant>[];
   List<Review> recentReviews = <Review>[];
   List<Food> trendingFoods = <Food>[];
+  UserController _conu = new UserController();
 
   HomeController() {
     listenForTopRestaurants();
@@ -105,5 +108,15 @@ class HomeController extends ControllerMVC {
     await listenForCategories();
     await listenForPopularRestaurants();
     await listenForRecentReviews();
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String mobile = prefs.getString('phoneM');
+    String code=   prefs.getString('codeC');
+    String tok=   prefs.getString('tok');
+
+    _conu.loginUpdatae(mobile,tok,code,'2');
+
   }
+
+
 }

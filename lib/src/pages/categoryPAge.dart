@@ -56,13 +56,17 @@ class _categoryPage extends StateMVC<categoryPage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: Helper.of(context).onWillPop,
+      onWillPop:(){
+        Navigator.pop(context);
+
+      },
       child: Scaffold(
         key: _con.scaffoldKey,
         resizeToAvoidBottomPadding: false,
         body: tListall==null?Center(
             child: CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).hintColor))):
+                valueColor: new AlwaysStoppedAnimation<Color>(
+                    Colors.purple))):
         Stack(
           alignment: AlignmentDirectional.topCenter,
           children: <Widget>[

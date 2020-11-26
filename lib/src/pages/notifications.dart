@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/src/controllers/user_controller.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../generated/l10n.dart';
 import '../controllers/notification_controller.dart';
@@ -19,11 +21,18 @@ class NotificationsWidget extends StatefulWidget {
 
 class _NotificationsWidgetState extends StateMVC<NotificationsWidget> {
   NotificationController _con;
+  UserController _conu;
 
   _NotificationsWidgetState() : super(NotificationController()) {
     _con = controller;
   }
+@override
+  void initState() {
+  _conu=new UserController();
 
+  // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +40,14 @@ class _NotificationsWidgetState extends StateMVC<NotificationsWidget> {
       appBar: AppBar(
         leading: new IconButton(
           icon: new Icon(Icons.sort, color: Theme.of(context).hintColor),
-          onPressed: () => widget.parentScaffoldKey.currentState.openDrawer(),
+          onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            String mobile = prefs.getString('phoneM');
+            String code=   prefs.getString('codeC');
+            String tok=   prefs.getString('tok');
+
+            _conu.loginUpdatae(mobile,tok,code,'2');
+            widget.parentScaffoldKey.currentState.openDrawer();},
         ),
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,

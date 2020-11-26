@@ -148,17 +148,17 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                           enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
                         ),
                       ),
-                      SizedBox(height: 30),
-                      BlockButtonWidget(
-                        text: Text(
-                          S.of(context).register,
-                          style: TextStyle(color: Theme.of(context).primaryColor),
-                        ),
-                        color: Theme.of(context).accentColor,
-                        onPressed: () {
-                          _con.register();
-                        },
-                      ),
+                      // SizedBox(height: 30),
+                      // BlockButtonWidget(
+                      //   text: Text(
+                      //     S.of(context).register,
+                      //     style: TextStyle(color: Theme.of(context).primaryColor),
+                      //   ),
+                      //   color: Theme.of(context).accentColor,
+                      //   onPressed: () {
+                      //     _con.register();
+                      //   },
+                      // ),
                       SizedBox(height: 25),
 //                      FlatButton(
 //                        onPressed: () {

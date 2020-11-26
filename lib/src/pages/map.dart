@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/src/controllers/user_controller.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../generated/l10n.dart';
 import '../controllers/map_controller.dart';
@@ -21,6 +23,7 @@ class MapWidget extends StatefulWidget {
 
 class _MapWidgetState extends StateMVC<MapWidget> {
   MapController _con;
+  UserController _conu;
 
   _MapWidgetState() : super(MapController()) {
     _con = controller;
@@ -28,13 +31,17 @@ class _MapWidgetState extends StateMVC<MapWidget> {
 
   @override
   void initState() {
+    _conu=new UserController();
+
     _con.currentRestaurant = widget.routeArgument?.param as Restaurant;
+
     if (_con.currentRestaurant?.latitude != null) {
       // user select a restaurant
       _con.getRestaurantLocation();
       _con.getDirectionSteps();
     } else {
       _con.getCurrentLocation();
+      _con.goCurrentLocation();
     }
     super.initState();
   }
@@ -49,7 +56,15 @@ class _MapWidgetState extends StateMVC<MapWidget> {
         leading: _con.currentRestaurant?.latitude == null
             ? new IconButton(
                 icon: new Icon(Icons.sort, color: Theme.of(context).hintColor),
-                onPressed: () => widget.parentScaffoldKey.currentState.openDrawer(),
+                onPressed: () async {
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  String mobile = prefs.getString('phoneM');
+                  String code=   prefs.getString('codeC');
+                  String tok=   prefs.getString('tok');
+
+                  _conu.loginUpdatae(mobile,tok,code,'2');
+
+                  widget.parentScaffoldKey.currentState.openDrawer();}
               )
             : IconButton(
                 icon: new Icon(Icons.arrow_back, color: Theme.of(context).hintColor),
@@ -88,9 +103,10 @@ class _MapWidgetState extends StateMVC<MapWidget> {
               ? CircularLoadingWidget(height: 0)
               : GoogleMap(
                   mapToolbarEnabled: false,
-                  mapType: MapType.normal,
+                  mapType: MapType.terrain,
                   initialCameraPosition: _con.cameraPosition,
                   markers: Set.from(_con.allMarkers),
+                  myLocationEnabled: true,
                   onMapCreated: (GoogleMapController controller) {
                     _con.mapController.complete(controller);
                   },

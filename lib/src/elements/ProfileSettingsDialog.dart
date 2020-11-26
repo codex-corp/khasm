@@ -143,6 +143,7 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
                                 onSaved: (value) {
                                 //  dateD = value.toString().substring(0, 10);
                                   debugPrint(value.toString());
+                                  widget.user.date_of_birth = value.toString().substring(0, 10);
                                 },
                               ),
                             ),
@@ -202,6 +203,7 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
   void _submit() {
     if (_profileSettingsFormKey.currentState.validate()) {
       _profileSettingsFormKey.currentState.save();
+      fromdate.currentState.save();
       widget.onChanged();
       Navigator.pop(context);
     }

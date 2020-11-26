@@ -44,9 +44,9 @@ class _DeliveryAddressesWidgetState extends StateMVC<DeliveryAddressesWidget> {
           S.of(context).delivery_addresses,
           style: Theme.of(context).textTheme.headline6.merge(TextStyle(letterSpacing: 1.3)),
         ),
-        actions: <Widget>[
-          new ShoppingCartButtonWidget(iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
-        ],
+        // actions: <Widget>[
+        //   new ShoppingCartButtonWidget(iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
+        // ],
       ),
       floatingActionButton: _con.cart != null && _con.cart.food.restaurant.availableForDelivery
           ? FloatingActionButton(

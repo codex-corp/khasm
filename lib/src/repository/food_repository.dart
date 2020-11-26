@@ -262,15 +262,17 @@ Future<Stream<Food>> getFeaturedFoodsOfRestaurant(String restaurantId) async {
   }
 }
 
-Future<Review> addFoodReview(Review review, Food food) async {
-  final String url = '${GlobalConfiguration().getString('api_base_url')}food_reviews';
+Future<Review> addFoodReview(String reviewte,String rate,String userId,String vouId) async {
+  final String url = '${GlobalConfiguration().getString('api_base_url')}food_reviews?user_id='+userId+'&food_id='+vouId+
+      '&rate='+'3'+'&review='+reviewte;
   final client = new http.Client();
-  review.user = userRepo.currentUser.value;
+ // review.user = userRepo.currentUser.value;
+
   try {
     final response = await client.post(
       url,
       headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-      body: json.encode(review.ofFoodToMap(food)),
+     // body: json.encode(data),
     );
     if (response.statusCode == 200) {
       return Review.fromJSON(json.decode(response.body)['data']);

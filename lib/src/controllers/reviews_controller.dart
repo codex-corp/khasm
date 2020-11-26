@@ -45,8 +45,8 @@ class ReviewsController extends ControllerMVC {
     });
   }
 
-  void addFoodReview(Review _review, Food _food) async {
-    foodRepo.addFoodReview(_review, _food).then((value) {
+  void addFoodReview(String reviewte,String rate,String userId,String vouId) async {
+    foodRepo.addFoodReview(reviewte,rate,userId, vouId).then((value) {
       scaffoldKey?.currentState?.showSnackBar(SnackBar(
         content: Text(S.of(context).the_food_has_been_rated_successfully),
       ));

@@ -1,8 +1,10 @@
 import '../helpers/custom_trace.dart';
 import '../models/media.dart';
+import '../models/Subscription.dart';
 
 class User {
   String id;
+  bool isActive,isTrail;
   String name;
   String email;
   String code;
@@ -14,10 +16,11 @@ class User {
   String bio;
   String gender;
   String date_of_birth;
-  bool isActive;
   bool isEnded;
 
   Media image;
+  Subscription subS;
+
 int first_time;
   // used for indicate if client logged in or not
   bool auth;
@@ -35,6 +38,7 @@ int first_time;
       first_time = jsonMap['first_time'] != null ? jsonMap['first_time'] : '0';
       isActive = jsonMap['isActive'] != null ? jsonMap['isActive'] : false;
       isEnded = jsonMap['isEnded'] != null ? jsonMap['isEnded'] : false;
+      isTrail = jsonMap['isTrail'] != null ? jsonMap['isTrail'] : false;
 
       apiToken = jsonMap['api_token'];
       deviceToken = jsonMap['device_token'];
@@ -69,6 +73,9 @@ int first_time;
         bio = "";
       }
       image = jsonMap['media'] != null && (jsonMap['media'] as List).length > 0 ? Media.fromJSON(jsonMap['media'][0]) : new Media();
+      subS = jsonMap['subscriptions'] != null && (jsonMap['subscriptions'] as List).length > 0 ? Subscription.fromJSON(jsonMap['subscriptions'][0]) : new Subscription();
+
+
     } catch (e) {
       print(CustomTrace(StackTrace.current, message: e));
     }
@@ -91,9 +98,14 @@ int first_time;
     map["address"] = address;
     map["date_of_birth"] = date_of_birth;
     map["gender"] = gender.toString();
+    map["isTrail"] = isTrail;
+    map["isActive"] = isActive;
+    map["isEnded"] = isEnded;
 
     map["bio"] = bio;
     map["media"] = image?.toMap();
+    map["subscriptions"] = subS?.toMap();
+
     return map;
   }
 

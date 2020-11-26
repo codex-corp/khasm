@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/src/controllers/user_controller.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../generated/l10n.dart';
 import '../controllers/category_controller.dart';
@@ -26,6 +28,7 @@ class CategoryWidget extends StatefulWidget {
 class _CategoryWidgetState extends StateMVC<CategoryWidget> {
   // TODO add layout in configuration file
   String layout = 'grid';
+  UserController _conu;
 
   CategoryController _con;
 
@@ -35,6 +38,8 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
 
   @override
   void initState() {
+    _conu=new UserController();
+
     _con.listenForFoodsByCategory(id: widget.routeArgument.id);
     _con.listenForCategory(id: widget.routeArgument.id);
     _con.listenForCart();
@@ -52,7 +57,16 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
       appBar: AppBar(
         leading: new IconButton(
           icon: new Icon(Icons.sort, color: Theme.of(context).hintColor),
-          onPressed: () => _con.scaffoldKey?.currentState?.openDrawer(),
+          onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            String mobile = prefs.getString('phoneM');
+            String code=   prefs.getString('codeC');
+            String tok=   prefs.getString('tok');
+
+            _conu.loginUpdatae(mobile,tok,code,'2');
+
+
+            _con.scaffoldKey?.currentState?.openDrawer();}
         ),
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,

@@ -51,7 +51,7 @@ class GridItemWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    restaurant.name,
+                    restaurant?.name ?? '',
                     style: Theme.of(context).textTheme.bodyText2,
                     softWrap: false,
                     maxLines: 3,
