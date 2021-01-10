@@ -164,6 +164,30 @@ class _SettingsWidgetState extends StateMVC<SettingsWidget> {
                             onTap: () {},
                             dense: true,
                             title: Text(
+                              S.of(context).birthday,
+                              style: Theme.of(context).textTheme.bodyText2,
+                            ),
+                            trailing: Text(
+                              currentUser.value.date_of_birth,
+                              style: TextStyle(color: Theme.of(context).focusColor),
+                            ),
+                          ),
+                          ListTile(
+                            onTap: () {},
+                            dense: true,
+                            title: Text(
+                              S.of(context).gender,
+                              style: Theme.of(context).textTheme.bodyText2,
+                            ),
+                            trailing: Text(
+                              currentUser.value.gender,
+                              style: TextStyle(color: Theme.of(context).focusColor),
+                            ),
+                          ),
+                          ListTile(
+                            onTap: () {},
+                            dense: true,
+                            title: Text(
                               S.of(context).about,
                               style: Theme.of(context).textTheme.bodyText2,
                             ),

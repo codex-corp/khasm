@@ -35,7 +35,7 @@ int first_time;
       name = jsonMap['name'] != null ? jsonMap['name'] : '';
       email = jsonMap['email'] != null ? jsonMap['email'] : '';
       code = jsonMap['code'] != null ? jsonMap['code'] : '';
-      first_time = jsonMap['first_time'] != null ? jsonMap['first_time'] : '0';
+      first_time = jsonMap['first_time'] != null ? jsonMap['first_time'] : 0;
       isActive = jsonMap['isActive'] != null ? jsonMap['isActive'] : false;
       isEnded = jsonMap['isEnded'] != null ? jsonMap['isEnded'] : false;
       isTrail = jsonMap['isTrail'] != null ? jsonMap['isTrail'] : false;
@@ -48,17 +48,10 @@ int first_time;
         phone = "";
       }
 
+      gender = jsonMap['gender'] != null ? jsonMap['gender'] : '';
+      date_of_birth = jsonMap['date_of_birth'] != null ? jsonMap['date_of_birth'] : '';
 
-      try {
-        gender = jsonMap['custom_fields']['gender']['view'].toString();
-      } catch (e) {
-        gender = "";
-      }
-      try {
-        date_of_birth = jsonMap['custom_fields'][' date_of_birth']['view'];
-      } catch (e) {
-        date_of_birth = "";
-      }
+
 
 
 

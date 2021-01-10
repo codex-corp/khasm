@@ -18,7 +18,8 @@ ValueNotifier<User> currentUser = new ValueNotifier(User());
 Future<User> login(String phone,String token,String codeC,String islog) async {
    String url;
   if(islog=='1'){
-      url = '${GlobalConfiguration().getString('api_base_url')}signin?mobile_no='+phone+'&country_code='+codeC+'&otp='+'1'+'&device_token='+token;
+    //  url = '${GlobalConfiguration().getString('api_base_url')}signin?mobile_no='+phone+'&country_code='+codeC+'&otp='+'1'+'&device_token='+token;
+      url = '${GlobalConfiguration().getString('api_base_url')}signin?mobile_no='+phone+'&country_code='+codeC+'&device_token='+token;
 
   }else{
     url = '${GlobalConfiguration().getString('api_base_url')}signin?mobile_no='+phone+'&country_code='+codeC+'&device_token='+token;

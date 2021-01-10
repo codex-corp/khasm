@@ -1,10 +1,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:food_delivery_app/src/controllers/reviews_controller.dart';
 
 class RatingDialog extends StatelessWidget {
   final String namme;
-  RatingDialog(this.namme);
+  ReviewsController conR;
+  final cotr = TextEditingController();
+  String rating;
+ final  String usrId;
+  RatingDialog(this.namme,this.conR,this.usrId);
  LinearGradient mainButton = LinearGradient(colors: [
   Color.fromRGBO(236, 60, 3, 1),
   Color.fromRGBO(234, 60, 3, 1),
@@ -18,6 +23,7 @@ class RatingDialog extends StatelessWidget {
       onTap: () async {
         Navigator.of(context).pop();
       //  Navigator.of(context).push(MaterialPageRoute(builder: (_)=>CheckOutPage()));
+        conR.addFoodReview(cotr.text,rating,usrId,namme);
 
       },
       child: Container(
@@ -87,9 +93,8 @@ class RatingDialog extends StatelessWidget {
               noRatingWidget: Icon(Icons.favorite_border,
                   color: Color(0xffFF8993), size: 32),
               onRatingUpdate: (value) {
-//              setState(() {
-//                rating = value;
-//              });
+
+             rating = value.toString();
 
                 print(value);
               },
@@ -101,7 +106,7 @@ class RatingDialog extends StatelessWidget {
                     color: Colors.grey[200],
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: TextField(
-                  controller: TextEditingController(),
+                  controller: cotr,
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.zero,

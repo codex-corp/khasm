@@ -109,8 +109,8 @@ class CityApiProvider{
           return error;
         }
       }));
-      print('http://142.93.224.195/api/signin?mobile_no='+phone+'&country_code='+'963'+'&otp='+'1'+'&device_token='+token);
-      response = await _dio.get('http://142.93.224.195/api/signin?mobile_no='+phone+'&country_code='+'963'+'&otp='+'1'+'&device_token='+token);
+      print('https://khasmapp.com/api/signin?mobile_no='+phone+'&country_code='+'963'+'&otp='+'1'+'&device_token='+token);
+      response = await _dio.get('https://khasmapp.com/api/signin?mobile_no='+phone+'&country_code='+'963'+'&otp='+'1'+'&device_token='+token);
       return loginResponse.fromJson(response.data);
 
 
@@ -159,7 +159,7 @@ class CityApiProvider{
           return error;
         }
       }));
-      response = await _dio.get('http://142.93.224.195/api/otp_verify?mobile_no='+mobile+'&otp='+codev+'&country_code='+codeC);
+      response = await _dio.get('https://khasmapp.com/api/otp_verify?mobile_no='+mobile+'&otp='+codev+'&country_code='+codeC);
       return loginResponse.fromJson(response.data);
 
 
@@ -206,7 +206,7 @@ class CityApiProvider{
           return error;
         }
       }));
-      response = await _dio.get('http://142.93.224.195/api/packages?api_token='+userRepo.currentUser.value.apiToken);
+      response = await _dio.get('https://khasmapp.com/api/packages?api_token='+userRepo.currentUser.value.apiToken);
       return packageRes.fromJson(response.data);
 
 

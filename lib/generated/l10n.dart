@@ -54,6 +54,14 @@ class S {
       args: [],
     );
   }
+  String get cuision_restaurants {
+    return Intl.message(
+      'Cuisines Service Providers',
+      name: 'cuision_restaurants',
+      desc: '',
+      args: [],
+    );
+  }
 
   /// `Ordered by Nearby first`
   String get ordered_by_nearby_first {
@@ -620,6 +628,22 @@ class S {
     return Intl.message(
       'Full name',
       name: 'full_name',
+      desc: '',
+      args: [],
+    );
+  }
+  String get birthday {
+    return Intl.message(
+      'Birth date',
+      name: 'birthday',
+      desc: '',
+      args: [],
+    );
+  }
+  String get gender {
+    return Intl.message(
+      'Gender',
+      name: 'gender',
       desc: '',
       args: [],
     );

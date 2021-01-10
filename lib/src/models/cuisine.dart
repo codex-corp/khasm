@@ -1,3 +1,5 @@
+import 'package:global_configuration/global_configuration.dart';
+
 import '../helpers/custom_trace.dart';
 import '../models/media.dart';
 
@@ -6,6 +8,7 @@ class Cuisine {
   String name;
   String description;
   Media image;
+  String icon;
   bool selected;
 
   Cuisine();
@@ -15,6 +18,8 @@ class Cuisine {
       id = jsonMap['id'].toString();
       name = jsonMap['name'];
       description = jsonMap['description'];
+      icon = jsonMap['icon'] != null  ? jsonMap['icon'] : "${GlobalConfiguration().getString('base_url')}images/image_default.png";
+
       image = jsonMap['media'] != null && (jsonMap['media'] as List).length > 0 ? Media.fromJSON(jsonMap['media'][0]) : new Media();
       selected = jsonMap['selected'] ?? false;
     } catch (e) {

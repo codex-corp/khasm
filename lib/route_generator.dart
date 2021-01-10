@@ -3,6 +3,7 @@ import 'src/pages/categoryPAge.dart';
 import 'src/pages/codePage.dart';
 import 'src/pages/packagePage.dart';
 import 'src/pages/editProfile.dart';
+import 'src/pages/servicesCusionPage.dart';
 
 import 'src/models/route_argument.dart';
 import 'src/pages/cart.dart';
@@ -57,6 +58,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => packagePAge());
       case '/category':
         return MaterialPageRoute(builder: (_) => categoryPage());
+      case '/cuision':
+        return MaterialPageRoute(builder: (_) => ServiceCuision(routeArgument: args as RouteArgument));
+
       case '/Profile':
         return MaterialPageRoute(builder: (_) => ProfileWidget());
       case '/ForgetPassword':

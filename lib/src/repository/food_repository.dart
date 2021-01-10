@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -264,7 +265,7 @@ Future<Stream<Food>> getFeaturedFoodsOfRestaurant(String restaurantId) async {
 
 Future<Review> addFoodReview(String reviewte,String rate,String userId,String vouId) async {
   final String url = '${GlobalConfiguration().getString('api_base_url')}food_reviews?user_id='+userId+'&food_id='+vouId+
-      '&rate='+'3'+'&review='+reviewte;
+      '&rate='+rate+'&review='+reviewte;
   final client = new http.Client();
  // review.user = userRepo.currentUser.value;
 
@@ -275,6 +276,9 @@ Future<Review> addFoodReview(String reviewte,String rate,String userId,String vo
      // body: json.encode(data),
     );
     if (response.statusCode == 200) {
+      print(response.body);
+      Fluttertoast.showToast(
+          msg: json.decode(response.body)['message']);
       return Review.fromJSON(json.decode(response.body)['data']);
     } else {
       print(CustomTrace(StackTrace.current, message: response.body).toString());

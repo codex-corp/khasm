@@ -55,6 +55,7 @@ class UserController extends ControllerMVC {
           prefs.setString('phoneM', phone);
           prefs.setString('codeC', codeC);
           prefs.setString('tok', token);
+          prefs.setString('userId', value.id);
 
           prefs.setString('token', value.apiToken);
            print(value.first_time.toString());
@@ -141,6 +142,8 @@ class UserController extends ControllerMVC {
           scaffoldKey?.currentState?.showSnackBar(SnackBar(
             content: Text(value.msg),
           ));
+            Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
+
         }
       }).catchError((e) {
         loader.remove();

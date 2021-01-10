@@ -17,7 +17,7 @@ class Review {
       id = jsonMap['id'].toString();
       review = jsonMap['review'];
       rate = jsonMap['rate'].toString() ?? '0';
-      user = jsonMap['user'] != null ? User.fromJSON(jsonMap['user']) : User.fromJSON({});
+      user = jsonMap['user'] != null ? User.fromJSON(jsonMap['user']) : null;
     } catch (e) {
       id = '';
       review = '';

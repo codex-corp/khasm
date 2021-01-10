@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:food_delivery_app/src/controllers/reviews_controller.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:food_delivery_app/rating_dialog.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:toast/toast.dart';
 import '../../generated/l10n.dart';
@@ -41,18 +43,25 @@ const backCamera = 'BACK CAMERA';
 
 class _FoodWidgetState extends StateMVC<FoodWidget> {
   FoodController _con;
+  ReviewsController _conR;
 
   _FoodWidgetState() : super(FoodController()) {
     _con = controller;
   }
+  String userId;
+  getValueString() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userId = prefs.getString('userId');
 
+  }
   @override
   void initState() {
+    getValueString();
     //   cameraAndMicrophonePermissionsGranted();
     _con.listenForFood(foodId: widget.routeArgument.id);
     _con.listenForCart();
     _con.listenForFavorite(foodId: widget.routeArgument.id);
-
+    _conR=new ReviewsController();
     super.initState();
   }
 
@@ -389,39 +398,44 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                           Expanded(
                             child: FlatButton(
                                 onPressed: () {
-                                  /*  Navigator.of(context).push(
-                                          PageRouteBuilder(
-                                              pageBuilder:
-                                                  (_, __, ___) =>
-                                                      scanA()),
-                                        );*/
-                                  Navigator.of(context)
-                                      .push(new MaterialPageRoute<
-                                      String>(
-                                      builder: (context) =>
-                                          scanA(widget
-                                              .routeArgument
-                                              .id)))
-                                      .then((String value) {
-                                    // print('tedttttttttttttttt');
-                                    String smil =
-                                        'has been added ' +
-                                            _con.food.smileA +
-                                            ' for you';
-                                    Fluttertoast.showToast(
-                                        msg: smil);
-                                    showDialog(
-                                        context: context,
-                                        child: Dialog(
-                                          shape: BeveledRectangleBorder(
-                                              borderRadius:
-                                              BorderRadius.all(
-                                                  Radius
-                                                      .circular(
-                                                      10))),
-                                          child: RatingDialog(_con.food.id),
-                                        ));
-                                  });
+                                    if (currentUser
+                                        .value.apiToken ==
+                                        null) {
+                                      Navigator.of(context)
+                                          .pushNamed("/Login");
+                                    } else {
+                                      Navigator.of(context)
+                                          .push(new MaterialPageRoute<
+                                          String>(
+                                          builder: (context) =>
+                                              scanA(widget
+                                                  .routeArgument
+                                                  .id)))
+                                          .then((String value) {
+                                         print('tedttttttttttttttt');
+                                        String smil =
+                                            'has been added ' +
+                                                _con.food.smileA +
+                                                ' for you';
+                                        print(value);
+                                    if(value!=null){
+                                      Fluttertoast.showToast(
+                                          msg: smil);
+                                      showDialog(
+                                          context: context,
+                                          child: Dialog(
+                                            shape: BeveledRectangleBorder(
+                                                borderRadius:
+                                                BorderRadius.all(
+                                                    Radius
+                                                        .circular(
+                                                        10))),
+                                            child: RatingDialog(_con.food.id,_conR,userId),
+                                          ));
+                                    }
+                                      });
+                                    }
+
                                 },
                                 padding: EdgeInsets.symmetric(
                                     vertical: 14),
@@ -801,38 +815,42 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                           Expanded(
                             child: FlatButton(
                                 onPressed: () {
-                                  /*   Navigator.of(context).push(
-                                            PageRouteBuilder(
-                                                pageBuilder:
-                                                    (_, __, ___) =>
-                                                    scanA()),
-                                          );*/
-                                  Navigator.of(context)
-                                      .push(new MaterialPageRoute<
-                                      String>(
-                                      builder: (context) =>
-                                          scanA(widget
-                                              .routeArgument
-                                              .id)))
-                                      .then((String value) {
-                                    String smil =
-                                        'has been added ' +
-                                            _con.food.smileA +
-                                            ' for you';
-                                    Fluttertoast.showToast(
-                                        msg: smil);
-                                    showDialog(
-                                        context: context,
-                                        child: Dialog(
-                                          shape: BeveledRectangleBorder(
-                                              borderRadius:
-                                              BorderRadius.all(
-                                                  Radius
-                                                      .circular(
-                                                      10))),
-                                          child: RatingDialog(_con.food.id),
-                                        ));
-                                  });
+                                  if (currentUser
+                                      .value.apiToken ==
+                                      null) {
+                                    Navigator.of(context)
+                                        .pushNamed("/Login");
+                                  } else {
+                                    Navigator.of(context)
+                                        .push(new MaterialPageRoute<
+                                        String>(
+                                        builder: (context) =>
+                                            scanA(widget
+                                                .routeArgument
+                                                .id)))
+                                        .then((String value) {
+                                      String smil =
+                                          'has been added ' +
+                                              _con.food.smileA +
+                                              ' for you';
+                                     if(value!=null){
+                                       Fluttertoast.showToast(
+                                           msg: smil);
+                                       showDialog(
+                                           context: context,
+                                           child: Dialog(
+                                             shape: BeveledRectangleBorder(
+                                                 borderRadius:
+                                                 BorderRadius.all(
+                                                     Radius
+                                                         .circular(
+                                                         10))),
+                                             child: RatingDialog(_con.food.id,_conR,userId),
+                                           ));
+                                     }
+                                    });
+                                  }
+
                                 },
                                 padding: EdgeInsets.symmetric(
                                     vertical: 14),

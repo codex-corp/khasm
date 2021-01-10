@@ -107,7 +107,8 @@ class _SearchResultWidgetState extends StateMVC<SearchResultWidget> {
                                     heroTag: widget.heroTag,
                                   ));
                             },
-                            child: CardWidget(restaurant: _con.restaurants.elementAt(index), heroTag: widget.heroTag),
+                            child: CardWidget(
+                                restaurant: _con.restaurants.elementAt(index), heroTag: widget.heroTag),
                           );
                         },
                       ),
