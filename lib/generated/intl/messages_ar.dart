@@ -137,6 +137,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "john_doe" : MessageLookupByLibrary.simpleMessage("فلان الفلاني"),
     "keep_your_old_meals_of_this_restaurant" : MessageLookupByLibrary.simpleMessage("لا تفرغ السلة واحتفظ باختياراتي السابقة"),
     "km" : MessageLookupByLibrary.simpleMessage("Km"),
+    "select" : MessageLookupByLibrary.simpleMessage("اختيار"),
+    "selectP" : MessageLookupByLibrary.simpleMessage(" اختيار باقة"),
+    "enterC" : MessageLookupByLibrary.simpleMessage("الرجاء إدخال الكود الخاص بك :"),
+
     "languages" : MessageLookupByLibrary.simpleMessage("اللغات"),
     "lets_start_with_login" : MessageLookupByLibrary.simpleMessage("لنبدأ بتسجيل الدخول!"),
     "lets_start_with_register" : MessageLookupByLibrary.simpleMessage("لنبدأ بالتسجيل!"),

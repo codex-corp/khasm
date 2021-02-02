@@ -75,6 +75,12 @@ class FoodItemWidget extends StatelessWidget {
                         Row(
                           children: Helper.getStarsList(food.getRate()),
                         ),
+                        Padding(padding: EdgeInsets.fromLTRB(0, 5, 0, 2),
+                        child: Row(children: [
+                          Icon(Icons.emoji_emotions_rounded,color: Color(0xFFFFB24D),),
+                          Text('   40 smiles')
+                        ],),),
+
                         Text(
                           food.extras.map((e) => e.name).toList().join(', '),
                           overflow: TextOverflow.ellipsis,

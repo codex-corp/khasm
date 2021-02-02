@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../generated/l10n.dart';
 import '../controllers/user_controller.dart';
@@ -7,6 +8,7 @@ import '../elements/BlockButtonWidget.dart';
 import '../helpers/app_config.dart' as config;
 import '../helpers/helper.dart';
 import '../repository/user_repository.dart' as userRepo;
+import 'package:quiver/async.dart';
 
 class codePAge extends StatefulWidget {
   @override
@@ -21,8 +23,32 @@ class _codePAge extends StateMVC<codePAge> {
   _codePAge() : super(UserController()) {
     _con = controller;
   }
+
+
+  int _start = 60;
+  int _current = 60;
+
+  void startTimer() {
+    CountdownTimer countDownTimer = new CountdownTimer(
+      new Duration(seconds: _start),
+      new Duration(seconds: 1),
+    );
+
+    var sub = countDownTimer.listen(null);
+    sub.onData((duration) {
+      setState(() { _current = _start - duration.elapsed.inSeconds; });
+    });
+
+    sub.onDone(() {
+      print("Done");
+      sub.cancel();
+    });
+  }
+
+
   @override
   void initState() {
+    startTimer();
     super.initState();
 
   }
@@ -109,7 +135,24 @@ class _codePAge extends StateMVC<codePAge> {
 
                         },
                       ),
-                      SizedBox(height: 15),
+                      SizedBox(height: 25),
+Center(child: Text("$_current",style: TextStyle(color: Colors.grey),),),
+                      _current==0?Center(child: Visibility(
+                        child: GestureDetector(child: Text('resend',style:TextStyle(color:Theme.of(context).primaryColorDark )),
+                          onTap: () async {
+                            //  _con.login(_email.text,toke,codeC,'1');
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                            String phone=  prefs.getString('phoneM');
+                            String codeC=  prefs.getString('codeC');
+                            String toke=  prefs.getString('tok');
+
+
+                            _con.login(phone,toke,codeC,'1');
+
+                          },
+                        ),visible: true,),):
+                          Visibility(visible: false,child: Text('tr'),)
 
 //                      SizedBox(height: 10),
                     ],

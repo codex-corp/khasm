@@ -143,6 +143,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "light_mode" : MessageLookupByLibrary.simpleMessage("Light Mode"),
     "log_out" : MessageLookupByLibrary.simpleMessage("Log out"),
     "login" : MessageLookupByLibrary.simpleMessage("Login"),
+    "select" : MessageLookupByLibrary.simpleMessage("Select"),
+    "selectP" : MessageLookupByLibrary.simpleMessage("Select Package"),
+    "enterC" : MessageLookupByLibrary.simpleMessage("Please enter your code:"),
+
     "long_press_to_edit_item_swipe_item_to_delete_it" : MessageLookupByLibrary.simpleMessage("Long press to edit item, swipe item to delete it"),
     "longpress_on_the_food_to_add_suplements" : MessageLookupByLibrary.simpleMessage("Longpress on the voucher to add suplements"),
     "makeItDefault" : MessageLookupByLibrary.simpleMessage("Make it default"),

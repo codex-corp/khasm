@@ -50,6 +50,7 @@ class UserController extends ControllerMVC {
       loginFormKey.currentState.save();
       Overlay.of(context).insert(loader);
       repository.login(phone,token,codeC,islog).then((value) {
+        print(value);
         if (value.deviceToken!=null) {
 
           prefs.setString('phoneM', phone);
@@ -62,6 +63,7 @@ class UserController extends ControllerMVC {
            if(value.first_time==1){
 
              Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/code');
+           //  Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/category');
 
              /* ProfileSettingsDialog(
                user: currentUser.value,
@@ -71,7 +73,8 @@ class UserController extends ControllerMVC {
                },
              );*/
            }else{
-             Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/code');
+           Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/code');
+         //    Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/category');
 
            }
 

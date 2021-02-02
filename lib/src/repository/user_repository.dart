@@ -80,10 +80,10 @@ Future<bool> resetPassword(User user) async {
 Future<void> logout() async {
   currentUser.value = new User();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.remove('current_user');
+ /* await prefs.remove('current_user');
   await prefs.remove('phoneM');
   await prefs.remove('codeC');
-  await prefs.remove('token');
+  await prefs.remove('token');*/
 
   await prefs.clear();
 

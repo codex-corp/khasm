@@ -132,6 +132,30 @@ class S {
       args: [],
     );
   }
+  String get select {
+    return Intl.message(
+      'Select',
+      name: 'select',
+      desc: '',
+      args: [],
+    );
+  }
+  String get selectP {
+    return Intl.message(
+      'Select Package',
+      name: 'selectP',
+      desc: '',
+      args: [],
+    );
+  }
+  String get enterC {
+    return Intl.message(
+      'Please enter your code:',
+      name: 'enterC',
+      desc: '',
+      args: [],
+    );
+  }
 
   /// `Skip`
   String get skip {

@@ -44,6 +44,7 @@ const backCamera = 'BACK CAMERA';
 class _FoodWidgetState extends StateMVC<FoodWidget> {
   FoodController _con;
   ReviewsController _conR;
+  final _numo = TextEditingController();
 
   _FoodWidgetState() : super(FoodController()) {
     _con = controller;
@@ -404,7 +405,10 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                                       Navigator.of(context)
                                           .pushNamed("/Login");
                                     } else {
-                                      Navigator.of(context)
+                                      _settingModalBottomSheet(context);
+
+                                    }
+                                     /* Navigator.of(context)
                                           .push(new MaterialPageRoute<
                                           String>(
                                           builder: (context) =>
@@ -434,7 +438,7 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                                           ));
                                     }
                                       });
-                                    }
+                                    }*/
 
                                 },
                                 padding: EdgeInsets.symmetric(
@@ -821,7 +825,7 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                                     Navigator.of(context)
                                         .pushNamed("/Login");
                                   } else {
-                                    Navigator.of(context)
+                                    /* Navigator.of(context)
                                         .push(new MaterialPageRoute<
                                         String>(
                                         builder: (context) =>
@@ -850,8 +854,9 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                                      }
                                     });
                                   }
-
-                                },
+*/
+                                    _settingModalBottomSheet(context);
+                                  }},
                                 padding: EdgeInsets.symmetric(
                                     vertical: 14),
                                 color:
@@ -876,8 +881,184 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
       ),
     );
   }
-}
+  void _settingModalBottomSheet(context){
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc){
+          return Container(
+            child: new Wrap(
+              children: <Widget>[
+                new ListTile(
+                    leading: new Icon(Icons.code),
+                    title: new Text('Enter code'),
+                    onTap: ()  {
+                    Navigator.pop(context, true);
 
+                    showDialog(
+                    context: context,
+                    builder:
+                    (BuildContext
+                    context) {
+                    return showDialogwindowDelete(
+                    );
+                    });
+
+                    }
+                ),
+                new ListTile(
+                  leading: new Icon(Icons.settings_overscan_outlined),
+                  title: new Text('Scan code'),
+                  onTap: () {
+          Navigator.pop(context, true);
+
+
+
+          Navigator.of(context)
+                        .push(new MaterialPageRoute<
+                        String>(
+                        builder: (context) =>
+                            scanA(widget
+                                .routeArgument
+                                .id)))
+                        .then((String value) {
+                      String smil =
+                          'has been added ' +
+                              _con.food.smileA +
+                              ' for you';
+                      if(value!=null){
+                        Fluttertoast.showToast(
+                            msg: smil);
+                        showDialog(
+                            context: context,
+                            child: Dialog(
+                              shape: BeveledRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.all(
+                                      Radius
+                                          .circular(
+                                          10))),
+                              child: RatingDialog(_con.food.id,_conR,userId),
+                            ));
+                      }
+                    });
+
+
+                  },
+                ),
+              ],
+            ),
+          );
+        }
+    );
+  }
+  Widget showDialogwindowDelete() {
+    return AlertDialog(
+      title: Column(children: [
+        Text(S.of(context).enterC),
+        Padding(
+          padding: EdgeInsets.fromLTRB(10, 30, 10, 30),
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            child:Directionality(
+                textDirection: TextDirection.ltr,child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.all(5),
+                    child: Container(
+                      // width: 8,
+                        height: 50,
+                        child: Center(
+                          child: Theme(
+                              data: new ThemeData(
+                                  primaryColor:
+                                  Colors.transparent,
+                                  // accentColor: Colors.orange,
+                                  hintColor: Colors.transparent),
+                              child: TextField(
+                                textAlign: TextAlign.center,
+                              //  textInputAction: TextInputAction.next,
+                                //  autofocus: true,
+
+                                controller: _numo,
+                                onChanged: (v){
+                                 // FocusScope.of(context).requestFocus(_twoN);
+
+                                },
+
+                               // maxLength: 1,
+                                cursorColor: Colors.transparent,
+                                style: TextStyle(
+                                    color: Colors.white),
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.only(
+                                      bottom: 0.0),
+
+                                  filled: true,
+                                  labelStyle: Theme.of(context)
+                                      .textTheme
+                                      .caption
+                                      .copyWith(
+                                      color: Theme.of(context)
+                                          .primaryColor),
+
+                                  fillColor: Colors.transparent,
+                                  //can also add icon to the end of the textfiled
+                                  //  suffixIcon: Icon(Icons.remove_red_eye),
+                                ),
+                              )),
+                        ),
+                        decoration: BoxDecoration(
+                            color: Colors.grey
+                                .withOpacity(0.3),
+                            borderRadius:
+                            BorderRadius.circular(5),
+                            border: Border.all(
+                                color:
+                                Colors.red,
+                                width: 1))),
+                  ),
+                ),
+
+              ],
+            )),
+          ),
+        ),
+
+      ],),
+
+      actions: <Widget>[
+        // usually buttons at the bottoReminiderItemDatem of the dialog
+
+
+        GestureDetector(
+          child: Container(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
+              child: Center(
+                child: Text(
+                  S.of(context).yes,
+                  style: TextStyle(
+                      color: Colors.black54, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                color:  Theme.of(context).hintColor.withOpacity(0.2)),
+          ),
+          onTap: () async {
+            Navigator.pop(context, true);
+            //   _buildSubmitForm(context, adsId);
+          },
+        )
+      ],
+    );
+  }
+
+}
 class scanA extends StatefulWidget {
   final String idfood;
 
@@ -1051,4 +1232,8 @@ class _scanA extends StateMVC<scanA> {
 
     super.dispose();
   }
+
+
+
+
 }
