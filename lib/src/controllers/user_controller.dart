@@ -41,37 +41,80 @@ class UserController extends ControllerMVC {
     });
   }
 
+
+
+  void assignCat(String userid,String planid,String codeC) async {
+    // FocusScope.of(context).unfocus();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    initializeDateFormatting();
+    // loginFormKey.currentState.save();
+    Overlay.of(context).insert(loader);
+    repository.assign(userid,planid,codeC).then((value) {
+      print(value);
+    //  Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/code');
+
+       if (value.deviceToken!=null) {
+
+        //  prefs.setString('phoneM', phone);
+          //prefs.setString('codeC', codeC);
+          //prefs.setString('tok', token);
+          prefs.setString('userId', value.id);
+          prefs.setBool('isTrail', value.isTrail);
+          prefs.setBool('isEnded', value.isEnded);
+          prefs.setBool('isActive', value.isActive);
+
+          prefs.setString('token', value.apiToken);
+           print(value.first_time.toString());
+           Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
+
+
+
+         //  Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
+        } else {
+
+        }
+    }).catchError((e) {
+      loader.remove();
+      scaffoldKey?.currentState?.showSnackBar(SnackBar(
+        content: Text(S.of(context).this_account_not_exist),
+      ));
+    }).whenComplete(() {
+      Helper.hideLoader(loader);
+    });
+  }
+
+
+
   void login(String phone,String token,String codeC,String islog) async {
    // FocusScope.of(context).unfocus();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     initializeDateFormatting();
     dateFormat   = DateFormat("yyyy-MM-dd");
     if (loginFormKey.currentState.validate()) {
-      loginFormKey.currentState.save();
-      Overlay.of(context).insert(loader);
+     // loginFormKey.currentState.save();
+      //Overlay.of(context).insert(loader);
       repository.login(phone,token,codeC,islog).then((value) {
         print(value);
+        Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/code');
+        prefs.setString('phoneM', phone);
+        prefs.setString('codeC', codeC);
+        prefs.setString('tok', token);
         if (value.deviceToken!=null) {
 
           prefs.setString('phoneM', phone);
           prefs.setString('codeC', codeC);
           prefs.setString('tok', token);
           prefs.setString('userId', value.id);
+          prefs.setBool('isTrail', value.isTrail);
+          prefs.setBool('isEnded', value.isEnded);
+          prefs.setBool('isActive', value.isActive);
 
           prefs.setString('token', value.apiToken);
            print(value.first_time.toString());
            if(value.first_time==1){
 
              Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/code');
-           //  Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/category');
 
-             /* ProfileSettingsDialog(
-               user: currentUser.value,
-               onChanged: () {
-                 update(currentUser.value);
-//                                  setState(() {});
-               },
-             );*/
            }else{
            Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/code');
          //    Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/category');
@@ -81,9 +124,7 @@ class UserController extends ControllerMVC {
 
           //  Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
         } else {
-        /*  scaffoldKey?.currentState?.showSnackBar(SnackBar(
-            content: Text(value.msg),
-          ));*/
+
         }
       }).catchError((e) {
         loader.remove();
@@ -134,13 +175,19 @@ class UserController extends ControllerMVC {
     FocusScope.of(context).unfocus();
 
     if (loginFormKey.currentState.validate()) {
-      loginFormKey.currentState.save();
+    loginFormKey.currentState.save();
       Overlay.of(context).insert(loader);
       _repository.verfyAccount(codev,mobile,codec).then((value) {
+      //  print(value.result);
+        print(currentUser.value.first_time);
         if (value.result==true) {
           if(currentUser.value.first_time==1){
-        Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/edit');
-        }
+            Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/edit');
+
+          }else{
+            Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/category');
+          }
+
         } else {
           scaffoldKey?.currentState?.showSnackBar(SnackBar(
             content: Text(value.msg),
@@ -150,6 +197,7 @@ class UserController extends ControllerMVC {
         }
       }).catchError((e) {
         loader.remove();
+        print(e.toString());
         scaffoldKey?.currentState?.showSnackBar(SnackBar(
           content: Text(S.of(context).this_account_not_exist),
         ));

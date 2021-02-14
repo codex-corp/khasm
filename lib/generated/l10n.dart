@@ -664,6 +664,42 @@ class S {
       args: [],
     );
   }
+
+
+  String get trialperiodays {
+    return Intl.message(
+      'Trial period days',
+      name: 'trialperioddays',
+      desc: '',
+      args: [],
+    );
+  }
+  String get intervalcount {
+    return Intl.message(
+      'Interval count',
+      name: 'intervalcount',
+      desc: '',
+      args: [],
+    );
+  }
+
+
+  String get male {
+    return Intl.message(
+      'Male',
+      name: 'male',
+      desc: '',
+      args: [],
+    );
+  }
+  String get femal {
+    return Intl.message(
+      'Female',
+      name: 'femal',
+      desc: '',
+      args: [],
+    );
+  }
   String get gender {
     return Intl.message(
       'Gender',

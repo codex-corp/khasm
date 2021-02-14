@@ -3,6 +3,7 @@ import 'package:food_delivery_app/src/cityRepositry.dart';
 import 'package:food_delivery_app/src/packageModel.dart';
 import 'package:food_delivery_app/src/packageResponse.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../generated/l10n.dart';
 import '../controllers/user_controller.dart';
@@ -18,11 +19,7 @@ class categoryPage extends StatefulWidget {
 
 class _categoryPage extends StateMVC<categoryPage> {
   UserController _con;
-  List<String> imag = [
-    'assets/5 usd.png',
-    'assets/10 usd.png',
-    'assets/10 usd.png'
-  ];
+
   final FocusNode _sexN = FocusNode();
   String codeC ='966';
   final FocusNode _oneN = FocusNode();
@@ -42,9 +39,10 @@ class _categoryPage extends StateMVC<categoryPage> {
   _categoryPage() : super(UserController()) {
     _con = controller;
   }
-
+String userId;
   getValueString() async {
-    //  preferences = await SharedPreferences.getInstance();
+    SharedPreferences   preferences = await SharedPreferences.getInstance();
+    userId=preferences.getString('userId');
 
     //  blocOffer.getOfferList(sessionId, data);
 
@@ -176,10 +174,7 @@ class _categoryPage extends StateMVC<categoryPage> {
                                                      color: Colors.white,
                                                      borderRadius: BorderRadius.circular(40),
                                                      border: Border.all(color: Colors.grey,width: 1),
-                                                     image: DecorationImage(
-                                                         image: AssetImage(
-                                                             imag[index]),
-                                                         fit: BoxFit.fill)),
+                                                     ),
                                                  margin: const EdgeInsets
                                                      .symmetric(
                                                      horizontal: 8.0),
@@ -233,7 +228,7 @@ class _categoryPage extends StateMVC<categoryPage> {
                                                                20,
                                                                10),
                                                            child: Text(
-                                                             'Voucher limit :' + tListall[index].vouvherlimi,
+                                                             S.of(context).intervalcount+' :' + tListall[index].intervalcount,
                                                              style: TextStyle(
                                                                  color: Colors
                                                                      .black,
@@ -253,7 +248,7 @@ class _categoryPage extends StateMVC<categoryPage> {
                                                                20,
                                                                10),
                                                            child: Text(
-                                                             'Period : '+ tListall[index].avaperiod ,
+                                                             S.of(context).trialperiodays+' : '+ tListall[index].trialperioddays ,
                                                              style: TextStyle(
                                                                  color: Colors
                                                                      .black,
@@ -281,14 +276,34 @@ class _categoryPage extends StateMVC<categoryPage> {
                                                              ),
                                                              color:  Colors.red,
                                                              onPressed: () {
-                                                               showDialog(
-                                                                   context: context,
-                                                                   builder:
-                                                                       (BuildContext
-                                                                   context) {
-                                                                     return showDialogwindowDelete(
+
+                                                               if( tListall[index].price.toString()=='0.00'){
+
+                                                                 showDialog(
+                                                                     context: context,
+                                                                     builder:
+                                                                         (BuildContext
+                                                                     context) {
+                                                                       return   Center(
+                                                                           child: CircularProgressIndicator(
+                                                                               valueColor: new AlwaysStoppedAnimation<Color>(
+                                                                                   Colors.purple)));
+                                                                     });
+
+                                                                 _con.assignCat(userId,tListall[index].id,'000000');
+
+                                                               }else{
+                                                                 showDialog(
+                                                                     context: context,
+                                                                     builder:
+                                                                         (BuildContext
+                                                                     context) {
+                                                                       return showDialogwindowDelete(
+                                                                         tListall[index].id
                                                                        );
-                                                                   });
+                                                                     });
+                                                               }
+
                                                              /*  Navigator.of(context)
                                                                    .pushReplacementNamed('/Pages', arguments: 2);*/
                                                              },
@@ -316,18 +331,7 @@ class _categoryPage extends StateMVC<categoryPage> {
                      ),
                      SizedBox(height: 10),
 
-                     BlockButtonWidget(
-                       text: Text(
-                         'Finish',
-                         style:
-                         TextStyle(color: Theme.of(context).primaryColor),
-                       ),
-                       color: Colors.green,
-                       onPressed: () {
-                         Navigator.of(context)
-                             .pushReplacementNamed('/Pages', arguments: 2);
-                       },
-                     ),
+
                      SizedBox(height: 15),
 
 //                      SizedBox(height: 10),
@@ -343,7 +347,7 @@ class _categoryPage extends StateMVC<categoryPage> {
   }
 
 
-  Widget showDialogwindowDelete() {
+  Widget showDialogwindowDelete(String planId) {
     return AlertDialog(
       title: Column(children: [
         Text(S.of(context).enterC),
@@ -737,7 +741,21 @@ class _categoryPage extends StateMVC<categoryPage> {
           ),
           onTap: () async {
             Navigator.pop(context, true);
-         //   _buildSubmitForm(context, adsId);
+            showDialog(
+                context: context,
+                builder:
+                    (BuildContext
+                context) {
+                  return   Center(
+                      child: CircularProgressIndicator(
+                          valueColor: new AlwaysStoppedAnimation<Color>(
+                              Colors.purple)));
+                });
+            String codes = _numo.text + _numt.text + _numth.text + _numf.text + _numfi.text + _nums.text ;
+            print(codes);
+            _con.assignCat(userId,planId,codes);
+
+            //   _buildSubmitForm(context, adsId);
           },
         )
       ],

@@ -44,7 +44,7 @@ class _MenuWidgetState extends StateMVC<MenuWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _con.scaffoldKey,
-      drawer: DrawerWidget(),
+      drawer: DrawerWidget(context),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,

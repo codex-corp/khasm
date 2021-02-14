@@ -7,6 +7,8 @@ import '../repository/settings_repository.dart';
 import '../repository/user_repository.dart';
 
 class DrawerWidget extends StatefulWidget {
+  BuildContext con;
+  DrawerWidget(this.con);
   @override
   _DrawerWidgetState createState() => _DrawerWidgetState();
 }
@@ -199,10 +201,15 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
               if (currentUser.value.apiToken != null) {
                 logout().then((value) {
 
-                  Navigator.of(context).pushNamedAndRemoveUntil('/Pages', (Route<dynamic> route) => false, arguments: 2);
+                  Navigator.of(widget.con).pushReplacementNamed('/Pages', arguments: 2);
+
+              //    Navigator.of(context).pushNamedAndRemoveUntil('/Pages', (Route<dynamic> route) => false, arguments: 2);
                 });
               } else {
-                Navigator.of(context).pushNamed('/Login');
+              //  Navigator.pop(context);
+                Navigator.of(widget.con).pushReplacementNamed('/Login');
+
+             //   Navigator.of(context).pushNamed('/Login');
               }
             },
             leading: Icon(

@@ -17,12 +17,12 @@ class packageList {
 class packageAllList {
 
   String id;
-  String title,vouvherlimi,price,level,avaperiod,createdate,updatedate;
+  String title,intervalcount,price,sort,trialperioddays,createdate,updatedate,description;
 
   packageAllList(
       {@required this.id,
-        @required this.price,this.avaperiod,this.createdate,this.level,this.title,this.updatedate,
-        this.vouvherlimi
+        @required this.price,this.trialperioddays,this.createdate,this.sort,this.title,this.updatedate,
+        this.intervalcount,this.description
       });
 
 
@@ -30,12 +30,13 @@ class packageAllList {
     return packageAllList(
       id: json['id'].toString(),
       price:  json['price'].toString(),
-      title:  json['title'],
-      avaperiod:  json['available_period'].toString(),
+      title:  json['name'],
+      intervalcount:  json['interval_count'].toString(),
       createdate: json['created_at'].toString(),
-      level:  json['level'].toString(),
+      sort:  json['sotr_order'].toString(),
       updatedate: json['updated_at'].toString(),
-      vouvherlimi: json['voucher_limit'].toString(),
+      trialperioddays: json['trial_period_days'].toString(),
+      description:  json['description'].toString(),
 
 
 

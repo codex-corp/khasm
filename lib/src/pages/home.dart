@@ -651,13 +651,13 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
   }
 
   Center SubscriptionEnded() {
-    Fluttertoast.showToast(
+   /* Fluttertoast.showToast(
       msg: S.of(context).subscription_ended_msg,
       textColor: Colors.white,
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       backgroundColor: Colors.deepOrangeAccent,
-    );
+    );*/
     return Center(
       child: StickyHeaderBuilder(
         builder: (BuildContext context, double stuckAmount) {

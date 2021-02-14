@@ -18,11 +18,13 @@ ValueNotifier<User> currentUser = new ValueNotifier(User());
 Future<User> login(String phone,String token,String codeC,String islog) async {
    String url;
   if(islog=='1'){
-    //  url = '${GlobalConfiguration().getString('api_base_url')}signin?mobile_no='+phone+'&country_code='+codeC+'&otp='+'1'+'&device_token='+token;
-      url = '${GlobalConfiguration().getString('api_base_url')}signin?mobile_no='+phone+'&country_code='+codeC+'&device_token='+token;
+      url = '${GlobalConfiguration().getString('api_base_url')}signin?mobile_no='+phone+'&country_code='+codeC+'&otp='+'1'+'&device_token='+token;
+    //  url = '${GlobalConfiguration().getString('api_base_url')}signin?mobile_no='+phone+'&country_code='+codeC+'&device_token='+token;
 
   }else{
-    url = '${GlobalConfiguration().getString('api_base_url')}signin?mobile_no='+phone+'&country_code='+codeC+'&device_token='+token;
+    url = '${GlobalConfiguration().getString('api_base_url')}signin?mobile_no='+phone+'&country_code='+codeC+'&otp='+'0'+'&device_token='+token;
+
+  //  url = '${GlobalConfiguration().getString('api_base_url')}signin?mobile_no='+phone+'&country_code='+codeC+'&device_token='+token;
 
   }
  print(url);
@@ -42,6 +44,37 @@ Future<User> login(String phone,String token,String codeC,String islog) async {
   }
   return currentUser.value;
 }
+
+
+
+Future<User> assign(String userId,String planId,String codeC) async {
+  String url;
+    url = '${GlobalConfiguration().getString('api_base_url')}assign_to_plan?id='+userId+'&plan_id='+planId+'&promo_code='+codeC;
+    //  url = '${GlobalConfiguration().getString('api_base_url')}signin?mobile_no='+phone+'&country_code='+codeC+'&device_token='+token;
+
+
+
+
+
+  print(url);
+  final client = new http.Client();
+  final response = await client.get(
+    url,
+    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+    // body: json.encode(user.toMap()),
+  );
+  print(response.body);
+  if (response.statusCode == 200) {
+    setCurrentUser(response.body);
+    currentUser.value = User.fromJSON(json.decode(response.body)['data']);
+  } else {
+    print(CustomTrace(StackTrace.current, message: response.body).toString());
+    throw new Exception(response.body);
+  }
+  return currentUser.value;
+}
+
+
 
 Future<User> register(User user) async {
   final String url = '${GlobalConfiguration().getString('api_base_url')}register';

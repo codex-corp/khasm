@@ -89,9 +89,12 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
                         onSaved: (input) => widget.user.bio = input,
                       ),
 
-
+                Padding(
+                padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
+                child:Container(width: MediaQuery.of(context).size.width,
+                child: Text(S.of(context).birthday, style: TextStyle(color: Theme.of(context).hintColor),),)),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
+                        padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
                         child: Visibility(
                           child: Form(
                             key: fromdate,
@@ -99,17 +102,19 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
 
                               onShowPicker: (context, currentValue) {
                                 return showDatePicker(
+                                  fieldHintText: S.of(context).birthday,
                                     context: context,
                                     firstDate: DateTime(1900),
                                     initialDate: DateTime.now(),
                                     lastDate: DateTime(2100));
                               },
                               format: dateFormat,
+
                               validator: (val) {
                                 if (val != null) {
                                   return null;
                                 } else {
-                                  return  'Birthday';
+                                  return  S.of(context).birthday;
                                 }
                               },
 
@@ -134,13 +139,13 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
                           items: [
                             DropdownMenuItem(
                               child:
-                              Text("Female")
+                              Text(S.of(context).femal)
                               ,
                               value: 1,
                             ),
                             DropdownMenuItem(
                               child:
-                              Text("Male"),
+                              Text(S.of(context).male),
                               value: 2,
                             ),
 
@@ -159,13 +164,13 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
                           items: [
                             DropdownMenuItem(
                               child:
-                              Text("Female")
+                              Text(S.of(context).femal)
                               ,
                               value: 1,
                             ),
                             DropdownMenuItem(
                               child:
-                              Text("Male"),
+                              Text(S.of(context).male),
                               value: 2,
                             ),
 
@@ -183,13 +188,13 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
                           items: [
                             DropdownMenuItem(
                               child:
-                              Text("Female")
+                              Text(S.of(context).femal)
                               ,
                               value: 1,
                             ),
                             DropdownMenuItem(
                               child:
-                              Text("Male"),
+                              Text(S.of(context).male),
                               value: 2,
                             ),
 

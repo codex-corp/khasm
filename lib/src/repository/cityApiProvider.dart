@@ -206,7 +206,7 @@ class CityApiProvider{
           return error;
         }
       }));
-      response = await _dio.get('https://khasmapp.com/api/packages?api_token='+userRepo.currentUser.value.apiToken);
+      response = await _dio.get('https://khasmapp.com/api/plans');
       return packageRes.fromJson(response.data);
 
 

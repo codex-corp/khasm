@@ -29,7 +29,7 @@ class _HelpWidgetState extends StateMVC<HelpWidget> {
             length: _con.faqs.length,
             child: Scaffold(
               key: _con.scaffoldKey,
-              drawer: DrawerWidget(),
+              drawer: DrawerWidget(context),
               appBar: AppBar(
                 backgroundColor: Theme.of(context).focusColor,
                 elevation: 0,
