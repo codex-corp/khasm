@@ -10,6 +10,7 @@ import 'coupon.dart';
 
 class Food {
   String id;
+
   String name;
   double price;
   double discountPrice;
@@ -38,7 +39,7 @@ class Food {
     try {
       id = jsonMap['id'].toString();
 
-      smileA = jsonMap['smiles_amount'].toString();
+      smileA = jsonMap['smiles_bouns'].toString();
 
       isvalid = jsonMap['is_valid'].toString();
       isOpen = jsonMap['is_open'];
@@ -99,6 +100,7 @@ class Food {
   Map toMap() {
     var map = new Map<String, dynamic>();
     map["id"] = id;
+
     map["is_valid"] = isvalid.toString();
     map["is_open"] = isOpen;
     map["is_closed"] = isClosed;

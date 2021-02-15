@@ -242,6 +242,10 @@
   "cancelOrder": "Cancel Order",
   "view": "View",
   "yes": "موافق",
+  "agree": "قرأت جميع البنود و أوافق عليها",
+  "aggre": "يجب عليك الموافقة على سياسة الخصوصية أولا",
+  "nodata": "لا يوجد أي بيانات",
+
   "areYouSureYouWantToCancelThisOrder": "Are you sure you want to cancel this order?",
   "orderThisorderidHasBeenCanceled": "Order: #{id} has been canceled",
   "clickOnTheFoodToGetMoreDetailsAboutIt": "Click on the voucher to get more details about it",

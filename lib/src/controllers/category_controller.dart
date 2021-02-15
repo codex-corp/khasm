@@ -11,6 +11,7 @@ import '../repository/food_repository.dart';
 
 class CategoryController extends ControllerMVC {
   List<Food> foods = <Food>[];
+  bool res=false;
   GlobalKey<ScaffoldState> scaffoldKey;
   Category category;
   bool loadCart = false;
@@ -35,6 +36,11 @@ class CategoryController extends ControllerMVC {
         scaffoldKey?.currentState?.showSnackBar(SnackBar(
           content: Text(message),
         ));
+      }
+      if(foods.length==0){
+        setState(() {
+          res=true;
+        });
       }
     });
   }

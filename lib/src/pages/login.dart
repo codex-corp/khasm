@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_delivery_app/loginResponse.dart';
 import 'package:food_delivery_app/src/cityRepositry.dart';
 import 'package:food_delivery_app/src/elements/ProfileSettingsDialog.dart';
@@ -39,6 +40,7 @@ class Company {
 
 class _LoginWidgetState extends StateMVC<LoginWidget> {
   UserController _con;
+
   List<Company> _companies = Company.getCompanies();
   List<DropdownMenuItem<Company>> _dropdownMenuItems;
   Company _selectedCompany;
@@ -187,13 +189,16 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
                               keyboardType: TextInputType.phone,
                               onSaved: (input) => _con.user.phone = input,
                               controller: _email,
-                              // validator: (input) => input.length=='10',
+                             maxLength: 8,
                               decoration: InputDecoration(
                                 labelText: S.of(context).phone,
                                 labelStyle: TextStyle(
                                     color: Theme.of(context).accentColor),
                                 contentPadding: EdgeInsets.all(12),
-                                hintText: '99-999-9999',
+                                hintText: '9-999-9999',
+                                counterText: '8',
+                                suffixText: '09',
+
                                 hintStyle: TextStyle(
                                     color: Theme.of(context)
                                         .focusColor
@@ -230,7 +235,7 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
                               TextStyle(color: Theme.of(context).primaryColor),
                         ),
                         color: Theme.of(context).accentColor,
-                        onPressed: () {
+                        onPressed: () async {
                           if (codeC == null) {
                             if (_value == 1) {
                               codeC = '963';
@@ -239,8 +244,55 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
                             }
                           }
                           print(codeC);
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                         bool pp= prefs.getBool('pp');
+                         if(pp==null){
+                           int ph=9+int.parse(_email.text);
+                           showDialog(
+                               context: context,
+                               barrierDismissible: false,
 
-                          _con.login(_email.text, toke, codeC, '1');
+                               builder: (BuildContext context) {
+                                 return
+                                   WillPopScope(
+                                       onWillPop: () async => false,
+                                       child:
+
+                                       dialog(_con,ph.toString(), toke, codeC,));
+                               });
+                         }else{
+                           if(pp == false){
+                             int ph=9+int.parse(_email.text);
+
+                             showDialog(
+                                 context: context,
+                                 barrierDismissible: false,
+
+                                 builder: (BuildContext context) {
+                                   return
+                                     WillPopScope(
+                                         onWillPop: () async => false,
+                                         child:
+
+                                         dialog(_con,ph.toString(), toke, codeC,));
+                                 });
+                           }else{
+                             showDialog(
+                                 context: context,
+                                 builder:
+                                     (BuildContext
+                                 context) {
+                                   return   Center(
+                                       child: CircularProgressIndicator(
+                                           valueColor: new AlwaysStoppedAnimation<Color>(
+                                               Colors.purple)));
+                                 });
+                             String ph='9'+_email.text;
+
+                             _con.login(ph.toString(), toke,codeC, '1');
+                           }
+                         }
+
 
                           // _con.login(_email.text,toke);
                           //  _buildSubmitForm(context);
@@ -288,18 +340,26 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
                     textColor: Theme.of(context).hintColor,
                     child: Text(S.of(context).i_forgot_password),
                   ),
-                  FlatButton(
+                /*  FlatButton(
                     onPressed: () {
                       // Navigator.of(context).pushReplacementNamed('/SignUp');
                       showDialog(
                           context: context,
+                          barrierDismissible: false,
+
                           builder: (BuildContext context) {
-                            return showDialogwindowDone();
+                            return
+                              WillPopScope(
+                                onWillPop: () async => false,
+                                child:
+
+                              dialog(_con,_email.text, toke, codeC,));
+
                           });
                     },
                     textColor: Theme.of(context).hintColor,
                     child: Text(S.of(context).readPrivacyPolice),
-                  ),
+                  ),*/
                 ],
               ),
             )
@@ -309,65 +369,134 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
     );
   }
 
-  Widget showDialogwindowDone() {
-    return new AlertDialog(
-        contentPadding: EdgeInsets.zero,
-        content: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child:
 
-         Column(children: [
-
-           Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
-          child:    Container(
-            height: 400,
-            width: MediaQuery.of(context).size.width,
-            child: lang == 'en'
-                ? WebView(
-              initialUrl:
-              'https://khasmapp.com/privacy-policy.html',
-            )
-                : WebView(
-              initialUrl:
-              'https://khasmapp.com/privacy-policy-ar.html',
-            ),
-          )),
-           Align(alignment: Alignment.bottomCenter,child:   Column(
-             children: <Widget>[
-
-               Padding(
-                 padding: EdgeInsets.fromLTRB(15, 30, 15, 10),
-                 child: new RaisedButton(
-                     onPressed: () {
-                       Navigator.of(context).pop();
-
-                       //    _buildSubmitFormCo(context, wareId, offerId, dateD);
-                     }
-                     //  textColor: Colors.yellow,colorBrightness: Brightness.dark,
-                     ,
-                     padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                     color: Colors.lightGreen,
-                     child: Center(
-                       child: new Text(
-                         S.of(context).yes,
-                         style: TextStyle(
-                             fontSize: 20,
-                             color: Colors.white,
-                             fontWeight: FontWeight.bold),
-                         textAlign: TextAlign.center,
-                       ),
-                     )),
-               ),
-             ],
-           ),)
-
-         ],)
-        ));
-  }
 
   _buildSubmitForm(BuildContext context) async {
     final CityRepository _repository = CityRepository();
     loginResponse res = await _repository.login(_email.text, toke);
+  }
+}
+class dialog extends StatefulWidget {
+  UserController _con;
+  String email,token,code;
+dialog(this._con,this.email,this.token,this.code);
+  @override
+  _dialog createState() => _dialog();
+}
+
+
+
+class _dialog extends StateMVC<dialog> {
+  bool _valueMobile = false;
+  String lang;
+
+  Future<void> getVlue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    lang = prefs.getString('language');
+    print(lang);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+   return AlertDialog(
+       contentPadding: EdgeInsets.zero,
+       content: Container(
+           height: MediaQuery.of(context).size.height,
+           width: MediaQuery.of(context).size.width,
+           child:
+
+           Column(children: [
+
+             Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                 child:    Container(
+                   height: MediaQuery.of(context).size.height-250,
+                   width: MediaQuery.of(context).size.width,
+                   child: lang == 'en'
+                       ? WebView(
+                     initialUrl:
+                     'https://khasmapp.com/privacy-policy.html',
+                   )
+                       : WebView(
+                     initialUrl:
+                     'https://khasmapp.com/privacy-policy-ar.html',
+                   ),
+                 )),
+             Align(alignment: Alignment.bottomCenter,child:   Column(
+               children: <Widget>[
+                 Padding(
+                     padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                     child: Row(
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: [
+                         Text(S.of(context).agree,style: TextStyle(fontSize: 9),),
+                         Checkbox(
+                           value: _valueMobile,
+                           onChanged: (value) {
+                             setState(() {
+                               _valueMobile = value;
+                               /*  if (_valueMobile) {
+                       //   allowM = '1';
+                        } else {
+                         // allowM = '0';
+                        }*/
+                             });
+                           },
+                         ),
+
+                       ],)
+                 ),
+                 Padding(
+                   padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                   child: new RaisedButton(
+                       onPressed: () async {
+                       if(_valueMobile==false){
+
+                         Fluttertoast.showToast(
+                           msg: S.of(context).aggre,
+                           textColor: Colors.white,
+                           toastLength: Toast.LENGTH_SHORT,
+                           gravity: ToastGravity.BOTTOM,
+                           backgroundColor: Colors.deepOrangeAccent,
+                         );
+                       }else{
+                         SharedPreferences prefs = await SharedPreferences.getInstance();
+                          prefs.setBool('pp',_valueMobile);
+                         Navigator.of(context).pop();
+                         showDialog(
+                             context: context,
+                             builder:
+                                 (BuildContext
+                             context) {
+                               return   Center(
+                                   child: CircularProgressIndicator(
+                                       valueColor: new AlwaysStoppedAnimation<Color>(
+                                           Colors.purple)));
+                             });
+                         widget._con.login(widget.email, widget.token, widget.code, '1');
+                       }
+
+                         //    _buildSubmitFormCo(context, wareId, offerId, dateD);
+                       }
+                       //  textColor: Colors.yellow,colorBrightness: Brightness.dark,
+                       ,
+                       padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                       color: Colors.lightGreen,
+                       child: Center(
+                         child: new Text(
+                           S.of(context).yes,
+                           style: TextStyle(
+                               fontSize: 20,
+                               color: Colors.white,
+                               fontWeight: FontWeight.bold),
+                           textAlign: TextAlign.center,
+                         ),
+                       )),
+                 ),
+               ],
+             ),)
+
+           ],)
+       ));
   }
 }

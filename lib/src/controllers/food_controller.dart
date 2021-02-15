@@ -1,5 +1,9 @@
+import 'package:food_delivery_app/src/models/qrModel.dart';
+
+import '../repository/user_repository.dart' as repository;
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../generated/l10n.dart';
 import '../models/cart.dart';
@@ -17,10 +21,36 @@ class FoodController extends ControllerMVC {
   Favorite favorite;
   bool loadCart = false;
   GlobalKey<ScaffoldState> scaffoldKey;
+  qrM resqr;
+  bool suc=false;
 
   FoodController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
   }
+
+
+
+  void scanF(String qrcode,String userid,String vouid,String serid) async {
+    // FocusScope.of(context).unfocus();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+
+      repository.scanF(qrcode,userid,vouid,serid).then((value) {
+        print(value);
+resqr = value;
+
+      }).catchError((e) {
+      //  loader.remove();
+
+        scaffoldKey?.currentState?.showSnackBar(SnackBar(
+          content: Text(e.toString()),
+        ));
+      }).whenComplete(() {
+       // Helper.hideLoader(loader);
+      });
+
+  }
+
 
   void listenForFood({String foodId, String message}) async {
     final Stream<Food> stream = await getFood(foodId);

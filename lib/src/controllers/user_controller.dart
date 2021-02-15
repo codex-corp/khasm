@@ -91,8 +91,8 @@ class UserController extends ControllerMVC {
     initializeDateFormatting();
     dateFormat   = DateFormat("yyyy-MM-dd");
     if (loginFormKey.currentState.validate()) {
-     // loginFormKey.currentState.save();
-      //Overlay.of(context).insert(loader);
+      loginFormKey.currentState.save();
+      Overlay.of(context).insert(loader);
       repository.login(phone,token,codeC,islog).then((value) {
         print(value);
         Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/code');
@@ -177,7 +177,7 @@ class UserController extends ControllerMVC {
     if (loginFormKey.currentState.validate()) {
     loginFormKey.currentState.save();
       Overlay.of(context).insert(loader);
-      _repository.verfyAccount(codev,mobile,codec).then((value) {
+      _repository.verfyAccount(codev,mobile,codec).then((value) async {
       //  print(value.result);
         print(currentUser.value.first_time);
         if (value.result==true) {
@@ -185,14 +185,32 @@ class UserController extends ControllerMVC {
             Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/edit');
 
           }else{
-            Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/category');
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            bool isEnd= prefs.getBool('isEnded');
+            bool isAc= prefs.getBool('isActive');
+            prefs.setBool('checkk',true);
+
+            print(isEnd.toString());
+            if(isAc == null){
+              Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/category');
+
+            }else{
+              if(isAc == true) {
+                Navigator.of(scaffoldKey.currentContext).pushReplacementNamed(
+                    '/category');
+              }else{
+                  Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
+
+
+              }
+            }
           }
 
         } else {
           scaffoldKey?.currentState?.showSnackBar(SnackBar(
             content: Text(value.msg),
           ));
-            Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
+        //    Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
 
         }
       }).catchError((e) {

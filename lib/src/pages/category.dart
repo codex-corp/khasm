@@ -38,7 +38,7 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
 
   @override
   void initState() {
-    _conu=new UserController();
+    _conu = new UserController();
 
     _con.listenForFoodsByCategory(id: widget.routeArgument.id);
     _con.listenForCategory(id: widget.routeArgument.id);
@@ -52,31 +52,34 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
       key: _con.scaffoldKey,
       drawer: DrawerWidget(context),
       endDrawer: FilterWidget(onFilter: (filter) {
-        Navigator.of(context).pushReplacementNamed('/Category', arguments: RouteArgument(id: widget.routeArgument.id));
+        Navigator.of(context).pushReplacementNamed('/Category',
+            arguments: RouteArgument(id: widget.routeArgument.id));
       }),
       appBar: AppBar(
         leading: new IconButton(
-          icon: new Icon(Icons.sort, color: Theme.of(context).hintColor),
-          onPressed: () async {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            String mobile = prefs.getString('phoneM');
-            String code=   prefs.getString('codeC');
-            String tok=   prefs.getString('tok');
+            icon: new Icon(Icons.sort, color: Theme.of(context).hintColor),
+            onPressed: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              String mobile = prefs.getString('phoneM');
+              String code = prefs.getString('codeC');
+              String tok = prefs.getString('tok');
 
-            _conu.loginUpdatae(mobile,tok,code,'2');
+              _conu.loginUpdatae(mobile, tok, code, '2');
 
-
-            _con.scaffoldKey?.currentState?.openDrawer();}
-        ),
+              _con.scaffoldKey?.currentState?.openDrawer();
+            }),
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
         title: Text(
           S.of(context).category,
-          style: Theme.of(context).textTheme.headline6.merge(TextStyle(letterSpacing: 0)),
+          style: Theme.of(context)
+              .textTheme
+              .headline6
+              .merge(TextStyle(letterSpacing: 0)),
         ),
-       /* actions: <Widget>[
+        /* actions: <Widget>[
           _con.loadCart
               ? Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 22.5, vertical: 15),
@@ -131,7 +134,9 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                         },
                         icon: Icon(
                           Icons.format_list_bulleted,
-                          color: this.layout == 'list' ? Theme.of(context).accentColor : Theme.of(context).focusColor,
+                          color: this.layout == 'list'
+                              ? Theme.of(context).accentColor
+                              : Theme.of(context).focusColor,
                         ),
                       ),
                       IconButton(
@@ -142,7 +147,9 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                         },
                         icon: Icon(
                           Icons.apps,
-                          color: this.layout == 'grid' ? Theme.of(context).accentColor : Theme.of(context).focusColor,
+                          color: this.layout == 'grid'
+                              ? Theme.of(context).accentColor
+                              : Theme.of(context).focusColor,
                         ),
                       )
                     ],
@@ -150,7 +157,15 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                 ),
               ),
               _con.foods.isEmpty
-                  ? CircularLoadingWidget(height: 500)
+                  ? _con.res == false
+                      ? CircularLoadingWidget(height: 500)
+                      : Center(
+                          child: Text(
+                            S.of(context).nodata,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, color: Colors.red,fontSize: 20,fontStyle: FontStyle.italic),
+                          ),
+                        )
                   : Offstage(
                       offstage: this.layout != 'list',
                       child: ListView.separated(
@@ -170,8 +185,8 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                       ),
                     ),
               _con.foods.isEmpty
-                  ? CircularLoadingWidget(height: 500)
-                  : Offstage(
+                      ? CircularLoadingWidget(height: 500)
+                      : Offstage(
                       offstage: this.layout != 'grid',
                       child: GridView.count(
                         scrollDirection: Axis.vertical,
@@ -182,7 +197,10 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                         padding: EdgeInsets.symmetric(horizontal: 20),
                         // Create a grid with 2 columns. If you change the scrollDirection to
                         // horizontal, this produces 2 rows.
-                        crossAxisCount: MediaQuery.of(context).orientation == Orientation.portrait ? 2 : 4,
+                        crossAxisCount: MediaQuery.of(context).orientation ==
+                                Orientation.portrait
+                            ? 2
+                            : 4,
                         // Generate 100 widgets that display their index in the List.
                         children: List.generate(_con.foods.length, (index) {
                           return FoodGridItemWidget(
@@ -192,7 +210,8 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                                 if (currentUser.value.apiToken == null) {
                                   Navigator.of(context).pushNamed('/Login');
                                 } else {
-                                  if (_con.isSameRestaurants(_con.foods.elementAt(index))) {
+                                  if (_con.isSameRestaurants(
+                                      _con.foods.elementAt(index))) {
                                     _con.addToCart(_con.foods.elementAt(index));
                                   } else {
                                     showDialog(
@@ -200,10 +219,14 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                                       builder: (BuildContext context) {
                                         // return object of type Dialog
                                         return AddToCartAlertDialogWidget(
-                                            oldFood: _con.carts.elementAt(0)?.food,
-                                            newFood: _con.foods.elementAt(index),
+                                            oldFood:
+                                                _con.carts.elementAt(0)?.food,
+                                            newFood:
+                                                _con.foods.elementAt(index),
                                             onPressed: (food, {reset: true}) {
-                                              return _con.addToCart(_con.foods.elementAt(index), reset: true);
+                                              return _con.addToCart(
+                                                  _con.foods.elementAt(index),
+                                                  reset: true);
                                             });
                                       },
                                     );

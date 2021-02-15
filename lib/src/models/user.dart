@@ -39,14 +39,11 @@ int first_time;
       isActive = jsonMap['isActive'] != null ? jsonMap['isActive'] : false;
       isEnded = jsonMap['isEnded'] != null ? jsonMap['isEnded'] : false;
       isTrail = jsonMap['isTrail'] != null ? jsonMap['isTrail'] : false;
+      phone = jsonMap['phone'];
 
       apiToken = jsonMap['api_token'];
       deviceToken = jsonMap['device_token'];
-      try {
-        phone = jsonMap['custom_fields']['phone']['view'];
-      } catch (e) {
-        phone = "";
-      }
+
 
       gender = jsonMap['gender'] != null ? jsonMap['gender'] : '';
       date_of_birth = jsonMap['date_of_birth'] != null ? jsonMap['date_of_birth'] : '';

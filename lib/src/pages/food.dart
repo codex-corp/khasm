@@ -12,7 +12,6 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sticky_headers/sticky_headers.dart';
-import 'package:toast/toast.dart';
 import '../../generated/l10n.dart';
 import '../controllers/food_controller.dart';
 import '../elements/AddToCartAlertDialog.dart';
@@ -405,7 +404,7 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                                       Navigator.of(context)
                                           .pushNamed("/Login");
                                     } else {
-                                      _settingModalBottomSheet(context);
+                                      _settingModalBottomSheet(context,_con.food.id,_con.food.restaurant.id);
 
                                     }
                                      /* Navigator.of(context)
@@ -855,7 +854,7 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                                     });
                                   }
 */
-                                    _settingModalBottomSheet(context);
+                                    _settingModalBottomSheet(context,_con.food.id,_con.food.restaurant.id);
                                   }},
                                 padding: EdgeInsets.symmetric(
                                     vertical: 14),
@@ -881,7 +880,7 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
       ),
     );
   }
-  void _settingModalBottomSheet(context){
+  void _settingModalBottomSheet(context,String vouId,String serId){
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc){
@@ -899,7 +898,7 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                     builder:
                     (BuildContext
                     context) {
-                    return showDialogwindowDelete(
+                    return showDialogwindowDelete(vouId,serId
                     );
                     });
 
@@ -921,25 +920,45 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                                 .routeArgument
                                 .id)))
                         .then((String value) {
-                      String smil =
-                          'has been added ' +
-                              _con.food.smileA +
-                              ' for you';
-                      if(value!=null){
-                        Fluttertoast.showToast(
-                            msg: smil);
-                        showDialog(
-                            context: context,
-                            child: Dialog(
-                              shape: BeveledRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.all(
-                                      Radius
-                                          .circular(
-                                          10))),
-                              child: RatingDialog(_con.food.id,_conR,userId),
-                            ));
-                      }
+            /*showDialog(
+                context: context,
+                builder:
+                    (BuildContext
+                context) {
+                  return   Center(
+                      child: CircularProgressIndicator(
+                          valueColor: new AlwaysStoppedAnimation<Color>(
+                              Colors.purple)));
+                });*/
+            _con.scanF(value, userId,vouId, serId);
+            print(_con.resqr);
+            if(_con.resqr==null){
+              Navigator.pop(context);
+            }
+            if(_con.resqr.suc==true){
+              String smil =
+                  'has been added ' +
+                      _con.food.smileA +
+                      ' for you';
+              if(value!=null){
+                Fluttertoast.showToast(
+                    msg: smil);
+                showDialog(
+                    context: context,
+                    child: Dialog(
+                      shape: BeveledRectangleBorder(
+                          borderRadius:
+                          BorderRadius.all(
+                              Radius
+                                  .circular(
+                                  10))),
+                      child: RatingDialog(_con.food.id,_conR,userId),
+                    ));
+              }
+            }
+
+
+
                     });
 
 
@@ -951,7 +970,7 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
         }
     );
   }
-  Widget showDialogwindowDelete() {
+  Widget showDialogwindowDelete(String vouId,String serId) {
     return AlertDialog(
       title: Column(children: [
         Text(S.of(context).enterC),
@@ -991,7 +1010,7 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                                // maxLength: 1,
                                 cursorColor: Colors.transparent,
                                 style: TextStyle(
-                                    color: Colors.white),
+                                    color: Colors.black),
                                 decoration: InputDecoration(
                                   contentPadding: EdgeInsets.only(
                                       bottom: 0.0),
@@ -1050,7 +1069,30 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                 color:  Theme.of(context).hintColor.withOpacity(0.2)),
           ),
           onTap: () async {
+
             Navigator.pop(context, true);
+
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            String userId = prefs.getString('userId');
+           /* showDialog(
+                context: context,
+                builder:
+                    (BuildContext
+                context) {
+                  return   Center(
+                      child: CircularProgressIndicator(
+                          valueColor: new AlwaysStoppedAnimation<Color>(
+                              Colors.purple)));
+                });*/
+            _con.scanF(_numo.text, userId,vouId, serId);
+
+            Fluttertoast.showToast(
+              msg:_con.resqr.msg,
+              textColor: Colors.white,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              backgroundColor: Colors.deepOrangeAccent,
+            );
             //   _buildSubmitForm(context, adsId);
           },
         )

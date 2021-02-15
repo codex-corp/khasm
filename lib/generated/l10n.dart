@@ -132,6 +132,16 @@ class S {
       args: [],
     );
   }
+
+  String get agree {
+    return Intl.message(
+      'I have only read the terms and agree to them',
+      name: 'agree',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get select {
     return Intl.message(
       'Select',
@@ -714,6 +724,14 @@ class S {
     return Intl.message(
       'Email',
       name: 'email',
+      desc: '',
+      args: [],
+    );
+  }
+  String get nodata {
+    return Intl.message(
+      'No data found',
+      name: 'nodata',
       desc: '',
       args: [],
     );
@@ -2574,6 +2592,14 @@ class S {
     return Intl.message(
       'Your subscription is ended ,please reactivate subscription',
       name: 'subscription_ended_msg',
+      desc: '',
+      args: [],
+    );
+  }
+  String get aggre {
+    return Intl.message(
+      'You must agree for privacy police',
+      name: 'aggre',
       desc: '',
       args: [],
     );

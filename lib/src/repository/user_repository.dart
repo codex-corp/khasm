@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:food_delivery_app/src/models/qrModel.dart';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +15,7 @@ import '../models/user.dart';
 import '../repository/user_repository.dart' as userRepo;
 
 ValueNotifier<User> currentUser = new ValueNotifier(User());
+qrM mse;
 
 Future<User> login(String phone,String token,String codeC,String islog) async {
    String url;
@@ -43,6 +45,29 @@ Future<User> login(String phone,String token,String codeC,String islog) async {
     throw new Exception(response.body);
   }
   return currentUser.value;
+}
+Future<qrM> scanF(String qrcode,String userid,String vouid,String serid) async {
+  String url;
+
+    url = '${GlobalConfiguration().getString('api_base_url')}voucher_deduction?qr_code='+qrcode+'&user_id='+userid+'&voucher_id='+vouid+'&service_id='+serid;
+    //  url = '${GlobalConfiguration().getString('api_base_url')}signin?mobile_no='+phone+'&country_code='+codeC+'&device_token='+token;
+
+
+  print(url);
+  final client = new http.Client();
+  final response = await client.get(
+    url,
+    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+    // body: json.encode(user.toMap()),
+  );
+  print(response.body);
+  if (response.statusCode == 200) {
+    mse = qrM.fromJSON(json.decode(response.body));
+  } else {
+    print(CustomTrace(StackTrace.current, message: response.body).toString());
+    throw new Exception(response.body);
+  }
+  return mse;
 }
 
 
@@ -117,8 +142,15 @@ Future<void> logout() async {
   await prefs.remove('phoneM');
   await prefs.remove('codeC');
   await prefs.remove('token');*/
+ bool pp = prefs.getBool('pp');
+ if(pp ==false){
+   await prefs.clear();
+prefs.setBool('pp', false);
+ }else{
+   await prefs.clear();
+   prefs.setBool('pp', true);
 
-  await prefs.clear();
+ }
 
 }
 
@@ -171,6 +203,7 @@ Future<User> update(User user) async {
   final String _apiToken = 'api_token=${currentUser.value.apiToken}';
   final String url = '${GlobalConfiguration().getString('api_base_url')}users/${currentUser.value.id}?$_apiToken';
   final client = new http.Client();
+  print(url);
   final response = await client.post(
     url,
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},

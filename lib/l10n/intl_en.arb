@@ -9,7 +9,12 @@
   "recent_reviews": "Recent Reviews",
   "login": "Login",
   "skip": "Skip",
+    "nodata": "No data found",
+
    "male": "Male",
+     "agree": "I have only read the terms and agree to them",
+  "aggre": "You must agree for privacy police",
+
     "femal": "Female",
       "intervalcount": "Interval count",
       "trialperioddays": "Trial period days",

@@ -31,7 +31,7 @@ class SplashScreenState extends StateMVC<SplashScreen> {
       _con.progress.value.values.forEach((_progress) {
         progress += _progress;
       });
-     /* if (progress == 100) {
+      /* if (progress == 100) {
         try {
           Navigator.of(context).pushReplacementNamed('/Login', arguments: 2);
         } catch (e) {}
@@ -43,29 +43,37 @@ class SplashScreenState extends StateMVC<SplashScreen> {
           if (currentUser.value.apiToken != null) {
             // Navigator.of(context).pushReplacementNamed('/Login');
             SharedPreferences prefs = await SharedPreferences.getInstance();
-bool isEnd= prefs.getBool('isEnded');
-            bool isAc= prefs.getBool('isActive');
-            print(isEnd.toString());
-            if(isEnd == null && isAc == null){
-             Navigator.of(context).pushReplacementNamed('/Login');
-            //  Navigator.of(context).pushReplacementNamed('/category');
+            bool isEnd = prefs.getBool('isEnded');
+            bool isAc = prefs.getBool('isActive');
+            bool check = prefs.getBool('checkk');
+            if (check == null) {
+              Navigator.of(context).pushReplacementNamed('/Login');
 
+            } else {
+              if (check == true) {
+                if (isEnd == null && isAc == null) {
+                  Navigator.of(context).pushReplacementNamed('/Login');
+                  //  Navigator.of(context).pushReplacementNamed('/category');
+
+                } else if (isAc == false) {
+                  Navigator.of(context).pushReplacementNamed('/category');
+                } else if (isAc == true && isEnd == false) {
+                  Navigator.of(context)
+                      .pushReplacementNamed('/Pages', arguments: 2);
+                } else if (isAc == true && isEnd == true) {
+                  Navigator.of(context)
+                      .pushReplacementNamed('/Pages', arguments: 2);
+                }
+              } else {
+                Navigator.of(context).pushReplacementNamed('/Login');
+
+              }
             }
-else if(isAc==false){
-  Navigator.of(context).pushReplacementNamed('/category');
+            print(isEnd.toString());
 
-}
-          else if(isAc==true && isEnd==false){
-            Navigator.of(context).pushReplacementNamed('/Pages', arguments: 2);
-
-          }else if(isAc==true && isEnd==true){
-  Navigator.of(context).pushReplacementNamed('/Pages', arguments: 2);
-
-          }
-          //  Navigator.of(context).pushReplacementNamed('/Pages', arguments: 2);
-          }else {
+            //  Navigator.of(context).pushReplacementNamed('/Pages', arguments: 2);
+          } else {
             Navigator.of(context).pushReplacementNamed('/Login');
-
           }
         } catch (e) {}
       }
@@ -93,7 +101,8 @@ else if(isAc==false){
               ),
               SizedBox(height: 50),
               CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).hintColor),
+                valueColor:
+                    AlwaysStoppedAnimation<Color>(Theme.of(context).hintColor),
               ),
             ],
           ),
