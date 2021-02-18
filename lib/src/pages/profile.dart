@@ -100,7 +100,7 @@ class _ProfileWidgetState extends StateMVC<ProfileWidget> {
                                 color: Theme.of(context).accentColor,
                               ),
                               title: Text(
-                                '10',
+                                currentUser.value.totals,
                                 style: Theme.of(context).textTheme.headline4,
                               ),
                             ),

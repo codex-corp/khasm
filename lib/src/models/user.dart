@@ -7,6 +7,7 @@ class User {
   bool isActive,isTrail;
   String name;
   String email;
+  String totals;
   String code;
   String password;
   String apiToken;
@@ -32,6 +33,8 @@ int first_time;
   User.fromJSON(Map<String, dynamic> jsonMap) {
     try {
       id = jsonMap['id'].toString();
+      totals = jsonMap['smiles_total'].toString();
+
       name = jsonMap['name'] != null ? jsonMap['name'] : '';
       email = jsonMap['email'] != null ? jsonMap['email'] : '';
       code = jsonMap['code'] != null ? jsonMap['code'] : '';
@@ -73,6 +76,8 @@ int first_time;
 
   Map toMap() {
     var map = new Map<String, dynamic>();
+    map["smiles_total"] = totals;
+
     map["id"] = id;
     map["email"] = email;
     map["code"] = code;

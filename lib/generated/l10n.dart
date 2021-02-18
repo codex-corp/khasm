@@ -2026,6 +2026,14 @@ class S {
       args: [],
     );
   }
+  String get syp {
+    return Intl.message(
+      'SYP',
+      name: 'syp',
+      desc: '',
+      args: [],
+    );
+  }
 
   /// `This Service Provider is closed !`
   String get this_restaurant_is_closed_ {

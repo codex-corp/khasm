@@ -1,3 +1,4 @@
+import '../repository/user_repository.dart' as repository;
 import 'dart:io';
 import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -22,6 +23,7 @@ import '../elements/ShoppingCartFloatButtonWidget.dart';
 import '../helpers/helper.dart';
 import '../models/route_argument.dart';
 import '../repository/user_repository.dart';
+import '../models/qrModel.dart';
 
 // ignore: must_be_immutable
 class FoodWidget extends StatefulWidget {
@@ -930,17 +932,26 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                           valueColor: new AlwaysStoppedAnimation<Color>(
                               Colors.purple)));
                 });*/
-            _con.scanF(value, userId,vouId, serId);
-            print(_con.resqr);
-            if(_con.resqr==null){
-              Navigator.pop(context);
-            }
-            if(_con.resqr.suc==true){
-              String smil =
-                  'has been added ' +
-                      _con.food.smileA +
-                      ' for you';
-              if(value!=null){
+            repository.scanF(value, userId,vouId, serId).then((valuee) {
+              print(valuee);
+              if (valuee.data== "null") {
+
+                Navigator.pop(context);
+                Fluttertoast.showToast(
+                  msg:valuee.msg,
+                  textColor: Colors.white,
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  backgroundColor: Colors.deepOrangeAccent,
+                );
+              }
+              else {
+                Navigator.pop(context);
+
+                String smil =
+                    'has been added ' +
+                        _con.food.smileA +
+                        ' for you';
                 Fluttertoast.showToast(
                     msg: smil);
                 showDialog(
@@ -952,12 +963,23 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                               Radius
                                   .circular(
                                   10))),
-                      child: RatingDialog(_con.food.id,_conR,userId),
+                      child: RatingDialog(_con.food.id, _conR, userId),
                     ));
               }
-            }
+            }).catchError((e) {
+              //  loader.remove();
 
-
+              Navigator.pop(context);
+              Fluttertoast.showToast(
+                msg: e.toString(),
+                textColor: Colors.white,
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                backgroundColor: Colors.deepOrangeAccent,
+              );
+            }).whenComplete(() {
+              // Helper.hideLoader(loader);
+            });
 
                     });
 
@@ -1084,15 +1106,71 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                           valueColor: new AlwaysStoppedAnimation<Color>(
                               Colors.purple)));
                 });*/
-            _con.scanF(_numo.text, userId,vouId, serId);
+            showDialog(
+                context: context,
+                builder:
+                    (BuildContext
+                context) {
+                  return   Center(
+                      child: CircularProgressIndicator(
+                          valueColor: new AlwaysStoppedAnimation<Color>(
+                              Colors.purple)));
+                });
+           // Future<qrM> ff=  _con.scanF(_numo.text, userId,vouId, serId);
 
-            Fluttertoast.showToast(
-              msg:_con.resqr.msg,
-              textColor: Colors.white,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              backgroundColor: Colors.deepOrangeAccent,
-            );
+            repository.scanF(_numo.text, userId,vouId, serId).then((value) {
+              print(value);
+              if (value.data== "null") {
+
+                Navigator.pop(context);
+                Fluttertoast.showToast(
+                  msg:value.msg,
+                  textColor: Colors.white,
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  backgroundColor: Colors.deepOrangeAccent,
+                );
+              }
+              else {
+                Navigator.pop(context);
+
+                String smil =
+                    'has been added ' +
+                        _con.food.smileA +
+                        ' for you';
+                Fluttertoast.showToast(
+                    msg: smil);
+                showDialog(
+                    context: context,
+                    child: Dialog(
+                      shape: BeveledRectangleBorder(
+                          borderRadius:
+                          BorderRadius.all(
+                              Radius
+                                  .circular(
+                                  10))),
+                      child: RatingDialog(_con.food.id, _conR, userId),
+                    ));
+              }
+            }).catchError((e) {
+              //  loader.remove();
+
+              Navigator.pop(context);
+              Fluttertoast.showToast(
+                msg: e.toString(),
+                textColor: Colors.white,
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                backgroundColor: Colors.deepOrangeAccent,
+              );
+            }).whenComplete(() {
+              // Helper.hideLoader(loader);
+            });
+
+
+
+
+
             //   _buildSubmitForm(context, adsId);
           },
         )

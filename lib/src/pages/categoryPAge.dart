@@ -208,7 +208,7 @@ String userId;
                                                                20,
                                                                10),
                                                            child: Text(
-                                                             tListall[index].price + ' \$ ',
+                                                             tListall[index].price +  S.of(context).syp,
                                                              style: TextStyle(
                                                                  color: Colors
                                                                      .black,

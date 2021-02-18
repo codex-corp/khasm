@@ -183,7 +183,9 @@ class UserController extends ControllerMVC {
         if (value.result==true) {
           if(currentUser.value.first_time==1){
             Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/edit');
+            SharedPreferences prefs = await SharedPreferences.getInstance();
 
+            prefs.setBool('checkk',true);
           }else{
             SharedPreferences prefs = await SharedPreferences.getInstance();
             bool isEnd= prefs.getBool('isEnded');

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/src/controllers/settings_controller.dart';
+import 'package:food_delivery_app/src/repository/user_repository.dart';
 
 import '../../generated/l10n.dart';
 import '../models/user.dart';
@@ -8,10 +10,12 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 import 'package:intl/date_symbol_data_local.dart';
 class ProfileSettingsDialog extends StatefulWidget {
-  final User user;
+   User user;
   final VoidCallback onChanged;
+   SettingsController con;
+   String val;
 
-  ProfileSettingsDialog({Key key, this.user, this.onChanged}) : super(key: key);
+  ProfileSettingsDialog({Key key, this.user, this.onChanged,this.con,this.val}) : super(key: key);
 
   @override
   _ProfileSettingsDialogState createState() => _ProfileSettingsDialogState();
@@ -20,8 +24,11 @@ class ProfileSettingsDialog extends StatefulWidget {
 class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
   GlobalKey<FormState> _profileSettingsFormKey = new GlobalKey<FormState>();
   int _value = 1;
+
   var fromdate = GlobalKey<FormState>();
+  String datenew;
   intl.DateFormat dateFormat ;
+
 @override
   void initState() {
     // TODO: implement initState
@@ -34,6 +41,7 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
     return FlatButton(
       onPressed: () {
         showDialog(
+            useRootNavigator: false,
             context: context,
             builder: (context) {
               return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
@@ -80,14 +88,7 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
                         validator: (input) => input.trim().length < 3 ? S.of(context).not_a_valid_address : null,
                         onSaved: (input) => widget.user.address = input,
                       ),
-                      new TextFormField(
-                        style: TextStyle(color: Theme.of(context).hintColor),
-                        keyboardType: TextInputType.text,
-                        decoration: getInputDecoration(hintText: S.of(context).your_biography, labelText: S.of(context).about),
-                        initialValue: widget.user.bio,
-                        validator: (input) => input.trim().length < 3 ? S.of(context).not_a_valid_biography : null,
-                        onSaved: (input) => widget.user.bio = input,
-                      ),
+
 
                 Padding(
                 padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
@@ -117,7 +118,10 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
                                   return  S.of(context).birthday;
                                 }
                               },
+onChanged: (value){
+  widget.user.date_of_birth=   value.toString().substring(0, 10) ;
 
+},
                               decoration: InputDecoration(labelText:  widget.user.date_of_birth,
                                   hintText: widget.user.date_of_birth,hintStyle: TextStyle(color: Colors.red)),
                               //   initialValue: DateTime.now(), //Add this in your Code.
@@ -125,9 +129,12 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
                               onSaved: (value) {
                                 //  dateD = value.toString().substring(0, 10);
                                 debugPrint(value.toString());
-                                  widget.user.date_of_birth =
-                                      value.toString().substring(0, 10);
-
+                                if(  value!=null) {
+                                  widget.user.date_of_birth=   value.toString().substring(0, 10) ;
+                                  datenew=value.toString().substring(0, 10) ;
+                                  widget.user.date_of_birth = datenew;
+                                  print(datenew);
+                                }
                               },
                             ),
                           ),
@@ -270,8 +277,12 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
   void _submit() {
     if (_profileSettingsFormKey.currentState.validate()) {
       _profileSettingsFormKey.currentState.save();
-      fromdate.currentState.save();
-      widget.onChanged();
+  //    fromdate.currentState.save();
+      setCurrentUser(widget.user);
+      //widget.onChanged();
+      widget.con.update(widget.user,widget.val);
+
+      print(widget.user);
       Navigator.pop(context);
     }
   }

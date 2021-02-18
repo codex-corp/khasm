@@ -102,10 +102,15 @@ class _editProfile extends StateMVC<editProfile> {
                       height: 25.0,
                       child: ProfileSettingsDialog(
                         user: currentUser.value,
+
+
                         onChanged: () {
-                          _con.update(currentUser.value,'1');
+                          //   _con.update(currentUser.value,'2');
 //                                  setState(() {});
+                          print('test');
                         },
+                        con: _con,
+                        val:'1'
                       ),
                     ),
                   ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../generated/l10n.dart';
 import '../controllers/profile_controller.dart';
@@ -26,23 +27,65 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
              // currentUser.value.apiToken != null ? Navigator.of(context).pushNamed('/Profile') : Navigator.of(context).pushNamed('/Login');
             },
             child: currentUser.value.apiToken != null
-                ? UserAccountsDrawerHeader(
+                ?
+                Container(
+                  height: 150,
+                  decoration: BoxDecoration(
+                  color: Theme.of(context).hintColor.withOpacity(0.1),
+                ),
+                child:    Padding(padding: EdgeInsets.fromLTRB(20, 60, 20, 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                  Text(
+                    currentUser.value.name,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                 Row(children: [
+                   Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                   child: Text(
+                     currentUser.value.email,
+                     style: Theme.of(context).textTheme.caption,
+                   ),),
+                   new Spacer(),
+                   GestureDetector(child: Image.asset('assets/img/whats.png',            color: Theme.of(context).hintColor,),
+
+                     onTap: () async {
+                       var whatsappUrl = "whatsapp://send?phone=+963933705585"  ;
+                       await canLaunch(whatsappUrl) ? launch(whatsappUrl) : print("open whatsapp app link or do a snackbar with notification that there is no whatsapp installed");
+                     },)
+                 ],)
+                ],),))
+
+
+
+          /*  UserAccountsDrawerHeader(
+
                     decoration: BoxDecoration(
                       color: Theme.of(context).hintColor.withOpacity(0.1),
                     ),
                     accountName: Text(
                       currentUser.value.name,
+                      textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline6,
                     ),
                     accountEmail: Text(
                       currentUser.value.email,
                       style: Theme.of(context).textTheme.caption,
                     ),
-                    currentAccountPicture: CircleAvatar(
+                    currentAccountPicture:GestureDetector(child: Image.asset('assets/img/whats.png'),
+                    onTap: (){
+                      print('jgvjg');
+                    },)
+
+
+              *//*CircleAvatar(
                       backgroundColor: Theme.of(context).accentColor,
                       backgroundImage: NetworkImage(currentUser.value.image.thumb),
-                    ),
-                  )
+                    ),*//*
+                  )*/
                 : Container(
                     padding: EdgeInsets.symmetric(vertical: 30, horizontal: 15),
                     decoration: BoxDecoration(

@@ -78,7 +78,7 @@ class FoodItemWidget extends StatelessWidget {
                         Padding(padding: EdgeInsets.fromLTRB(0, 5, 0, 2),
                         child: Row(children: [
                           Icon(Icons.emoji_emotions_rounded,color: Color(0xFFFFB24D),),
-                          Text(food.smileA)
+                          Text(food.smileb)
                         ],),),
 
                         Text(
