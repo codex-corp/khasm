@@ -23,6 +23,9 @@ import '../repository/settings_repository.dart';
 import 'app_config.dart' as config;
 import 'custom_trace.dart';
 
+import 'dart:async' show Future;
+import 'package:shared_preferences/shared_preferences.dart';
+
 class Helper {
   BuildContext context;
   DateTime currentBackPressTime;
@@ -115,7 +118,7 @@ class Helper {
 
   static Widget getPrice(double myPrice, BuildContext context, {TextStyle style, String zeroPlaceholder = '-'}) {
     if (style != null) {
-      style = style.merge(TextStyle(fontSize: style.fontSize + 2));
+      style = style.merge(TextStyle(fontSize: style.fontSize - 2));
     }
     try {
       if (myPrice == 0) {
@@ -130,11 +133,12 @@ class Helper {
                 text: setting.value?.defaultCurrency,
                 style: style == null
                     ? Theme.of(context).textTheme.subtitle1.merge(
-                          TextStyle(fontWeight: FontWeight.w400, fontSize: Theme.of(context).textTheme.subtitle1.fontSize - 6),
+                          TextStyle(fontWeight: FontWeight.w400, fontSize: Theme.of(context).textTheme.subtitle1.fontSize - 4),
                         )
                     : style.merge(TextStyle(fontWeight: FontWeight.w400, fontSize: style.fontSize - 6)),
                 children: <TextSpan>[
-                  TextSpan(text: myPrice.toStringAsFixed(setting.value?.currencyDecimalDigits) ?? '', style: style ?? Theme.of(context).textTheme.subtitle1),
+                  // TextSpan(text: myPrice.toStringAsFixed(setting.value?.currencyDecimalDigits) ?? '', style: style ?? Theme.of(context).textTheme.subtitle1),
+                  TextSpan(text: myPrice.toStringAsFixed(0) ?? '', style: style ?? Theme.of(context).textTheme.subtitle1),
                 ],
               )
             : TextSpan(
@@ -303,7 +307,17 @@ class Helper {
     if (!_path.endsWith('/')) {
       _path += '/';
     }
+
+    Map<String, dynamic> _queryParams = {};
+    _queryParams['lang'] = 'ar';
+
+    String language = PreferenceUtils.getString('language');
+    if(language != null) {
+      _queryParams['lang'] = language;
+    }
+
     Uri uri = Uri(
+        queryParameters: _queryParams,
         scheme: Uri.parse(GlobalConfiguration().getString('base_url')).scheme,
         host: Uri.parse(GlobalConfiguration().getString('base_url')).host,
         port: Uri.parse(GlobalConfiguration().getString('base_url')).port,
@@ -389,5 +403,25 @@ class Helper {
       default:
         return "";
     }
+  }
+}
+
+class PreferenceUtils {
+  static Future<SharedPreferences> get _instance async => _prefsInstance ??= await SharedPreferences.getInstance();
+  static SharedPreferences _prefsInstance;
+
+  // call this method from iniState() function of mainApp().
+  static Future<SharedPreferences> init() async {
+    _prefsInstance = await _instance;
+    return _prefsInstance;
+  }
+
+  static String getString(String key, [String defValue]) {
+    return _prefsInstance.getString(key) ?? defValue ?? "";
+  }
+
+  static Future<bool> setString(String key, String value) async {
+    var prefs = await _instance;
+    return prefs?.setString(key, value) ?? Future.value(false);
   }
 }

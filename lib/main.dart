@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:food_delivery_app/src/helpers/helper.dart';
 import 'package:global_configuration/global_configuration.dart';
 
 import 'generated/l10n.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
+    PreferenceUtils.init();
     settingRepo.initSettings();
     settingRepo.getCurrentLocation();
     userRepo.getCurrentUser();
