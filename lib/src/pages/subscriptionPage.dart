@@ -175,14 +175,14 @@ class _SubscriptionWidget extends State<SubscriptionWidget> {
                                       )
                                     : currentUser.value.isEnded == true
                                         ? Text(
-                                            S.of(context).ended,
+                                            S.of(context).endD,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.red),
                                           )
                                         : currentUser.value.isTrail == true
                                             ? Text(
-                                                S.of(context).trail,
+                                                S.of(context).trial,
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.orange),

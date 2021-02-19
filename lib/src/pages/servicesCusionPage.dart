@@ -102,7 +102,7 @@ getValueString();
         elevation: 0,
         centerTitle: true,
         title: Text(
-          S.of(context).cuision_restaurants,
+          S.of(context).cuisine_restaurants,
           style: Theme.of(context)
               .textTheme
               .headline6

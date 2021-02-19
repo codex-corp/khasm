@@ -54,14 +54,6 @@ class S {
       args: [],
     );
   }
-  String get cuision_restaurants {
-    return Intl.message(
-      'Cuisines Service Providers',
-      name: 'cuision_restaurants',
-      desc: '',
-      args: [],
-    );
-  }
 
   /// `Ordered by Nearby first`
   String get ordered_by_nearby_first {
@@ -133,6 +125,47 @@ class S {
     );
   }
 
+  /// `Skip`
+  String get skip {
+    return Intl.message(
+      'Skip',
+      name: 'skip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No data found`
+  String get nodata {
+    return Intl.message(
+      'No data found',
+      name: 'nodata',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SYP`
+  String get syp {
+    return Intl.message(
+      'SYP',
+      name: 'syp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Male`
+  String get male {
+    return Intl.message(
+      'Male',
+      name: 'male',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I have only read the terms and agree to them`
   String get agree {
     return Intl.message(
       'I have only read the terms and agree to them',
@@ -142,14 +175,127 @@ class S {
     );
   }
 
-  String get select {
+  /// `You must agree for privacy police`
+  String get aggre {
     return Intl.message(
-      'Select',
-      name: 'select',
+      'You must agree for privacy police',
+      name: 'aggre',
       desc: '',
       args: [],
     );
   }
+
+  /// `Female`
+  String get femal {
+    return Intl.message(
+      'Female',
+      name: 'femal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Birthday`
+  String get birthday {
+    return Intl.message(
+      'Birthday',
+      name: 'birthday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gender`
+  String get gender {
+    return Intl.message(
+      'Gender',
+      name: 'gender',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Trial`
+  String get trial {
+    return Intl.message(
+      'Trial',
+      name: 'trial',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subscription`
+  String get sub {
+    return Intl.message(
+      'Subscription',
+      name: 'sub',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your Subscription`
+  String get your_sub {
+    return Intl.message(
+      'Your Subscription',
+      name: 'your_sub',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Type`
+  String get type {
+    return Intl.message(
+      'Type',
+      name: 'type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start date`
+  String get startd {
+    return Intl.message(
+      'Start date',
+      name: 'startd',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `End date`
+  String get endD {
+    return Intl.message(
+      'End date',
+      name: 'endD',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subscription status`
+  String get statusS {
+    return Intl.message(
+      'Subscription status',
+      name: 'statusS',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `active`
+  String get active {
+    return Intl.message(
+      'active',
+      name: 'active',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Package`
   String get selectP {
     return Intl.message(
       'Select Package',
@@ -158,20 +304,52 @@ class S {
       args: [],
     );
   }
-  String get enterC {
+
+  /// `Services List`
+  String get cuisine_restaurants {
     return Intl.message(
-      'Please enter your code:',
-      name: 'enterC',
+      'Services List',
+      name: 'cuisine_restaurants',
       desc: '',
       args: [],
     );
   }
 
-  /// `Skip`
-  String get skip {
+  /// `Interval count`
+  String get intervalcount {
     return Intl.message(
-      'Skip',
-      name: 'skip',
+      'Interval count',
+      name: 'intervalcount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Trial period days`
+  String get trialperiodays {
+    return Intl.message(
+      'Trial period days',
+      name: 'trialperiodays',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `select`
+  String get select {
+    return Intl.message(
+      'select',
+      name: 'select',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `enterC`
+  String get enterC {
+    return Intl.message(
+      'enterC',
+      name: 'enterC',
       desc: '',
       args: [],
     );
@@ -666,72 +844,12 @@ class S {
       args: [],
     );
   }
-  String get birthday {
-    return Intl.message(
-      'Birth date',
-      name: 'birthday',
-      desc: '',
-      args: [],
-    );
-  }
-
-
-  String get trialperiodays {
-    return Intl.message(
-      'Trial period days',
-      name: 'trialperioddays',
-      desc: '',
-      args: [],
-    );
-  }
-  String get intervalcount {
-    return Intl.message(
-      'Interval count',
-      name: 'intervalcount',
-      desc: '',
-      args: [],
-    );
-  }
-
-
-  String get male {
-    return Intl.message(
-      'Male',
-      name: 'male',
-      desc: '',
-      args: [],
-    );
-  }
-  String get femal {
-    return Intl.message(
-      'Female',
-      name: 'femal',
-      desc: '',
-      args: [],
-    );
-  }
-  String get gender {
-    return Intl.message(
-      'Gender',
-      name: 'gender',
-      desc: '',
-      args: [],
-    );
-  }
 
   /// `Email`
   String get email {
     return Intl.message(
       'Email',
       name: 'email',
-      desc: '',
-      args: [],
-    );
-  }
-  String get nodata {
-    return Intl.message(
-      'No data found',
-      name: 'nodata',
       desc: '',
       args: [],
     );
@@ -2026,14 +2144,6 @@ class S {
       args: [],
     );
   }
-  String get syp {
-    return Intl.message(
-      'SYP',
-      name: 'syp',
-      desc: '',
-      args: [],
-    );
-  }
 
   /// `This Service Provider is closed !`
   String get this_restaurant_is_closed_ {
@@ -2604,100 +2714,12 @@ class S {
       args: [],
     );
   }
-  String get aggre {
-    return Intl.message(
-      'You must agree for privacy police',
-      name: 'aggre',
-      desc: '',
-      args: [],
-    );
-  }
 
   /// `Your account is not active ,please review application company`
   String get account_not_active_msg {
     return Intl.message(
       'Your account is not active ,please review application company',
       name: 'account_not_active_msg',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Messages`
-  String get messages {
-    return Intl.message(
-      'Messages',
-      name: 'messages',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `You don't have any conversations`
-  String get youDontHaveAnyConversations {
-    return Intl.message(
-      'You don\'t have any conversations',
-      name: 'youDontHaveAnyConversations',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `New message from`
-  String get newMessageFrom {
-    return Intl.message(
-      'New message from',
-      name: 'newMessageFrom',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `For more details, please chat with our managers`
-  String get forMoreDetailsPleaseChatWithOurManagers {
-    return Intl.message(
-      'For more details, please chat with our managers',
-      name: 'forMoreDetailsPleaseChatWithOurManagers',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Sign-In to chat with our managers`
-  String get signinToChatWithOurManagers {
-    return Intl.message(
-      'Sign-In to chat with our managers',
-      name: 'signinToChatWithOurManagers',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Type to start chat`
-  String get typeToStartChat {
-    return Intl.message(
-      'Type to start chat',
-      name: 'typeToStartChat',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Make it default`
-  String get makeItDefault {
-    return Intl.message(
-      'Make it default',
-      name: 'makeItDefault',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Not valid address`
-  String get notValidAddress {
-    return Intl.message(
-      'Not valid address',
-      name: 'notValidAddress',
       desc: '',
       args: [],
     );
@@ -2743,101 +2765,61 @@ class S {
     );
   }
 
-  /// `Subscription`
-  String get sub {
+  /// `Khasm one-click`
+  String get welcome_title_1 {
     return Intl.message(
-      'Subscription',
-      name: 'sub',
+      'Khasm one-click',
+      name: 'welcome_title_1',
       desc: '',
       args: [],
     );
   }
 
-  /// `Your Subscription`
-  String get your_sub {
+  /// `Near by you!`
+  String get welcome_title_2 {
     return Intl.message(
-      'Your Subscription',
-      name: 'your_sub',
+      'Near by you!',
+      name: 'welcome_title_2',
       desc: '',
       args: [],
     );
   }
 
-  /// `Subscription status`
-  String get statusS {
+  /// `Do more!`
+  String get welcome_title_3 {
     return Intl.message(
-      'Subscription status',
-      name: 'statusS',
+      'Do more!',
+      name: 'welcome_title_3',
       desc: '',
       args: [],
     );
   }
 
-  /// `Active`
-  String get active {
+  /// `We’re the leading provider of Buy One Get One Free and discount offers for restaurants, bars, spas, attractions, activities, salons, sports, fitness venues and more across the Middle East.`
+  String get welcome_msg_1 {
     return Intl.message(
-      'Active',
-      name: 'active',
+      'We’re the leading provider of Buy One Get One Free and discount offers for restaurants, bars, spas, attractions, activities, salons, sports, fitness venues and more across the Middle East.',
+      name: 'welcome_msg_1',
       desc: '',
       args: [],
     );
   }
 
-  /// `Close`
-  String get ended {
+  /// `UNLOCK THE BEST OFFERS NEAR YOU`
+  String get welcome_msg_2 {
     return Intl.message(
-      'Close',
-      name: 'ended',
+      'UNLOCK THE BEST OFFERS NEAR YOU',
+      name: 'welcome_msg_2',
       desc: '',
       args: [],
     );
   }
 
-  /// `Trail`
-  String get trail {
+  /// `Do more and spend less. You'll wonder how you ever lived without it..`
+  String get welcome_msg_3 {
     return Intl.message(
-      'Trail',
-      name: 'trail',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Type`
-  String get type {
-    return Intl.message(
-      'Type',
-      name: 'type',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Create date`
-  String get createD {
-    return Intl.message(
-      'Create date',
-      name: 'createD',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `End date`
-  String get endD {
-    return Intl.message(
-      'End date',
-      name: 'endD',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Start date`
-  String get startd {
-    return Intl.message(
-      'Start date',
-      name: 'startd',
+      'Do more and spend less. You\'ll wonder how you ever lived without it..',
+      name: 'welcome_msg_3',
       desc: '',
       args: [],
     );

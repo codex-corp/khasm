@@ -10,12 +10,23 @@
   "login": "تسجيل الدخول",
   "male": "ذكر",
   "syp": "ليرة سورية",
-
   "femal": "أنثى",
   "birthday": "يوم الميلاد",
+  "gender": "الجنس",
+  "trial": "تجريبي",
+  "sub": "الإشتراك",
+  "your_sub": "اشتراكك الخاص",
+  "type": "النوع",
+  "startd": "تاريخ البدء",
+  "endD": "تاريخ الإنتهاء",
+  "statusS": "حالة الإشتراك",
+  "active": "فعال",
+  "selectP": "اختار الباقة",
+  "cuisine_restaurants": "فعاليات",
   "intervalcount": "العدد الفاصل",
-  "trialperioddays": "أيام الفترة التجريبية",
-
+  "trialperiodays": "أيام الفترة التجريبية",
+  "select": "اختار",
+  "enterC": "اكتب الكود",
   "skip": "تخطى",
   "about": "نبذة",
   "submit": "ارسال",
@@ -247,7 +258,6 @@
   "agree": "قرأت جميع البنود و أوافق عليها",
   "aggre": "يجب عليك الموافقة على سياسة الخصوصية أولا",
   "nodata": "لا يوجد أي بيانات",
-
   "areYouSureYouWantToCancelThisOrder": "Are you sure you want to cancel this order?",
   "orderThisorderidHasBeenCanceled": "Order: #{id} has been canceled",
   "clickOnTheFoodToGetMoreDetailsAboutIt": "Click on the voucher to get more details about it",
@@ -256,5 +266,18 @@
   "verification_code": "كود التفعيل",
   "nearby_services": "الفعاليات الأقرب لك",
   "subscription_ended_msg": "انتهى اشتراكك ، يرجى إعادة تنشيط الاشتراك",
-  "account_not_active_msg": "حسابك غير نشط ، يرجى مراجعة الادارة"
+  "account_not_active_msg": "حسابك غير نشط ، يرجى مراجعة الادارة",
+
+  "swipeLeftTheNotificationToDeleteOrReadUnreadIt": "Swipe left the notification to delete or read / unread it",
+  "thisNotificationHasMarkedAsUnread": "This notification has marked as unread",
+  "notificationWasRemoved": "Notification was removed",
+  "thisNotificationHasMarkedAsRead": "This notification has marked as read",
+
+  "welcome_title_1": "خاص بنقرة واحدة",
+  "welcome_title_2": "بالقرب منك!" ,
+  "welcome_title_3": "فعل المزيد!",
+
+  "welcome_msg_1": "نحن المزود الرائد لـ Buy One Get One Free وعروض التخفيضات للمطاعم والحانات والمنتجعات الصحية والمعالم السياحية والأنشطة والصالونات والرياضات وأماكن اللياقة والمزيد في جميع أنحاء الشرق الأوسط.",
+  "welcome_msg_2": "احصل على أفضل العروض القريبة منك",
+  "welcome_msg_3": "أنجز المزيد وأنفق أقل. ستتساءل كيف عشت بدونه من قبل .."
 }
