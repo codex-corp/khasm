@@ -3,6 +3,8 @@ buildscript {
     repositories {
         google()
         jcenter()
+        //https://docs.gradle.org/current/userguide/declaring_repositories.html#sub:maven_central
+        mavenCentral()
     }
 
     dependencies {

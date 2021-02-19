@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:501609303833:android:8e32849deb227f2f91bf88",
+        "mobilesdk_app_id": "1:501609303833:android:b4518e37419d8dc691bf88",
         "android_client_info": {
-          "package_name": "com.codexperts.khasm"
+          "package_name": "com.codexc.khasm"
         }
       },
       "oauth_client": [
@@ -30,6 +30,13 @@
             {
               "client_id": "501609303833-68srg81lgvfshvn0tklsek635n6l3mqt.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "501609303833-aqp710vb99r1l6g4l4j0iln5bj6jldq7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.codexc.khasm"
+              }
             }
           ]
         }

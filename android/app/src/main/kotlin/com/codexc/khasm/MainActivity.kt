@@ -1,4 +1,4 @@
-package com.codexperts.khasm
+package com.codexc.khasm
 
 import android.os.Bundle
 import io.flutter.app.FlutterActivity

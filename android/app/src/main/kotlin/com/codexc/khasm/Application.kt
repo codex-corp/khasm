@@ -1,4 +1,4 @@
-package com.codexperts.khasm
+package com.codexc.khasm
 import com.smartersvision.food_delivery_app.FirebaseCloudMessagingPluginRegistrant
 import io.flutter.app.FlutterApplication
 import io.flutter.plugin.common.PluginRegistry
