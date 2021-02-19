@@ -73,7 +73,7 @@ class SplashScreenState extends StateMVC<SplashScreen> {
 
             //  Navigator.of(context).pushReplacementNamed('/Pages', arguments: 2);
           } else {
-            Navigator.of(context).pushReplacementNamed('/Login');
+            Navigator.of(context).pushReplacementNamed('/Welcome');
           }
         } catch (e) {}
       }

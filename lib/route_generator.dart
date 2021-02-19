@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'src/uikit/theme3/screen/T3Walkthrough.dart';
 import 'src/pages/categoryPAge.dart';
 import 'src/pages/codePage.dart';
 import 'src/pages/packagePage.dart';
@@ -107,6 +108,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => HelpWidget());
       case '/Settings':
         return MaterialPageRoute(builder: (_) => SettingsWidget());
+      case '/Welcome':
+        return MaterialPageRoute(builder: (_) => T3WalkThrough());
+
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return MaterialPageRoute(builder: (_) => Scaffold(body: SafeArea(child: Text('Route Error'))));
