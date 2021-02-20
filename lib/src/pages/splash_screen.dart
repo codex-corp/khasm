@@ -46,6 +46,11 @@ class SplashScreenState extends StateMVC<SplashScreen> {
             bool isEnd = prefs.getBool('isEnded');
             bool isAc = prefs.getBool('isActive');
             bool check = prefs.getBool('checkk');
+            print(isEnd.toString());
+            print(isAc.toString());
+            print(check.toString());
+
+
             if (check == null) {
               Navigator.of(context).pushReplacementNamed('/Login');
 

@@ -266,10 +266,15 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
             context: context,
             pageBuilder: (context, anim1, anim2) {
               return Align(
-               alignment: Alignment.bottomCenter,
-                child: Container(child: Padding(child: FilterWidgets(onFilter: (filter) {
-                  Navigator.of(context).pushReplacementNamed('/Pages');
-                }),padding: EdgeInsets.all(10),),),
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  child: Padding(
+                    child: FilterWidgets(onFilter: (filter) {
+                      Navigator.of(context).pushReplacementNamed('/Pages');
+                    }),
+                    padding: EdgeInsets.all(10),
+                  ),
+                ),
               );
             },
             transitionBuilder: (context, anim1, anim2, child) {
@@ -283,8 +288,10 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
           //      onClickFilter('e');
           // widget.parentScaffoldKey.currentState.openEndDrawer();
         },
-
-        child: Text(S.of(context).cuisines,style: TextStyle(color: Colors.white,fontSize: 10),),
+        child: Text(
+          S.of(context).cuisines,
+          style: TextStyle(color: Colors.white, fontSize: 10),
+        ),
       ),
       appBar: AppBar(
         leading: new IconButton(
@@ -341,7 +348,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                       children: <Widget>[
                         if (currentUser.value.isActive == false)
                           SubscriptionNotActive(),
-                        if (currentUser.value.isEnded == false)
+                        if (currentUser.value.isEnded == true)
                           SubscriptionEnded(),
                         HomeSliderWidget(slides: _con.slides),
                         Padding(
@@ -651,7 +658,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
   }
 
   Center SubscriptionEnded() {
-   /* Fluttertoast.showToast(
+    /* Fluttertoast.showToast(
       msg: S.of(context).subscription_ended_msg,
       textColor: Colors.white,
       toastLength: Toast.LENGTH_SHORT,
@@ -728,73 +735,79 @@ class _FilterWidgets extends StateMVC<FilterWidgets> {
     return Card(
       child: _con.cuisines.isEmpty
           ? CircularLoadingWidget(height: 100)
-          : Padding(child: Container(
-        child:  ListView(
-          primary: true,
-          shrinkWrap: true,
-          scrollDirection: Axis.horizontal,
-          children: <Widget>[
-            _con.cuisines.isEmpty
-                ? CircularLoadingWidget(height: 100)
-                : Container(
-              child: Padding(
-                padding: EdgeInsets.all(0),
-                child: ListView.builder(
+          : Padding(
+              child: Container(
+                child: ListView(
+                  primary: true,
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  itemCount: _con.cuisines.length,
-                  itemBuilder:
-                      (BuildContext context, int index) =>
-                          GestureDetector(child: Padding(
-                       padding: EdgeInsets.all(10),
-                       child: Container(
+                  children: <Widget>[
+                    _con.cuisines.isEmpty
+                        ? CircularLoadingWidget(height: 100)
+                        : Container(
+                            child: Padding(
+                              padding: EdgeInsets.all(0),
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: _con.cuisines.length,
+                                itemBuilder:
+                                    (BuildContext context, int index) =>
+                                        GestureDetector(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child: Container(
 
-                         //   color: Colors.red,
-                           child: Column(
-                             children: [
-                               Container(
-                                 child: ClipRRect(
-
-                                   child: CachedNetworkImage(
-                                     // height: 10,
-                                     width: double.infinity,
-                                     fit: BoxFit.cover,
-                                     imageUrl: _con.cuisines
-                                         .elementAt(index)
-                                         .icon,
-                                     placeholder: (context, url) =>
-                                         Image.asset(
-                                           'assets/img/loading.gif',
-                                           fit: BoxFit.cover,
-                                           width: double.infinity,
-                                           height: 10,
-                                         ),
-                                     errorWidget:
-                                         (context, url, error) =>
-                                         Icon(Icons.error),
-                                   ),
-                                 ),
-                                 height: 50,
-                                 width: 50,
-                               ),
-                               Text(
-                                 _con.cuisines.elementAt(index).name,
-                               ),
-                             ],
-                           )),
-                     ),
-                          onTap: (){
-                            Navigator.of(context).pushNamed('/cuision', arguments: RouteArgument(id:  _con.cuisines.elementAt(index).id));
-
-
-                          },),
+                                        //   color: Colors.red,
+                                        child: Column(
+                                      children: [
+                                        Container(
+                                          child: ClipRRect(
+                                            child: CachedNetworkImage(
+                                              // height: 10,
+                                              width: double.infinity,
+                                              fit: BoxFit.cover,
+                                              imageUrl: _con.cuisines
+                                                  .elementAt(index)
+                                                  .icon,
+                                              placeholder: (context, url) =>
+                                                  Image.asset(
+                                                'assets/img/loading.gif',
+                                                fit: BoxFit.cover,
+                                                width: double.infinity,
+                                                height: 10,
+                                              ),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Icon(Icons.error),
+                                            ),
+                                          ),
+                                          height: 50,
+                                          width: 50,
+                                        ),
+                                        Text(
+                                          _con.cuisines.elementAt(index).name,
+                                        ),
+                                      ],
+                                    )),
+                                  ),
+                                  onTap: () {
+                                    Navigator.of(context).pushNamed('/cuision',
+                                        arguments: RouteArgument(
+                                            id: _con.cuisines
+                                                .elementAt(index)
+                                                .id));
+                                  },
+                                ),
+                              ),
+                            ),
+                          )
+                  ],
                 ),
+                height: 100,
               ),
-            )
-          ],
-        ),
-        height: 100,
-      ),padding: EdgeInsets.all(10),),
+              padding: EdgeInsets.all(10),
+            ),
     );
   }
 }

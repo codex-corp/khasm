@@ -186,13 +186,14 @@ class UserController extends ControllerMVC {
             SharedPreferences prefs = await SharedPreferences.getInstance();
 
             prefs.setBool('checkk',true);
-          }else{
+          }
+          else{
             SharedPreferences prefs = await SharedPreferences.getInstance();
             bool isEnd= prefs.getBool('isEnded');
             bool isAc= prefs.getBool('isActive');
             prefs.setBool('checkk',true);
 
-            print(isEnd.toString());
+            print(isAc.toString());
             if(isAc == null){
               Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/category');
 
