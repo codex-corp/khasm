@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/src/controllers/user_controller.dart';
+import '../controllers/user_controller.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,7 +8,7 @@ import '../controllers/notification_controller.dart';
 import '../elements/EmptyNotificationsWidget.dart';
 import '../elements/NotificationItemWidget.dart';
 import '../elements/PermissionDeniedWidget.dart';
-import '../elements/ShoppingCartButtonWidget.dart';
+// import '../elements/ShoppingCartButtonWidget.dart';
 import '../repository/user_repository.dart';
 
 class NotificationsWidget extends StatefulWidget {
@@ -53,7 +53,7 @@ class _NotificationsWidgetState extends StateMVC<NotificationsWidget> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: Text(
+        title:  Text(
           S.of(context).notifications,
           style: Theme.of(context).textTheme.headline6.merge(TextStyle(letterSpacing: 1.3)),
         ),

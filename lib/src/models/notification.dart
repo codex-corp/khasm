@@ -13,7 +13,7 @@ class Notification {
     try {
       id = jsonMap['id'].toString();
       type = jsonMap['type'] != null ? jsonMap['type'].toString() : '';
-      data = jsonMap['data'] != null ? {} : {};
+      data = jsonMap['data'] != null ? jsonMap['data'] : {};
       read = jsonMap['read_at'] != null ? true : false;
       createdAt = DateTime.parse(jsonMap['created_at']);
     } catch (e) {

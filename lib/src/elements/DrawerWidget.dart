@@ -50,10 +50,10 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                      style: Theme.of(context).textTheme.caption,
                    ),),
                    new Spacer(),
-                   GestureDetector(child: Image.asset('assets/img/whats.png',            color: Theme.of(context).hintColor,),
-
+                   GestureDetector(child: Image.asset('assets/img/whats.png',
+                     color: Theme.of(context).hintColor,),
                      onTap: () async {
-                       var whatsappUrl = "whatsapp://send?phone=+963933705585"  ;
+                       var whatsappUrl = "whatsapp://send?phone=+963987016060"  ;
                        await canLaunch(whatsappUrl) ? launch(whatsappUrl) : print("open whatsapp app link or do a snackbar with notification that there is no whatsapp installed");
                      },)
                  ],)

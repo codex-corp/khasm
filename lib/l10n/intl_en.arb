@@ -280,5 +280,10 @@
 
   "welcome_msg_1" : "We’re the leading provider of Buy One Get One Free and discount offers for restaurants, bars, spas, attractions, activities, salons, sports, fitness venues and more across the Middle East.",
   "welcome_msg_2" : "UNLOCK THE BEST OFFERS NEAR YOU",
-  "welcome_msg_3" : "Do more and spend less. You'll wonder how you ever lived without it.."
+  "welcome_msg_3" : "Do more and spend less. You'll wonder how you ever lived without it..",
+
+  "rate_thanks" : "All done!",
+  "rate_your_value" : "Your rate",
+  "rate_about" : "Your reply will be highly appreciated",
+  "rate_add" : "Add"
 }

@@ -2824,6 +2824,46 @@ class S {
       args: [],
     );
   }
+
+  /// `All done!`
+  String get rate_thanks {
+    return Intl.message(
+      'All done!',
+      name: 'rate_thanks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your rate`
+  String get rate_your_value {
+    return Intl.message(
+      'Your rate',
+      name: 'rate_your_value',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your reply will be highly appreciated`
+  String get rate_about {
+    return Intl.message(
+      'Your reply will be highly appreciated',
+      name: 'rate_about',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add`
+  String get rate_add {
+    return Intl.message(
+      'Add',
+      name: 'rate_add',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

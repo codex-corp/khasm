@@ -11,7 +11,7 @@ description: food_delivery_app
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 2.4.3
+version: 1.0.2
 code: 8
 
 environment:
@@ -38,7 +38,7 @@ dependencies:
   location: 3.0.2
   webview_flutter: 0.3.24
   url_launcher: 5.7.7
-  firebase_messaging: 7.0.3
+  firebase_messaging: ^7.0.3
   cached_network_image: 2.3.3
   fluttertoast: 4.0.1
   flutter_staggered_grid_view: 0.3.2
@@ -46,7 +46,10 @@ dependencies:
   carousel_slider: 2.3.1
   cloud_firestore: 0.14.1+3
   flutter_webview_plugin: ^0.3.11
-
+  flutter_statusbarcolor: 0.2.3
+  snaplist: 0.1.8
+  get: ^3.25.4
+  overlay_support: ^1.0.5
 
   firebase_auth: 0.18.1+2
   firebase_core: 0.5.0+1
@@ -81,6 +84,7 @@ flutter:
   assets:
     - assets/cfg/
     - assets/img/
+    - images/theme3/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -94,26 +98,42 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-  - family: Poppins
-    fonts:
-      - asset: assets/fonts/Poppins-Thin.ttf
-        weight: 100
-      - asset: assets/fonts/Poppins-ExtraLight.ttf
-        weight: 200
-      - asset: assets/fonts/Poppins-Light.ttf
-        weight: 300
-      - asset: assets/fonts/Poppins-Regular.ttf
-        weight: 400
-      - asset: assets/fonts/Poppins-Medium.ttf
-        weight: 500
-      - asset: assets/fonts/Poppins-SemiBold.ttf
-        weight: 600
-      - asset: assets/fonts/Poppins-Bold.ttf
-        weight: 700
-      - asset: assets/fonts/Poppins-ExtraBold.ttf
-        weight: 800
-      - asset: assets/fonts/Poppins-Black.ttf
-        weight: 900
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/Poppins-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Poppins-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Poppins-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Poppins-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Poppins-Black.ttf
+          weight: 900
+    - family: Tajawal
+      fonts:
+        - asset: assets/fonts/Tajawal-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Tajawal-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Tajawal-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Tajawal-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Tajawal-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Tajawal-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Tajawal-Black.ttf
+          weight: 900
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: assets/fonts/TrajanPro.ttf

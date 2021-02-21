@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
@@ -25,9 +26,9 @@ class NotificationItemWidget extends StatelessWidget {
               color: Theme.of(context).accentColor,
             )
                 : new Icon(
-              Icons.brightness_1,
-              color: Theme.of(context).accentColor,
-            ),
+                    Icons.brightness_1,
+                    color: Theme.of(context).accentColor,
+                  ),
             onPress: () {
               if (notification.read) {
                 onMarkAsUnRead();
@@ -63,11 +64,10 @@ class NotificationItemWidget extends StatelessWidget {
                         Theme.of(context).focusColor.withOpacity(0.7),
                         Theme.of(context).focusColor.withOpacity(0.05),
                       ])),
-                  child: Icon(
-                    Icons.notifications,
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    size: 40,
-                  ),
+                  child: CircleAvatar(
+                      backgroundImage:
+                      CachedNetworkImageProvider(notification.data['image']),
+                      radius: 16),
                 ),
                 Positioned(
                   right: -30,
@@ -103,11 +103,18 @@ class NotificationItemWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   Text(
-                    Helper.of(context).trans(notification.type),
+                    notification.data['title'],
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                     textAlign: TextAlign.justify,
                     style: Theme.of(context).textTheme.bodyText1.merge(TextStyle(fontWeight: notification.read ? FontWeight.w300 : FontWeight.w600)),
+                  ),
+                  Text(
+                    notification.data['text'],
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    textAlign: TextAlign.justify,
+                    style: Theme.of(context).textTheme.caption.merge(TextStyle(fontWeight: notification.read ? FontWeight.w300 : FontWeight.w600)),
                   ),
                   Text(
                     DateFormat('yyyy-MM-dd | HH:mm').format(notification.createdAt),

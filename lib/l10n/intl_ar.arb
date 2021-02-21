@@ -62,7 +62,7 @@
   "maps_explorer": "مستكشف الخرائط",
   "all_menu": "كل المينو",
   "longpress_on_the_food_to_add_suplements": " إضغط على المنتج لإضافة",
-  "notifications": "تنويهات",
+  "notifications": "إشعارات",
   "confirmation": "التأكيد",
   "your_order_has_been_successfully_submitted": "تم تقديم طلبك بنجاح!",
   "tax": "ضريبة",
@@ -219,7 +219,7 @@
   "this_food_was_added_to_cart": "تمت إضافة هذه القسيمة إلى سلة التسوق",
   "foods_result": "vouchers result",
   "foods_results": "vouchers Results",
-  "restaurants_results": "Service Providers Results",
+  "restaurants_results": "نتائج البحث",
   "all": "الكل",
   "this_restaurant_is_closed_": "This Service Provider is closed !",
   "how_would_you_rate_this_restaurant": "How would you rate this Service Provider ?",
@@ -279,5 +279,10 @@
 
   "welcome_msg_1": "نحن المزود الرائد لـ Buy One Get One Free وعروض التخفيضات للمطاعم والحانات والمنتجعات الصحية والمعالم السياحية والأنشطة والصالونات والرياضات وأماكن اللياقة والمزيد في جميع أنحاء الشرق الأوسط.",
   "welcome_msg_2": "احصل على أفضل العروض القريبة منك",
-  "welcome_msg_3": "أنجز المزيد وأنفق أقل. ستتساءل كيف عشت بدونه من قبل .."
+  "welcome_msg_3": "أنجز المزيد وأنفق أقل. ستتساءل كيف عشت بدونه من قبل ..",
+
+  "rate_thanks" : "تم العملية بنجاح",
+  "rate_your_value" : "تقييمك ",
+  "rate_about" : "يسعدنا مشاركة رأيك وملاحظاتك",
+  "rate_add" : "اضافة"
 }

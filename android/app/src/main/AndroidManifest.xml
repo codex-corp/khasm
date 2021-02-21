@@ -22,7 +22,7 @@
                    android:value="AIzaSyDLZodlYYmRQ-Pob1a8V_rMvSG__3NhSv8"/>
         <meta-data
                 android:name="com.google.firebase.messaging.default_notification_icon"
-                android:resource="@mipmap/ic_notification" />
+                android:resource="@mipmap/ic_fcm" />
         <activity
             android:name="com.codexc.khasm.MainActivity"
             android:launchMode="singleTop"

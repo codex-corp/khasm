@@ -4,8 +4,6 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 import '../../generated/l10n.dart';
 import '../controllers/search_controller.dart';
 import '../elements/CardWidget.dart';
-import '../elements/CircularLoadingWidget.dart';
-import '../elements/FoodItemWidget.dart';
 import '../models/route_argument.dart';
 
 class SearchResultWidget extends StatefulWidget {
@@ -78,7 +76,18 @@ class _SearchResultWidgetState extends StateMVC<SearchResultWidget> {
             ),
           ),
           _con.restaurants.isEmpty && _con.foods.isEmpty
-              ? CircularLoadingWidget(height: 288)
+              ? FlatButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed('/Pages', arguments: 2);
+            },
+            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 30),
+            color: Theme.of(context).accentColor.withOpacity(1),
+            shape: StadiumBorder(),
+            child: Text(
+              S.of(context).nodata,
+              style: Theme.of(context).textTheme.headline6.merge(TextStyle(color: Theme.of(context).scaffoldBackgroundColor)),
+            ),
+          )
               : Expanded(
                   child: ListView(
                     children: <Widget>[

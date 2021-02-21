@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_delivery_app/generated/l10n.dart';
 import 'package:food_delivery_app/src/controllers/user_controller.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -131,7 +129,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
   void listenForNearRestaurants(
       Address myLocation, Address areaLocation) async {
     final Stream<Restaurant> stream =
-        await getNearRestaurants(myLocation, areaLocation);
+    await getNearRestaurants(myLocation, areaLocation);
     stream.listen((Restaurant _restaurant) {
       setState(() {
         topRestaurants.add(_restaurant);
@@ -218,14 +216,14 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
     print(res.latitude.toString());
     mapsUtil
         .get("origin=" +
-            res.latitude.toString() +
-            "," +
-            res.longitude.toString() +
-            "&destination=" +
-            res.latitude.toString() +
-            "," +
-            res.longitude.toString() +
-            "&key=${sett.setting.value?.googleMapsKey}")
+        res.latitude.toString() +
+        "," +
+        res.longitude.toString() +
+        "&destination=" +
+        res.latitude.toString() +
+        "," +
+        res.longitude.toString() +
+        "&key=${sett.setting.value?.googleMapsKey}")
         .then((dynamic res) {
       if (res != null) {
         List<LatLng> _latLng = res as List<LatLng>;
@@ -266,10 +264,15 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
             context: context,
             pageBuilder: (context, anim1, anim2) {
               return Align(
-               alignment: Alignment.bottomCenter,
-                child: Container(child: Padding(child: FilterWidgets(onFilter: (filter) {
-                  Navigator.of(context).pushReplacementNamed('/Pages');
-                }),padding: EdgeInsets.all(10),),),
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  child: Padding(
+                    child: FilterWidgets(onFilter: (filter) {
+                      Navigator.of(context).pushReplacementNamed('/Pages');
+                    }),
+                    padding: EdgeInsets.all(10),
+                  ),
+                ),
               );
             },
             transitionBuilder: (context, anim1, anim2, child) {
@@ -283,8 +286,10 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
           //      onClickFilter('e');
           // widget.parentScaffoldKey.currentState.openEndDrawer();
         },
-
-        child: Text(S.of(context).cuisines,style: TextStyle(color: Colors.white,fontSize: 10),),
+        child: Text(
+          S.of(context).cuisines,
+          style: TextStyle(color: Colors.white, fontSize: 10),
+        ),
       ),
       appBar: AppBar(
         leading: new IconButton(
@@ -334,69 +339,69 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
               children: List.generate(
                   settingsRepo.setting.value.homeSections.length, (index) {
                 String _homeSection =
-                    settingsRepo.setting.value.homeSections.elementAt(index);
+                settingsRepo.setting.value.homeSections.elementAt(index);
                 switch (_homeSection) {
                   case 'slider':
                     return Column(
                       children: <Widget>[
                         if (currentUser.value.isActive == false)
                           SubscriptionNotActive(),
-                        if (currentUser.value.isEnded == false)
+                        if (currentUser.value.isEnded == true)
                           SubscriptionEnded(),
                         HomeSliderWidget(slides: _con.slides),
                         Padding(
                             padding: EdgeInsets.all(10),
                             child: Container(
                                 child: Column(
-                              children: <Widget>[
-                                Container(
-                                  height: 250,
-                                  child: Stack(
+                                  children: <Widget>[
+                                    Container(
+                                      height: 250,
+                                      child: Stack(
 //        fit: StackFit.expand,
-                                    alignment: AlignmentDirectional.bottomStart,
-                                    children: <Widget>[
-                                      cameraPosition == null
-                                          ? CircularLoadingWidget(height: 0)
-                                          : GoogleMap(
-                                              mapToolbarEnabled: false,
-                                              mapType: MapType.terrain,
-                                              initialCameraPosition:
-                                                  cameraPosition,
-                                              markers: Set.from(allMarkers),
-                                              onMapCreated: (GoogleMapController
-                                                  controller) {
-                                                mapController
-                                                    .complete(controller);
-                                              },
-                                              onCameraMove: (CameraPosition
-                                                  cameraPosition) {
-                                                cameraPosition = cameraPosition;
-                                              },
-                                              onCameraIdle: () {
-                                                getRestaurantsOfArea();
-                                              },
-                                              polylines: polylines,
-                                            ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.all(10),
-                                    child: Row(
-                                      children: <Widget>[
-                                        Text(
-                                            S.of(context).nearby_services +
-                                                ' :',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold))
-                                      ],
-                                    )),
-                                CardsCarouselWidget(
-                                  restaurantsList: topRestaurants,
-                                  heroTag: 'map_restaurants',
-                                ),
-                              ],
-                            ))),
+                                        alignment: AlignmentDirectional.bottomStart,
+                                        children: <Widget>[
+                                          cameraPosition == null
+                                              ? CircularLoadingWidget(height: 0)
+                                              : GoogleMap(
+                                            mapToolbarEnabled: false,
+                                            mapType: MapType.terrain,
+                                            initialCameraPosition:
+                                            cameraPosition,
+                                            markers: Set.from(allMarkers),
+                                            onMapCreated: (GoogleMapController
+                                            controller) {
+                                              mapController
+                                                  .complete(controller);
+                                            },
+                                            onCameraMove: (CameraPosition
+                                            cameraPosition) {
+                                              cameraPosition = cameraPosition;
+                                            },
+                                            onCameraIdle: () {
+                                              getRestaurantsOfArea();
+                                            },
+                                            polylines: polylines,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                        padding: EdgeInsets.all(10),
+                                        child: Row(
+                                          children: <Widget>[
+                                            Text(
+                                                S.of(context).nearby_services +
+                                                    ' :',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold))
+                                          ],
+                                        )),
+                                    CardsCarouselWidget(
+                                      restaurantsList: topRestaurants,
+                                      heroTag: 'map_restaurants',
+                                    ),
+                                  ],
+                                ))),
                       ],
                     );
                   case 'search':
@@ -435,10 +440,10 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                                     var bottomSheetController = widget
                                         .parentScaffoldKey.currentState
                                         .showBottomSheet(
-                                      (context) =>
+                                          (context) =>
                                           DeliveryAddressBottomSheetWidget(
                                               scaffoldKey:
-                                                  widget.parentScaffoldKey),
+                                              widget.parentScaffoldKey),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: new BorderRadius.only(
                                             topLeft: Radius.circular(10),
@@ -455,21 +460,21 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                                       vertical: 6, horizontal: 10),
                                   decoration: BoxDecoration(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5)),
+                                    BorderRadius.all(Radius.circular(5)),
                                     color: settingsRepo.deliveryAddress.value
-                                                ?.address ==
-                                            null
+                                        ?.address ==
+                                        null
                                         ? Theme.of(context)
-                                            .focusColor
-                                            .withOpacity(0.1)
+                                        .focusColor
+                                        .withOpacity(0.1)
                                         : Theme.of(context).accentColor,
                                   ),
                                   child: Text(
                                     S.of(context).delivery,
                                     style: TextStyle(
                                         color: settingsRepo.deliveryAddress
-                                                    .value?.address ==
-                                                null
+                                            .value?.address ==
+                                            null
                                             ? Theme.of(context).hintColor
                                             : Theme.of(context).primaryColor),
                                   ),
@@ -488,21 +493,21 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                                       vertical: 6, horizontal: 10),
                                   decoration: BoxDecoration(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5)),
+                                    BorderRadius.all(Radius.circular(5)),
                                     color: settingsRepo.deliveryAddress.value
-                                                ?.address !=
-                                            null
+                                        ?.address !=
+                                        null
                                         ? Theme.of(context)
-                                            .focusColor
-                                            .withOpacity(0.1)
+                                        .focusColor
+                                        .withOpacity(0.1)
                                         : Theme.of(context).accentColor,
                                   ),
                                   child: Text(
                                     S.of(context).pickup,
                                     style: TextStyle(
                                         color: settingsRepo.deliveryAddress
-                                                    .value?.address !=
-                                                null
+                                            .value?.address !=
+                                            null
                                             ? Theme.of(context).hintColor
                                             : Theme.of(context).primaryColor),
                                   ),
@@ -575,43 +580,43 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
                   case 'popular_heading':
                     return _con.popularRestaurants.length == 0
                         ? Visibility(
-                            visible: false,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 20, right: 20, bottom: 20),
-                              child: ListTile(
-                                dense: true,
-                                contentPadding:
-                                    EdgeInsets.symmetric(vertical: 0),
-                                leading: Icon(
-                                  Icons.trending_up,
-                                  color: Theme.of(context).hintColor,
-                                ),
-                                title: Text(
-                                  S.of(context).most_popular,
-                                  style: Theme.of(context).textTheme.headline4,
-                                ),
-                              ),
-                            ))
+                        visible: false,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 20, right: 20, bottom: 20),
+                          child: ListTile(
+                            dense: true,
+                            contentPadding:
+                            EdgeInsets.symmetric(vertical: 0),
+                            leading: Icon(
+                              Icons.trending_up,
+                              color: Theme.of(context).hintColor,
+                            ),
+                            title: Text(
+                              S.of(context).most_popular,
+                              style: Theme.of(context).textTheme.headline4,
+                            ),
+                          ),
+                        ))
                         : Visibility(
-                            visible: true,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 20, right: 20, bottom: 20),
-                              child: ListTile(
-                                dense: true,
-                                contentPadding:
-                                    EdgeInsets.symmetric(vertical: 0),
-                                leading: Icon(
-                                  Icons.trending_up,
-                                  color: Theme.of(context).hintColor,
-                                ),
-                                title: Text(
-                                  S.of(context).most_popular,
-                                  style: Theme.of(context).textTheme.headline4,
-                                ),
-                              ),
-                            ));
+                        visible: true,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 20, right: 20, bottom: 20),
+                          child: ListTile(
+                            dense: true,
+                            contentPadding:
+                            EdgeInsets.symmetric(vertical: 0),
+                            leading: Icon(
+                              Icons.trending_up,
+                              color: Theme.of(context).hintColor,
+                            ),
+                            title: Text(
+                              S.of(context).most_popular,
+                              style: Theme.of(context).textTheme.headline4,
+                            ),
+                          ),
+                        ));
                   case 'popular':
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -651,7 +656,7 @@ class _HomeWidgetState extends StateMVC<HomeWidget> {
   }
 
   Center SubscriptionEnded() {
-   /* Fluttertoast.showToast(
+    /* Fluttertoast.showToast(
       msg: S.of(context).subscription_ended_msg,
       textColor: Colors.white,
       toastLength: Toast.LENGTH_SHORT,
@@ -728,73 +733,79 @@ class _FilterWidgets extends StateMVC<FilterWidgets> {
     return Card(
       child: _con.cuisines.isEmpty
           ? CircularLoadingWidget(height: 100)
-          : Padding(child: Container(
-        child:  ListView(
-          primary: true,
-          shrinkWrap: true,
-          scrollDirection: Axis.horizontal,
-          children: <Widget>[
-            _con.cuisines.isEmpty
-                ? CircularLoadingWidget(height: 100)
-                : Container(
-              child: Padding(
-                padding: EdgeInsets.all(0),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _con.cuisines.length,
-                  itemBuilder:
-                      (BuildContext context, int index) =>
-                          GestureDetector(child: Padding(
-                       padding: EdgeInsets.all(10),
-                       child: Container(
+          : Padding(
+        child: Container(
+          child: ListView(
+            primary: true,
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            children: <Widget>[
+              _con.cuisines.isEmpty
+                  ? CircularLoadingWidget(height: 100)
+                  : Container(
+                child: Padding(
+                  padding: EdgeInsets.all(0),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: _con.cuisines.length,
+                    itemBuilder:
+                        (BuildContext context, int index) =>
+                        GestureDetector(
+                          child: Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Container(
 
-                         //   color: Colors.red,
-                           child: Column(
-                             children: [
-                               Container(
-                                 child: ClipRRect(
-
-                                   child: CachedNetworkImage(
-                                     // height: 10,
-                                     width: double.infinity,
-                                     fit: BoxFit.cover,
-                                     imageUrl: _con.cuisines
-                                         .elementAt(index)
-                                         .icon,
-                                     placeholder: (context, url) =>
-                                         Image.asset(
-                                           'assets/img/loading.gif',
-                                           fit: BoxFit.cover,
-                                           width: double.infinity,
-                                           height: 10,
-                                         ),
-                                     errorWidget:
-                                         (context, url, error) =>
-                                         Icon(Icons.error),
-                                   ),
-                                 ),
-                                 height: 50,
-                                 width: 50,
-                               ),
-                               Text(
-                                 _con.cuisines.elementAt(index).name,
-                               ),
-                             ],
-                           )),
-                     ),
-                          onTap: (){
-                            Navigator.of(context).pushNamed('/cuision', arguments: RouteArgument(id:  _con.cuisines.elementAt(index).id));
-
-
-                          },),
+                              //   color: Colors.red,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      child: ClipRRect(
+                                        child: CachedNetworkImage(
+                                          // height: 10,
+                                          width: double.infinity,
+                                          fit: BoxFit.cover,
+                                          imageUrl: _con.cuisines
+                                              .elementAt(index)
+                                              .icon,
+                                          placeholder: (context, url) =>
+                                              Image.asset(
+                                                'assets/img/loading.gif',
+                                                fit: BoxFit.cover,
+                                                width: double.infinity,
+                                                height: 10,
+                                              ),
+                                          errorWidget:
+                                              (context, url, error) =>
+                                              Icon(Icons.error),
+                                        ),
+                                      ),
+                                      height: 50,
+                                      width: 50,
+                                    ),
+                                    Text(
+                                      _con.cuisines.elementAt(index).name,
+                                    ),
+                                  ],
+                                )),
+                          ),
+                          onTap: () {
+                            Navigator.of(context).pushNamed('/cuision',
+                                arguments: RouteArgument(
+                                    id: _con.cuisines
+                                        .elementAt(index)
+                                        .id));
+                          },
+                        ),
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
+          height: 100,
         ),
-        height: 100,
-      ),padding: EdgeInsets.all(10),),
+        padding: EdgeInsets.all(10),
+      ),
     );
   }
 }

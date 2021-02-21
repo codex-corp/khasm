@@ -1,12 +1,11 @@
+import 'package:intl/date_symbol_data_local.dart';
+import '../repository/user_repository.dart' as repository;
+import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_delivery_app/loginResponse.dart';
 import 'package:food_delivery_app/src/cityRepositry.dart';
-import 'package:food_delivery_app/src/elements/ProfileSettingsDialog.dart';
-import 'package:food_delivery_app/src/repository/user_repository.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -40,6 +39,8 @@ class Company {
 
 class _LoginWidgetState extends StateMVC<LoginWidget> {
   UserController _con;
+  DateFormat dateFormat ;
+  GlobalKey<FormState> loginFormKey;
 
   List<Company> _companies = Company.getCompanies();
   List<DropdownMenuItem<Company>> _dropdownMenuItems;
@@ -85,6 +86,8 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
   @override
   void initState() {
     getVlue();
+    loginFormKey = new GlobalKey<FormState>();
+
     super.initState();
     _dropdownMenuItems = buildDropdownMenuItems(_companies);
     _selectedCompany = _dropdownMenuItems[0].value;
@@ -107,7 +110,7 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
     return WillPopScope(
       onWillPop: Helper.of(context).onWillPop,
       child: Scaffold(
-        key: _con.scaffoldKey,
+    //    key: _con.scaffoldKey,
         resizeToAvoidBottomPadding: false,
         body: Stack(
           alignment: AlignmentDirectional.topCenter,
@@ -247,7 +250,7 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
                           SharedPreferences prefs = await SharedPreferences.getInstance();
                          bool pp= prefs.getBool('pp');
                          if(pp==null){
-                           int ph=9+int.parse(_email.text);
+                           String ph='9'+_email.text;
                            showDialog(
                                context: context,
                                barrierDismissible: false,
@@ -258,11 +261,11 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
                                        onWillPop: () async => false,
                                        child:
 
-                                       dialog(_con,ph.toString(), toke, codeC,));
+                                       dialog(_con,ph.toString(), toke, codeC,context));
                                });
                          }else{
                            if(pp == false){
-                             int ph=9+int.parse(_email.text);
+                             String ph='9'+_email.text;
 
                              showDialog(
                                  context: context,
@@ -274,7 +277,7 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
                                          onWillPop: () async => false,
                                          child:
 
-                                         dialog(_con,ph.toString(), toke, codeC,));
+                                         dialog(_con,ph.toString(), toke, codeC,context));
                                  });
                            }else{
                              showDialog(
@@ -289,7 +292,67 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
                                  });
                              String ph='9'+_email.text;
 
-                             _con.login(ph.toString(), toke,codeC, '1');
+
+                             SharedPreferences prefs = await SharedPreferences.getInstance();
+                             initializeDateFormatting();
+                             dateFormat   = DateFormat("yyyy-MM-dd");
+                             repository.login(ph.toString(), toke,codeC, '1').then((value) {
+                               print(value);
+                               prefs.setString('phoneM', ph.toString());
+                               prefs.setString('codeC', codeC);
+                               prefs.setString('tok', toke);
+                               if (value.deviceToken!=null) {
+
+                                 prefs.setString('phoneM', ph.toString());
+                                 prefs.setString('codeC', codeC);
+                                 prefs.setString('tok', toke);
+                                 prefs.setString('userId', value.id);
+                                 prefs.setBool('isTrail', value.isTrail);
+                                 prefs.setBool('isEnded', value.isEnded);
+                                 prefs.setBool('isActive', value.isActive);
+
+                                 prefs.setString('token', value.apiToken);
+                                 print(value.first_time.toString());
+                                 Navigator.of(context).pushReplacementNamed('/code');
+
+                                /* if(value.first_time==1){
+
+                                   Navigator.of(context).pushReplacementNamed('/code');
+
+                                 }else{
+                                   Navigator.of(context).pushReplacementNamed('/code');
+                                   //    Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/category');
+
+                                 }*/
+
+
+                                 //  Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
+                               } else {
+
+                               }
+                             }).catchError((e) {
+                               Navigator.pop(context);
+
+                               //   loader.remove();
+
+                               Fluttertoast.showToast(
+                                 msg:S.of(context).this_account_not_exist,
+                                 textColor: Colors.white,
+                                 toastLength: Toast.LENGTH_SHORT,
+                                 gravity: ToastGravity.BOTTOM,
+                                 backgroundColor: Colors.deepOrangeAccent,
+                               );
+
+                             }).whenComplete(() {
+                               Navigator.pop(context);
+                               Navigator.of(context).pushReplacementNamed('/code');
+
+                               //  Helper.hideLoader(loader);
+                             });
+
+
+
+                            // _con.login(ph.toString(), toke,codeC, '1');
                            }
                          }
 
@@ -379,7 +442,8 @@ class _LoginWidgetState extends StateMVC<LoginWidget> {
 class dialog extends StatefulWidget {
   UserController _con;
   String email,token,code;
-dialog(this._con,this.email,this.token,this.code);
+  BuildContext conn;
+dialog(this._con,this.email,this.token,this.code,this.conn);
   @override
   _dialog createState() => _dialog();
 }
@@ -435,11 +499,7 @@ class _dialog extends StateMVC<dialog> {
                            onChanged: (value) {
                              setState(() {
                                _valueMobile = value;
-                               /*  if (_valueMobile) {
-                       //   allowM = '1';
-                        } else {
-                         // allowM = '0';
-                        }*/
+
                              });
                            },
                          ),
@@ -450,6 +510,7 @@ class _dialog extends StateMVC<dialog> {
                    padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
                    child: new RaisedButton(
                        onPressed: () async {
+                       //  Navigator.pop(context);
                        if(_valueMobile==false){
 
                          Fluttertoast.showToast(
@@ -462,7 +523,9 @@ class _dialog extends StateMVC<dialog> {
                        }else{
                          SharedPreferences prefs = await SharedPreferences.getInstance();
                           prefs.setBool('pp',_valueMobile);
-                         Navigator.of(context).pop();
+                    //     Navigator.of(context).pop();
+
+
                          showDialog(
                              context: context,
                              builder:
@@ -473,7 +536,69 @@ class _dialog extends StateMVC<dialog> {
                                        valueColor: new AlwaysStoppedAnimation<Color>(
                                            Colors.purple)));
                              });
-                         widget._con.login(widget.email, widget.token, widget.code, '1');
+
+
+                         initializeDateFormatting();
+                         repository.login(widget.email, widget.token, widget.code, '1').then((value) {
+                           print(value);
+                           prefs.setString('phoneM', widget.email);
+                           prefs.setString('codeC', widget.code);
+                           prefs.setString('tok', widget.token);
+                           if (value.deviceToken!=null) {
+
+                             prefs.setString('phoneM', widget.email);
+                             prefs.setString('codeC', widget.code);
+                             prefs.setString('tok', widget.token);
+                             prefs.setString('userId', value.id);
+                             prefs.setBool('isTrail', value.isTrail);
+                             prefs.setBool('isEnded', value.isEnded);
+                             prefs.setBool('isActive', value.isActive);
+
+                             prefs.setString('token', value.apiToken);
+                             print(value.first_time.toString());
+                             Navigator.of(widget.conn).pushReplacementNamed('/code');
+
+                             /* if(value.first_time==1){
+
+                                   Navigator.of(context).pushReplacementNamed('/code');
+
+                                 }else{
+                                   Navigator.of(context).pushReplacementNamed('/code');
+                                   //    Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/category');
+
+                                 }*/
+
+
+                             //  Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 2);
+                           } else {
+
+                           }
+                         }).catchError((e) {
+                           Navigator.pop(context);
+
+                           //   loader.remove();
+
+                           Fluttertoast.showToast(
+                             msg:S.of(context).this_account_not_exist,
+                             textColor: Colors.white,
+                             toastLength: Toast.LENGTH_SHORT,
+                             gravity: ToastGravity.BOTTOM,
+                             backgroundColor: Colors.deepOrangeAccent,
+                           );
+
+                         }).whenComplete(() {
+                           Navigator.pop(context);
+                           Navigator.of(widget.conn).pushReplacementNamed('/code');
+
+                           //  Helper.hideLoader(loader);
+                         });
+
+
+
+
+
+
+
                        }
 
                          //    _buildSubmitFormCo(context, wareId, offerId, dateD);

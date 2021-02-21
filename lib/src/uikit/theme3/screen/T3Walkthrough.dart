@@ -94,14 +94,12 @@ class T3WalkThroughState extends State<T3WalkThrough> {
                         Text(titles[currentIndexPage],
                             style: TextStyle(
                                 fontSize: 20,
-                                fontFamily: fontMedium,
                                 color: t3_colorPrimary)),
                         SizedBox(height: 16),
                         Center(
                             child: Text(
                           subTitles[currentIndexPage],
                           style: TextStyle(
-                              fontFamily: fontRegular,
                               fontSize: 18,
                               color: t3_textColorSecondary),
                           textAlign: TextAlign.center,

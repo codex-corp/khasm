@@ -17,11 +17,13 @@ Future<Stream<Restaurant>> getNearRestaurants(Address myLocation, Address areaLo
   Uri uri = Helper.getUri('api/restaurants');
   print(uri.toString());
   Map<String, dynamic> _queryParams = {};
+  _queryParams.addAll(uri.queryParameters);
+
   SharedPreferences prefs = await SharedPreferences.getInstance();
   Filter filter = Filter.fromJSON(json.decode(prefs.getString('filter') ?? '{}'));
 
   _queryParams['limit'] = '6';
-  _queryParams['with'] = 'cuisines';
+  _queryParams['with'] = 'cuisines;users';
   /*if (!myLocation.isUnknown() && !areaLocation.isUnknown()) {
 
   }*/

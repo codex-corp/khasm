@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:food_delivery_app/src/controllers/reviews_controller.dart';
 
+import 'generated/l10n.dart';
+
 class RatingDialog extends StatelessWidget {
   final String namme;
   ReviewsController conR;
@@ -40,7 +42,7 @@ class RatingDialog extends StatelessWidget {
             ],
             borderRadius: BorderRadius.circular(9.0)),
         child: Center(
-          child: Text("Add",
+          child: Text(S.of(context).rate_add,
               style: const TextStyle(
                   color: const Color(0xfffefefe),
                   fontWeight: FontWeight.w600,
@@ -59,7 +61,7 @@ class RatingDialog extends StatelessWidget {
           padding: EdgeInsets.all(24.0),
           child: Column(mainAxisSize: MainAxisSize.min, children: [
             Text(
-              'Thank You!',
+              S.of(context).rate_thanks,
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             Padding(
@@ -67,10 +69,10 @@ class RatingDialog extends StatelessWidget {
               child: RichText(
                 text: TextSpan(
                     style:
-                        TextStyle(fontFamily: 'Montserrat', color: Colors.grey),
+                        TextStyle(color: Colors.grey),
                     children: [
                       TextSpan(
-                        text: 'You rated ',
+                        text: S.of(context).rate_your_value,
                       ),
                      TextSpan(
                           text: namme,
@@ -110,7 +112,7 @@ class RatingDialog extends StatelessWidget {
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.zero,
-                      hintText: 'Say something about this resturant.'),
+                      hintText: S.of(context).rate_about),
                   style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                   maxLength: 200,
                 )),
