@@ -33,7 +33,7 @@ int first_time;
   User.fromJSON(Map<String, dynamic> jsonMap) {
     try {
       id = jsonMap['id'].toString();
-      totals = jsonMap['smiles_total'].toString();
+      totals = jsonMap['smiles_total'].toString()==null?'0': jsonMap['smiles_total'].toString();
 
       name = jsonMap['name'] != null ? jsonMap['name'] : '';
       email = jsonMap['email'] != null ? jsonMap['email'] : '';

@@ -62,6 +62,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "click_to_pay_with_your_paypal_account" : MessageLookupByLibrary.simpleMessage("Click to pay with your PayPal account"),
     "click_to_pay_with_your_visa_card" : MessageLookupByLibrary.simpleMessage("Click to pay with your Visa Card"),
     "close" : MessageLookupByLibrary.simpleMessage("اغلاق"),
+    "buy" : MessageLookupByLibrary.simpleMessage("للاستفادة مجددا"),
+    "sorry" : MessageLookupByLibrary.simpleMessage(" عذرا,ليس لديك رصيد كافي من السمايلات لتتمكن من استخدام هذا العرض مرة أخرى"),
+
     "closed" : MessageLookupByLibrary.simpleMessage("مغلق"),
     "completeYourProfileDetailsToContinue" : MessageLookupByLibrary.simpleMessage("أكمل تفاصيل ملفك الشخصي للمتابعة"),
     "confirm_payment" : MessageLookupByLibrary.simpleMessage("تأكيد الدفع"),

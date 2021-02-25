@@ -29,10 +29,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "account_not_active_msg" : MessageLookupByLibrary.simpleMessage("Your account is not active ,please review application company"),
     "active" : MessageLookupByLibrary.simpleMessage("Active"),
     "add" : MessageLookupByLibrary.simpleMessage("Add"),
+    "sorry" : MessageLookupByLibrary.simpleMessage(" Sorry, You do not have enough Smiles to buy back this voucher"),
+
     "add_delivery_address" : MessageLookupByLibrary.simpleMessage("Add Delivery Address"),
     "add_new_delivery_address" : MessageLookupByLibrary.simpleMessage("Add new delivery address"),
     "add_to_cart" : MessageLookupByLibrary.simpleMessage("Add to Cart"),
     "address" : MessageLookupByLibrary.simpleMessage("Address"),
+    "buy" : MessageLookupByLibrary.simpleMessage("To buy back"),
+
     "addresses_refreshed_successfuly" : MessageLookupByLibrary.simpleMessage("Addresses refreshed successfuly"),
     "all" : MessageLookupByLibrary.simpleMessage("All"),
     "all_menu" : MessageLookupByLibrary.simpleMessage("All Menu"),

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:food_delivery_app/src/repository/user_repository.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -310,7 +311,22 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                                             food: _con.featuredFoods.elementAt(index),
                                           ),onTap: (){
                                           //  scan();
-                                          Navigator.of(context).pushNamed('/Food', arguments: RouteArgument(id: _con.featuredFoods.elementAt(index).id, heroTag: 'home_food_carousel'));
+                                          if(_con.featuredFoods.elementAt(index).rede==1){
+                                            if(currentUser.value.totals=="null"){
+                                              showDialog(context: context, builder: (_) => showdd());
+
+                                            }else{
+                                              if(int.parse(currentUser.value.totals)>= int.parse(_con.featuredFoods.elementAt(index).smileb)){
+
+                                              }else{
+                                                showDialog(context: context, builder: (_) => showdd());
+                                              }
+                                            }
+
+                                          }else{
+                                            Navigator.of(context).pushNamed('/Food', arguments: RouteArgument(id: _con.featuredFoods.elementAt(index).id, heroTag: 'home_food_carousel'));
+
+                                          }
 
                                         },);
                                       },
@@ -349,5 +365,68 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                 ),
         ));
   }
+  Widget showdd() {
+    return AlertDialog(
+      // contentPadding: EdgeInsets.zero,
+      //insetPadding:  EdgeInsets.zero,
+      backgroundColor: Colors.transparent,
+      //actionsPadding:  EdgeInsets.zero,
+      //  buttonPadding:  EdgeInsets.zero,
+      //  titlePadding:  EdgeInsets.zero,
+      title: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20), color: Colors.white),
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+          child: Column(
+            children: [
 
+              Padding(
+                  padding: EdgeInsets.fromLTRB(15, 15, 15, 25),
+                  child: Text(
+                    S.of(context).sorry,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold),
+                  )),
+
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    alignment: Alignment.bottomLeft,
+                    decoration: BoxDecoration(
+                        border: Border(
+                            top: BorderSide(
+                                color: Colors.orange
+                                    .withOpacity(0.2),
+                                width: 1))),
+                    height: 60,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          alignment: Alignment.center,
+
+                          child: FlatButton(
+                              onPressed: () {},
+                              child: Text(S.of(context).yes,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.bold))),
+                        ),
+
+                      ],
+                    )),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

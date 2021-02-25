@@ -47,6 +47,8 @@ Future<Stream<Food>> getTrendingFoods(Address address) async {
 }
 
 Future<Stream<Food>> getFood(String foodId) async {
+
+
   Uri uri = Helper.getUri('api/foods/$foodId');
   uri = uri.replace(queryParameters: {'with': 'nutrition;restaurant;category;extras;extraGroups;foodReviews;foodReviews.user'});
   try {
@@ -243,8 +245,14 @@ Future<Stream<Food>> getTrendingFoodsOfRestaurant(String restaurantId) async {
 }
 
 Future<Stream<Food>> getFeaturedFoodsOfRestaurant(String restaurantId) async {
+  User _user = userRepo.currentUser.value;
+  if (_user.apiToken == null) {
+    return new Stream.value(null);
+  }
+  final String _apiToken = 'api_token=${_user.apiToken}&';
   Uri uri = Helper.getUri('api/foods');
   uri = uri.replace(queryParameters: {
+    'api_token':_apiToken,
     'with': 'category;extras;foodReviews',
     'search': 'restaurant_id:$restaurantId;featured:1',
     'searchFields': 'restaurant_id:=;featured:=',

@@ -346,6 +346,14 @@ class S {
       args: [],
     );
   }
+  String get buy {
+    return Intl.message(
+      'To Buy Back',
+      name: 'buy',
+      desc: '',
+      args: [],
+    );
+  }
 
   /// `Favorite vouchers`
   String get favorite_foods {
@@ -2022,6 +2030,14 @@ class S {
     return Intl.message(
       'All',
       name: 'all',
+      desc: '',
+      args: [],
+    );
+  }
+  String get sorry {
+    return Intl.message(
+      'Sorry, You do not have enough Smiles to buy back this voucher',
+      name: 'sorry',
       desc: '',
       args: [],
     );

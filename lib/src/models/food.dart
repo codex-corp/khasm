@@ -18,11 +18,12 @@ class Food {
   String description;
   String ingredients;
   String weight;
-  String isvalid;
+  int isvalid;
   bool isOpen = false;
-  bool isClosed=false;
+  bool isClosed = false;
   String msgUsag;
-  String unit,smileb,smileA;
+  String unit, smileb, smileA;
+  int  rede;
   String packageItemsCount;
   bool featured;
   bool deliverable;
@@ -39,19 +40,26 @@ class Food {
     try {
       id = jsonMap['id'].toString();
 
-      smileb= jsonMap['smiles_bonus'].toString();
-      smileA= jsonMap['smiles_amount'].toString();
+      smileb = jsonMap['smiles_bonus'].toString();
+      smileA = jsonMap['smiles_amount'].toString();
 
-      isvalid = jsonMap['is_valid'].toString();
+      isvalid = jsonMap['is_valid'];
       isOpen = jsonMap['is_open'];
       isClosed = jsonMap['is_closed'];
       msgUsag = jsonMap['usage_message'].toString();
+      rede = jsonMap['is_redmeed'];
 
       name = jsonMap['name'];
       price = jsonMap['price'] != null ? jsonMap['price'].toDouble() : 0.0;
-      discountPrice = jsonMap['discount_price'] != null ? jsonMap['discount_price'].toDouble() : 0.0;
+      discountPrice = jsonMap['discount_price'] != null
+          ? jsonMap['discount_price'].toDouble()
+          : 0.0;
       price = discountPrice != 0 ? discountPrice : price;
-      discountPrice = discountPrice == 0 ? discountPrice : jsonMap['price'] != null ? jsonMap['price'].toDouble() : 0.0;
+      discountPrice = discountPrice == 0
+          ? discountPrice
+          : jsonMap['price'] != null
+              ? jsonMap['price'].toDouble()
+              : 0.0;
       description = jsonMap['description'];
       ingredients = jsonMap['ingredients'];
       weight = jsonMap['weight'] != null ? jsonMap['weight'].toString() : '';
@@ -59,28 +67,51 @@ class Food {
       packageItemsCount = jsonMap['package_items_count'].toString();
       featured = jsonMap['featured'] ?? false;
       deliverable = jsonMap['deliverable'] ?? false;
-      restaurant = jsonMap['restaurant'] != null ? Restaurant.fromJSON(jsonMap['restaurant']) : Restaurant.fromJSON({});
-      category = jsonMap['category'] != null ? Category.fromJSON(jsonMap['category']) : Category.fromJSON({});
-      image = jsonMap['media'] != null && (jsonMap['media'] as List).length > 0 ? Media.fromJSON(jsonMap['media'][0]) : new Media();
-      extras = jsonMap['extras'] != null && (jsonMap['extras'] as List).length > 0
-          ? List.from(jsonMap['extras']).map((element) => Extra.fromJSON(element)).toSet().toList()
+      restaurant = jsonMap['restaurant'] != null
+          ? Restaurant.fromJSON(jsonMap['restaurant'])
+          : Restaurant.fromJSON({});
+      category = jsonMap['category'] != null
+          ? Category.fromJSON(jsonMap['category'])
+          : Category.fromJSON({});
+      image = jsonMap['media'] != null && (jsonMap['media'] as List).length > 0
+          ? Media.fromJSON(jsonMap['media'][0])
+          : new Media();
+      extras =
+          jsonMap['extras'] != null && (jsonMap['extras'] as List).length > 0
+              ? List.from(jsonMap['extras'])
+                  .map((element) => Extra.fromJSON(element))
+                  .toSet()
+                  .toList()
+              : [];
+      extraGroups = jsonMap['extra_groups'] != null &&
+              (jsonMap['extra_groups'] as List).length > 0
+          ? List.from(jsonMap['extra_groups'])
+              .map((element) => ExtraGroup.fromJSON(element))
+              .toSet()
+              .toList()
           : [];
-      extraGroups = jsonMap['extra_groups'] != null && (jsonMap['extra_groups'] as List).length > 0
-          ? List.from(jsonMap['extra_groups']).map((element) => ExtraGroup.fromJSON(element)).toSet().toList()
+      foodReviews = jsonMap['food_reviews'] != null &&
+              (jsonMap['food_reviews'] as List).length > 0
+          ? List.from(jsonMap['food_reviews'])
+              .map((element) => Review.fromJSON(element))
+              .toSet()
+              .toList()
           : [];
-      foodReviews = jsonMap['food_reviews'] != null && (jsonMap['food_reviews'] as List).length > 0
-          ? List.from(jsonMap['food_reviews']).map((element) => Review.fromJSON(element)).toSet().toList()
-          : [];
-      nutritions = jsonMap['nutrition'] != null && (jsonMap['nutrition'] as List).length > 0
-          ? List.from(jsonMap['nutrition']).map((element) => Nutrition.fromJSON(element)).toSet().toList()
+      nutritions = jsonMap['nutrition'] != null &&
+              (jsonMap['nutrition'] as List).length > 0
+          ? List.from(jsonMap['nutrition'])
+              .map((element) => Nutrition.fromJSON(element))
+              .toSet()
+              .toList()
           : [];
     } catch (e) {
       id = '';
       name = '';
+      isvalid=02;
       price = 0.0;
-      smileb='';
-      smileA='';
-
+      smileb = '';
+      smileA = '';
+      rede = 02;
       discountPrice = 0.0;
       description = '';
       weight = '';
