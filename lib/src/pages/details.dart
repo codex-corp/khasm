@@ -311,6 +311,7 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                                             food: _con.featuredFoods.elementAt(index),
                                           ),onTap: (){
                                           //  scan();
+                                          print(_con.featuredFoods.elementAt(index).toString());
                                           if(_con.featuredFoods.elementAt(index).rede==1){
                                             if(currentUser.value.totals=="null"){
                                               showDialog(context: context, builder: (_) => showdd());

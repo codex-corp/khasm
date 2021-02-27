@@ -252,7 +252,7 @@ Future<Stream<Food>> getFeaturedFoodsOfRestaurant(String restaurantId) async {
   final String _apiToken = 'api_token=${_user.apiToken}&';
   Uri uri = Helper.getUri('api/foods');
   uri = uri.replace(queryParameters: {
-    'api_token':_apiToken,
+    'api_token':_user.apiToken,
     'with': 'category;extras;foodReviews',
     'search': 'restaurant_id:$restaurantId;featured:1',
     'searchFields': 'restaurant_id:=;featured:=',
