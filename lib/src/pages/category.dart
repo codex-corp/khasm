@@ -163,7 +163,10 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                           child: Text(
                             S.of(context).nodata,
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, color: Colors.red,fontSize: 20,fontStyle: FontStyle.italic),
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red,
+                                fontSize: 20,
+                                fontStyle: FontStyle.italic),
                           ),
                         )
                   : Offstage(
@@ -180,13 +183,14 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                           return FoodListItemWidget(
                             heroTag: 'favorites_list',
                             food: _con.foods.elementAt(index),
+                            catId: widget.routeArgument.id,
                           );
                         },
                       ),
                     ),
               _con.foods.isEmpty
-                      ? CircularLoadingWidget(height: 500)
-                      : Offstage(
+                  ? CircularLoadingWidget(height: 500)
+                  : Offstage(
                       offstage: this.layout != 'grid',
                       child: GridView.count(
                         scrollDirection: Axis.vertical,
@@ -204,35 +208,36 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                         // Generate 100 widgets that display their index in the List.
                         children: List.generate(_con.foods.length, (index) {
                           return FoodGridItemWidget(
-                              heroTag: 'category_grid',
-                              food: _con.foods.elementAt(index),
-                              onPressed: () {
-                                if (currentUser.value.apiToken == null) {
-                                  Navigator.of(context).pushNamed('/Login');
+                            heroTag: 'category_grid',
+                            food: _con.foods.elementAt(index),
+                            onPressed: () {
+                              if (currentUser.value.apiToken == null) {
+                                Navigator.of(context).pushNamed('/Login');
+                              } else {
+                                if (_con.isSameRestaurants(
+                                    _con.foods.elementAt(index))) {
+                                  _con.addToCart(_con.foods.elementAt(index));
                                 } else {
-                                  if (_con.isSameRestaurants(
-                                      _con.foods.elementAt(index))) {
-                                    _con.addToCart(_con.foods.elementAt(index));
-                                  } else {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        // return object of type Dialog
-                                        return AddToCartAlertDialogWidget(
-                                            oldFood:
-                                                _con.carts.elementAt(0)?.food,
-                                            newFood:
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      // return object of type Dialog
+                                      return AddToCartAlertDialogWidget(
+                                          oldFood:
+                                              _con.carts.elementAt(0)?.food,
+                                          newFood: _con.foods.elementAt(index),
+                                          onPressed: (food, {reset: true}) {
+                                            return _con.addToCart(
                                                 _con.foods.elementAt(index),
-                                            onPressed: (food, {reset: true}) {
-                                              return _con.addToCart(
-                                                  _con.foods.elementAt(index),
-                                                  reset: true);
-                                            });
-                                      },
-                                    );
-                                  }
+                                                reset: true);
+                                          });
+                                    },
+                                  );
                                 }
-                              });
+                              }
+                            },
+                            catId: widget.routeArgument.id,
+                          );
                         }),
                       ),
                     )

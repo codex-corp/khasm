@@ -50,12 +50,14 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
   _FoodWidgetState() : super(FoodController()) {
     _con = controller;
   }
+
   String userId;
+
   getValueString() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     userId = prefs.getString('userId');
-
   }
+
   @override
   void initState() {
     getValueString();
@@ -63,353 +65,365 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
     _con.listenForFood(foodId: widget.routeArgument.id);
     _con.listenForCart();
     _con.listenForFavorite(foodId: widget.routeArgument.id);
-    _conR=new ReviewsController();
+    _conR = new ReviewsController();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _con.scaffoldKey,
-      body: _con.food == null || _con.food?.image == null
-          ? CircularLoadingWidget(height: 500)
-          : RefreshIndicator(
-        onRefresh: _con.refreshFood,
-        child: _con.food.isClosed == false
-            ? Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(bottom: 125),
-              padding: EdgeInsets.only(bottom: 15),
-              child: CustomScrollView(
-                primary: true,
-                shrinkWrap: false,
-                slivers: <Widget>[
-                  SliverAppBar(
-                    backgroundColor: Theme.of(context)
-                        .accentColor
-                        .withOpacity(0.9),
-                    expandedHeight: 300,
-                    elevation: 0,
-                    iconTheme: IconThemeData(
-                        color: Theme.of(context).primaryColor),
-                    flexibleSpace: FlexibleSpaceBar(
-                      collapseMode: CollapseMode.parallax,
-                      background: Hero(
-                        tag: widget.routeArgument.heroTag ??
-                            '' + _con.food.id,
-                        child: CachedNetworkImage(
-                          fit: BoxFit.cover,
-                          imageUrl: _con.food.image.url,
-                          placeholder: (context, url) =>
-                              Image.asset(
-                                'assets/img/loading.gif',
-                                fit: BoxFit.cover,
-                              ),
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 15),
-                      child: Wrap(
-                        runSpacing: 8,
-                        children: [
-                          Row(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Expanded(
-                                flex: 3,
-                                child: Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      _con.food?.name ?? '',
-                                      overflow:
-                                      TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline3,
-                                    ),
-                                    Text(
-                                      _con.food?.restaurant?.name ??
-                                          '',
-                                      overflow:
-                                      TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.end,
-                                  children: <Widget>[
-                                    Helper.getPrice(
-                                      _con.food.price,
-                                      context,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline2,
-                                    ),
-                                    _con.food.discountPrice > 0
-                                        ? Helper.getPrice(
-                                        _con.food.discountPrice,
-                                        context,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2
-                                            .merge(TextStyle(
-                                            decoration:
-                                            TextDecoration
-                                                .lineThrough)))
-                                        : SizedBox(height: 0),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          Divider(height: 20),
-                          Helper.applyHtml(
-                              context, _con.food.description,
-                              style: TextStyle(fontSize: 12)),
-                          ListTile(
-                            dense: true,
-                            contentPadding:
-                            EdgeInsets.symmetric(vertical: 10),
-                            leading: Icon(
-                              Icons.add_circle,
-                              color: Theme.of(context).hintColor,
-                            ),
-                            title: Text(
-                              S.of(context).extras,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle1,
-                            ),
-                            subtitle: Text(
-                              S
-                                  .of(context)
-                                  .select_extras_to_add_them_on_the_food,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .caption,
-                            ),
-                          ),
-                          _con.food.extraGroups == null
-                              ? CircularLoadingWidget(height: 100)
-                              : ListView.separated(
-                            padding: EdgeInsets.all(0),
-                            itemBuilder:
-                                (context, extraGroupIndex) {
-                              var extraGroup = _con
-                                  .food.extraGroups
-                                  .elementAt(extraGroupIndex);
-                              return Wrap(
-                                children: <Widget>[
-                                  ListTile(
-                                    dense: true,
-                                    contentPadding:
-                                    EdgeInsets.symmetric(
-                                        vertical: 0),
-                                    leading: Icon(
-                                      Icons
-                                          .add_circle_outline,
-                                      color: Theme.of(context)
-                                          .hintColor,
-                                    ),
-                                    title: Text(
-                                      extraGroup.name,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .subtitle1,
-                                    ),
-                                  ),
-                                  ListView.separated(
-                                    padding:
-                                    EdgeInsets.all(0),
-                                    itemBuilder: (context,
-                                        extraIndex) {
-                                      return ExtraItemWidget(
-                                        extra: _con
-                                            .food.extras
-                                            .where((extra) =>
-                                        extra
-                                            .extraGroupId ==
-                                            extraGroup.id)
-                                            .elementAt(
-                                            extraIndex),
-                                        onChanged: _con
-                                            .calculateTotal,
-                                      );
-                                    },
-                                    separatorBuilder:
-                                        (context, index) {
-                                      return SizedBox(
-                                          height: 20);
-                                    },
-                                    itemCount: _con
-                                        .food.extras
-                                        .where((extra) =>
-                                    extra
-                                        .extraGroupId ==
-                                        extraGroup.id)
-                                        .length,
-                                    primary: false,
-                                    shrinkWrap: true,
-                                  ),
-                                ],
-                              );
-                            },
-                            separatorBuilder:
-                                (context, index) {
-                              return SizedBox(height: 20);
-                            },
-                            itemCount:
-                            _con.food.extraGroups.length,
-                            primary: false,
-                            shrinkWrap: true,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              child: Container(
-                height: 100,
-                padding: EdgeInsets.symmetric(
-                    horizontal: 20, vertical: 8),
-                decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20),
-                        topLeft: Radius.circular(20)),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Theme.of(context)
-                              .focusColor
-                              .withOpacity(0.15),
-                          offset: Offset(0, -2),
-                          blurRadius: 5.0)
-                    ]),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width - 40,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      SizedBox(height: 10),
-                      Row(
+    return WillPopScope(
+      child: Scaffold(
+        key: _con.scaffoldKey,
+        body: _con.food == null || _con.food?.image == null
+            ? CircularLoadingWidget(height: 500)
+            : RefreshIndicator(
+                onRefresh: _con.refreshFood,
+                child: _con.food.isClosed == false
+                    ? Stack(
+                        fit: StackFit.expand,
                         children: <Widget>[
-                          Expanded(
-                            child: _con.favorite?.id != null
-                                ? OutlineButton(
-                                onPressed: () {
-                                  _con.removeFromFavorite(
-                                      _con.favorite);
-                                },
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 14),
-                                color: Theme.of(context)
-                                    .primaryColor,
-                                shape: StadiumBorder(),
-                                borderSide: BorderSide(
-                                    color: Theme.of(context)
-                                        .accentColor),
-                                child: Icon(
-                                  Icons.favorite,
-                                  color: Theme.of(context)
-                                      .accentColor,
-                                ))
-                                : FlatButton(
-                                onPressed: () {
-                                  if (currentUser
-                                      .value.apiToken ==
-                                      null) {
-                                    Navigator.of(context)
-                                        .pushNamed("/Login");
-                                  } else {
-                                    _con.addToFavorite(
-                                        _con.food);
-                                  }
-                                },
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 14),
-                                color: Theme.of(context)
-                                    .accentColor,
-                                shape: StadiumBorder(),
-                                child: Icon(
-                                  Icons.favorite,
-                                  color: Theme.of(context)
-                                      .primaryColor,
-                                )),
-                          ),
-                          SizedBox(width: 10),
-                          Stack(
-                            fit: StackFit.loose,
-                            alignment:
-                            AlignmentDirectional.centerEnd,
-                            children: <Widget>[
-                              SizedBox(
-                                width: MediaQuery.of(context)
-                                    .size
-                                    .width -
-                                    190,
-                                child: FlatButton(
-                                  onPressed: () {},
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 14),
-                                  color: Theme.of(context)
-                                      .backgroundColor,
-                                  shape: StadiumBorder(),
-                                  child: Container(
-                                    width: double.infinity,
-                                    padding:
-                                    const EdgeInsets.symmetric(
-                                        horizontal: 20),
-                                    child: Text(
-                                      'Purchase',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .primaryColor),
+                          Container(
+                            margin: EdgeInsets.only(bottom: 125),
+                            padding: EdgeInsets.only(bottom: 15),
+                            child: CustomScrollView(
+                              primary: true,
+                              shrinkWrap: false,
+                              slivers: <Widget>[
+                                SliverAppBar(
+                                  backgroundColor: Theme.of(context)
+                                      .accentColor
+                                      .withOpacity(0.9),
+                                  expandedHeight: 300,
+                                  elevation: 0,
+                                  iconTheme: IconThemeData(
+                                      color: Theme.of(context).primaryColor),
+                                  flexibleSpace: FlexibleSpaceBar(
+                                    collapseMode: CollapseMode.parallax,
+                                    background: Hero(
+                                      tag: widget.routeArgument.heroTag ??
+                                          '' + _con.food.id,
+                                      child: CachedNetworkImage(
+                                        fit: BoxFit.cover,
+                                        imageUrl: _con.food.image.url,
+                                        placeholder: (context, url) =>
+                                            Image.asset(
+                                          'assets/img/loading.gif',
+                                          fit: BoxFit.cover,
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                                SliverToBoxAdapter(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 15),
+                                    child: Wrap(
+                                      runSpacing: 8,
+                                      children: [
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Expanded(
+                                              flex: 3,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    _con.food?.name ?? '',
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 2,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline3,
+                                                  ),
+                                                  Text(
+                                                    _con.food?.restaurant
+                                                            ?.name ??
+                                                        '',
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 2,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText2,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: <Widget>[
+                                                  Helper.getPrice(
+                                                    _con.food.price,
+                                                    context,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline2,
+                                                  ),
+                                                  _con.food.discountPrice > 0
+                                                      ? Helper.getPrice(
+                                                          _con.food
+                                                              .discountPrice,
+                                                          context,
+                                                          style: Theme.of(
+                                                                  context)
+                                                              .textTheme
+                                                              .bodyText2
+                                                              .merge(TextStyle(
+                                                                  decoration:
+                                                                      TextDecoration
+                                                                          .lineThrough)))
+                                                      : SizedBox(height: 0),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Divider(height: 20),
+                                        Helper.applyHtml(
+                                            context, _con.food.description,
+                                            style: TextStyle(fontSize: 12)),
+                                        ListTile(
+                                          dense: true,
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 10),
+                                          leading: Icon(
+                                            Icons.add_circle,
+                                            color: Theme.of(context).hintColor,
+                                          ),
+                                          title: Text(
+                                            S.of(context).extras,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .subtitle1,
+                                          ),
+                                          subtitle: Text(
+                                            S
+                                                .of(context)
+                                                .select_extras_to_add_them_on_the_food,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .caption,
+                                          ),
+                                        ),
+                                        _con.food.extraGroups == null
+                                            ? CircularLoadingWidget(height: 100)
+                                            : ListView.separated(
+                                                padding: EdgeInsets.all(0),
+                                                itemBuilder:
+                                                    (context, extraGroupIndex) {
+                                                  var extraGroup = _con
+                                                      .food.extraGroups
+                                                      .elementAt(
+                                                          extraGroupIndex);
+                                                  return Wrap(
+                                                    children: <Widget>[
+                                                      ListTile(
+                                                        dense: true,
+                                                        contentPadding:
+                                                            EdgeInsets
+                                                                .symmetric(
+                                                                    vertical:
+                                                                        0),
+                                                        leading: Icon(
+                                                          Icons
+                                                              .add_circle_outline,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .hintColor,
+                                                        ),
+                                                        title: Text(
+                                                          extraGroup.name,
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .subtitle1,
+                                                        ),
+                                                      ),
+                                                      ListView.separated(
+                                                        padding:
+                                                            EdgeInsets.all(0),
+                                                        itemBuilder: (context,
+                                                            extraIndex) {
+                                                          return ExtraItemWidget(
+                                                            extra: _con
+                                                                .food.extras
+                                                                .where((extra) =>
+                                                                    extra
+                                                                        .extraGroupId ==
+                                                                    extraGroup
+                                                                        .id)
+                                                                .elementAt(
+                                                                    extraIndex),
+                                                            onChanged: _con
+                                                                .calculateTotal,
+                                                          );
+                                                        },
+                                                        separatorBuilder:
+                                                            (context, index) {
+                                                          return SizedBox(
+                                                              height: 20);
+                                                        },
+                                                        itemCount: _con
+                                                            .food.extras
+                                                            .where((extra) =>
+                                                                extra
+                                                                    .extraGroupId ==
+                                                                extraGroup.id)
+                                                            .length,
+                                                        primary: false,
+                                                        shrinkWrap: true,
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                                separatorBuilder:
+                                                    (context, index) {
+                                                  return SizedBox(height: 20);
+                                                },
+                                                itemCount: _con
+                                                    .food.extraGroups.length,
+                                                primary: false,
+                                                shrinkWrap: true,
+                                              ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                          SizedBox(width: 10),
-                          Expanded(
-                            child: FlatButton(
-                                onPressed: () {
-                                    if (currentUser
-                                        .value.apiToken ==
-                                        null) {
-                                      Navigator.of(context)
-                                          .pushNamed("/Login");
-                                    } else {
-                                      _settingModalBottomSheet(context,_con.food.id,_con.food.restaurant.id);
-
-                                    }
-                                     /* Navigator.of(context)
+                          Positioned(
+                            bottom: 0,
+                            child: Container(
+                              height: 100,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 8),
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).primaryColor,
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(20),
+                                      topLeft: Radius.circular(20)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Theme.of(context)
+                                            .focusColor
+                                            .withOpacity(0.15),
+                                        offset: Offset(0, -2),
+                                        blurRadius: 5.0)
+                                  ]),
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width - 40,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    SizedBox(height: 10),
+                                    Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: _con.favorite?.id != null
+                                              ? OutlineButton(
+                                                  onPressed: () {
+                                                    _con.removeFromFavorite(
+                                                        _con.favorite);
+                                                  },
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 14),
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                  shape: StadiumBorder(),
+                                                  borderSide: BorderSide(
+                                                      color: Theme.of(context)
+                                                          .accentColor),
+                                                  child: Icon(
+                                                    Icons.favorite,
+                                                    color: Theme.of(context)
+                                                        .accentColor,
+                                                  ))
+                                              : FlatButton(
+                                                  onPressed: () {
+                                                    if (currentUser
+                                                            .value.apiToken ==
+                                                        null) {
+                                                      Navigator.of(context)
+                                                          .pushNamed("/Login");
+                                                    } else {
+                                                      _con.addToFavorite(
+                                                          _con.food);
+                                                    }
+                                                  },
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 14),
+                                                  color: Theme.of(context)
+                                                      .accentColor,
+                                                  shape: StadiumBorder(),
+                                                  child: Icon(
+                                                    Icons.favorite,
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
+                                                  )),
+                                        ),
+                                        SizedBox(width: 10),
+                                        Stack(
+                                          fit: StackFit.loose,
+                                          alignment:
+                                              AlignmentDirectional.centerEnd,
+                                          children: <Widget>[
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  190,
+                                              child: FlatButton(
+                                                onPressed: () {},
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 14),
+                                                color: Theme.of(context)
+                                                    .backgroundColor,
+                                                shape: StadiumBorder(),
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 20),
+                                                  child: Text(
+                                                    'Purchase',
+                                                    textAlign: TextAlign.start,
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColor),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(width: 10),
+                                        Expanded(
+                                          child: FlatButton(
+                                              onPressed: () {
+                                                if (currentUser
+                                                        .value.apiToken ==
+                                                    null) {
+                                                  Navigator.of(context)
+                                                      .pushNamed("/Login");
+                                                } else {
+                                                  _settingModalBottomSheet(
+                                                      context,
+                                                      _con.food.id,
+                                                      _con.food.restaurant.id);
+                                                }
+                                                /* Navigator.of(context)
                                           .push(new MaterialPageRoute<
                                           String>(
                                           builder: (context) =>
@@ -440,393 +454,404 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                                     }
                                       });
                                     }*/
-
-                                },
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 14),
-                                color:
-                                Theme.of(context).accentColor,
-                                shape: StadiumBorder(),
-                                child: Icon(
-                                  Icons.camera,
-                                  color: Theme.of(context)
-                                      .primaryColor,
-                                )),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                    ],
-                  ),
-                ),
-              ),
-            )
-          ],
-        )
-            : Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(bottom: 125),
-              padding: EdgeInsets.only(bottom: 15),
-              child: CustomScrollView(
-                primary: true,
-                shrinkWrap: false,
-                slivers: <Widget>[
-                  SliverAppBar(
-                    backgroundColor: Theme.of(context)
-                        .accentColor
-                        .withOpacity(0.9),
-                    expandedHeight: 300,
-                    elevation: 0,
-                    iconTheme: IconThemeData(
-                        color: Theme.of(context).primaryColor),
-                    flexibleSpace: FlexibleSpaceBar(
-                      collapseMode: CollapseMode.parallax,
-                      background: Hero(
-                        tag: widget.routeArgument.heroTag ??
-                            '' + _con.food.id,
-                        child: CachedNetworkImage(
-                          fit: BoxFit.cover,
-                          imageUrl: _con.food.image.url,
-                          placeholder: (context, url) =>
-                              Image.asset(
-                                'assets/img/loading.gif',
-                                fit: BoxFit.cover,
+                                              },
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 14),
+                                              color:
+                                                  Theme.of(context).accentColor,
+                                              shape: StadiumBorder(),
+                                              child: Icon(
+                                                Icons.camera,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                              )),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 10),
+                                  ],
+                                ),
                               ),
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-
-                    child: Column(
-                      children: [
-                        Container(
-                          width:
-                          MediaQuery.of(context).size.width,
-                          height: 50,
-                          child: Padding(child: Text(
-                            _con.food.msgUsag,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,color: Colors.white),
-                          ),padding: EdgeInsets.all(10),),
-                          color: Colors.red,
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 15),child:  Wrap(
-                          runSpacing: 8,
-                          children: [
-                            Row(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Expanded(
-                                  flex: 3,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment
-                                        .start,
-                                    children: <Widget>[
-                                      Text(
-                                        _con.food?.name ?? '',
-                                        overflow: TextOverflow
-                                            .ellipsis,
-                                        maxLines: 2,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline3,
+                            ),
+                          )
+                        ],
+                      )
+                    : Stack(
+                        fit: StackFit.expand,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(bottom: 125),
+                            padding: EdgeInsets.only(bottom: 15),
+                            child: CustomScrollView(
+                              primary: true,
+                              shrinkWrap: false,
+                              slivers: <Widget>[
+                                SliverAppBar(
+                                  backgroundColor: Theme.of(context)
+                                      .accentColor
+                                      .withOpacity(0.9),
+                                  expandedHeight: 300,
+                                  elevation: 0,
+                                  iconTheme: IconThemeData(
+                                      color: Theme.of(context).primaryColor),
+                                  flexibleSpace: FlexibleSpaceBar(
+                                    collapseMode: CollapseMode.parallax,
+                                    background: Hero(
+                                      tag: widget.routeArgument.heroTag ??
+                                          '' + _con.food.id,
+                                      child: CachedNetworkImage(
+                                        fit: BoxFit.cover,
+                                        imageUrl: _con.food.image.url,
+                                        placeholder: (context, url) =>
+                                            Image.asset(
+                                          'assets/img/loading.gif',
+                                          fit: BoxFit.cover,
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
                                       ),
-                                      Text(
-                                        _con.food?.restaurant
-                                            ?.name ??
-                                            '',
-                                        overflow: TextOverflow
-                                            .ellipsis,
-                                        maxLines: 2,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2,
-                                      ),
-                                    ],
+                                    ),
                                   ),
                                 ),
-                                Expanded(
-                                  flex: 1,
+                                SliverToBoxAdapter(
                                   child: Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.end,
-                                    children: <Widget>[
-                                      Helper.getPrice(
-                                        _con.food.price,
-                                        context,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline2,
+                                    children: [
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height: 50,
+                                        child: Padding(
+                                          child: Text(
+                                            _con.food.msgUsag,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white),
+                                          ),
+                                          padding: EdgeInsets.all(10),
+                                        ),
+                                        color: Colors.red,
                                       ),
-                                      _con.food.discountPrice >
-                                          0
-                                          ? Helper.getPrice(
-                                          _con.food
-                                              .discountPrice,
-                                          context,
-                                          style: Theme.of(
-                                              context)
-                                              .textTheme
-                                              .bodyText2
-                                              .merge(TextStyle(
-                                              decoration:
-                                              TextDecoration
-                                                  .lineThrough)))
-                                          : SizedBox(height: 0),
+                                      Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20, vertical: 15),
+                                          child: Wrap(
+                                            runSpacing: 8,
+                                            children: [
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Expanded(
+                                                    flex: 3,
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          _con.food?.name ?? '',
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 2,
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .headline3,
+                                                        ),
+                                                        Text(
+                                                          _con.food?.restaurant
+                                                                  ?.name ??
+                                                              '',
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 2,
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyText2,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .end,
+                                                      children: <Widget>[
+                                                        Helper.getPrice(
+                                                          _con.food.price,
+                                                          context,
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .headline2,
+                                                        ),
+                                                        _con.food.discountPrice >
+                                                                0
+                                                            ? Helper.getPrice(
+                                                                _con.food
+                                                                    .discountPrice,
+                                                                context,
+                                                                style: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .bodyText2
+                                                                    .merge(TextStyle(
+                                                                        decoration:
+                                                                            TextDecoration
+                                                                                .lineThrough)))
+                                                            : SizedBox(
+                                                                height: 0),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Divider(height: 20),
+                                              Helper.applyHtml(context,
+                                                  _con.food.description,
+                                                  style:
+                                                      TextStyle(fontSize: 12)),
+                                              ListTile(
+                                                dense: true,
+                                                contentPadding:
+                                                    EdgeInsets.symmetric(
+                                                        vertical: 10),
+                                                leading: Icon(
+                                                  Icons.add_circle,
+                                                  color: Theme.of(context)
+                                                      .hintColor,
+                                                ),
+                                                title: Text(
+                                                  S.of(context).extras,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .subtitle1,
+                                                ),
+                                                subtitle: Text(
+                                                  S
+                                                      .of(context)
+                                                      .select_extras_to_add_them_on_the_food,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .caption,
+                                                ),
+                                              ),
+                                              _con.food.extraGroups == null
+                                                  ? CircularLoadingWidget(
+                                                      height: 100)
+                                                  : ListView.separated(
+                                                      padding:
+                                                          EdgeInsets.all(0),
+                                                      itemBuilder: (context,
+                                                          extraGroupIndex) {
+                                                        var extraGroup = _con
+                                                            .food.extraGroups
+                                                            .elementAt(
+                                                                extraGroupIndex);
+                                                        return Wrap(
+                                                          children: <Widget>[
+                                                            ListTile(
+                                                              dense: true,
+                                                              contentPadding:
+                                                                  EdgeInsets
+                                                                      .symmetric(
+                                                                          vertical:
+                                                                              0),
+                                                              leading: Icon(
+                                                                Icons
+                                                                    .add_circle_outline,
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .hintColor,
+                                                              ),
+                                                              title: Text(
+                                                                extraGroup.name,
+                                                                style: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .subtitle1,
+                                                              ),
+                                                            ),
+                                                            ListView.separated(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(0),
+                                                              itemBuilder:
+                                                                  (context,
+                                                                      extraIndex) {
+                                                                return ExtraItemWidget(
+                                                                  extra: _con
+                                                                      .food
+                                                                      .extras
+                                                                      .where((extra) =>
+                                                                          extra
+                                                                              .extraGroupId ==
+                                                                          extraGroup
+                                                                              .id)
+                                                                      .elementAt(
+                                                                          extraIndex),
+                                                                  onChanged: _con
+                                                                      .calculateTotal,
+                                                                );
+                                                              },
+                                                              separatorBuilder:
+                                                                  (context,
+                                                                      index) {
+                                                                return SizedBox(
+                                                                    height: 20);
+                                                              },
+                                                              itemCount: _con
+                                                                  .food.extras
+                                                                  .where((extra) =>
+                                                                      extra
+                                                                          .extraGroupId ==
+                                                                      extraGroup
+                                                                          .id)
+                                                                  .length,
+                                                              primary: false,
+                                                              shrinkWrap: true,
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                      separatorBuilder:
+                                                          (context, index) {
+                                                        return SizedBox(
+                                                            height: 20);
+                                                      },
+                                                      itemCount: _con.food
+                                                          .extraGroups.length,
+                                                      primary: false,
+                                                      shrinkWrap: true,
+                                                    ),
+                                            ],
+                                          )),
                                     ],
                                   ),
                                 ),
                               ],
                             ),
-                            Divider(height: 20),
-                            Helper.applyHtml(
-                                context, _con.food.description,
-                                style: TextStyle(fontSize: 12)),
-                            ListTile(
-                              dense: true,
-                              contentPadding:
-                              EdgeInsets.symmetric(
-                                  vertical: 10),
-                              leading: Icon(
-                                Icons.add_circle,
-                                color:
-                                Theme.of(context).hintColor,
-                              ),
-                              title: Text(
-                                S.of(context).extras,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle1,
-                              ),
-                              subtitle: Text(
-                                S
-                                    .of(context)
-                                    .select_extras_to_add_them_on_the_food,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .caption,
-                              ),
-                            ),
-                            _con.food.extraGroups == null
-                                ? CircularLoadingWidget(
-                                height: 100)
-                                : ListView.separated(
-                              padding: EdgeInsets.all(0),
-                              itemBuilder: (context,
-                                  extraGroupIndex) {
-                                var extraGroup = _con
-                                    .food.extraGroups
-                                    .elementAt(
-                                    extraGroupIndex);
-                                return Wrap(
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            child: Container(
+                              height: 100,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 8),
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).primaryColor,
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(20),
+                                      topLeft: Radius.circular(20)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Theme.of(context)
+                                            .focusColor
+                                            .withOpacity(0.15),
+                                        offset: Offset(0, -2),
+                                        blurRadius: 5.0)
+                                  ]),
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width - 40,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.max,
                                   children: <Widget>[
-                                    ListTile(
-                                      dense: true,
-                                      contentPadding:
-                                      EdgeInsets
-                                          .symmetric(
-                                          vertical:
-                                          0),
-                                      leading: Icon(
-                                        Icons
-                                            .add_circle_outline,
-                                        color: Theme.of(
-                                            context)
-                                            .hintColor,
-                                      ),
-                                      title: Text(
-                                        extraGroup.name,
-                                        style: Theme.of(
-                                            context)
-                                            .textTheme
-                                            .subtitle1,
-                                      ),
-                                    ),
-                                    ListView.separated(
-                                      padding:
-                                      EdgeInsets.all(
-                                          0),
-                                      itemBuilder:
-                                          (context,
-                                          extraIndex) {
-                                        return ExtraItemWidget(
-                                          extra: _con
-                                              .food.extras
-                                              .where((extra) =>
-                                          extra
-                                              .extraGroupId ==
-                                              extraGroup
-                                                  .id)
-                                              .elementAt(
-                                              extraIndex),
-                                          onChanged: _con
-                                              .calculateTotal,
-                                        );
-                                      },
-                                      separatorBuilder:
-                                          (context,
-                                          index) {
-                                        return SizedBox(
-                                            height: 20);
-                                      },
-                                      itemCount: _con
-                                          .food.extras
-                                          .where((extra) =>
-                                      extra
-                                          .extraGroupId ==
-                                          extraGroup
-                                              .id)
-                                          .length,
-                                      primary: false,
-                                      shrinkWrap: true,
-                                    ),
-                                  ],
-                                );
-                              },
-                              separatorBuilder:
-                                  (context, index) {
-                                return SizedBox(
-                                    height: 20);
-                              },
-                              itemCount: _con.food
-                                  .extraGroups.length,
-                              primary: false,
-                              shrinkWrap: true,
-                            ),
-                          ],
-                        )),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              child: Container(
-                height: 100,
-                padding: EdgeInsets.symmetric(
-                    horizontal: 20, vertical: 8),
-                decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20),
-                        topLeft: Radius.circular(20)),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Theme.of(context)
-                              .focusColor
-                              .withOpacity(0.15),
-                          offset: Offset(0, -2),
-                          blurRadius: 5.0)
-                    ]),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width - 40,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      SizedBox(height: 10),
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: _con.favorite?.id != null
-                                ? OutlineButton(
-                                onPressed: () {
-                                  _con.removeFromFavorite(
-                                      _con.favorite);
-                                },
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 14),
-                                color: Theme.of(context)
-                                    .primaryColor,
-                                shape: StadiumBorder(),
-                                borderSide: BorderSide(
-                                    color: Theme.of(context)
-                                        .accentColor),
-                                child: Icon(
-                                  Icons.favorite,
-                                  color: Theme.of(context)
-                                      .accentColor,
-                                ))
-                                : FlatButton(
-                                onPressed: () {
-                                  if (currentUser
-                                      .value.apiToken ==
-                                      null) {
-                                    Navigator.of(context)
-                                        .pushNamed("/Login");
-                                  } else {
-                                    _con.addToFavorite(
-                                        _con.food);
-                                  }
-                                },
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 14),
-                                color: Theme.of(context)
-                                    .accentColor,
-                                shape: StadiumBorder(),
-                                child: Icon(
-                                  Icons.favorite,
-                                  color: Theme.of(context)
-                                      .primaryColor,
-                                )),
-                          ),
-                          SizedBox(width: 10),
-                          Stack(
-                            fit: StackFit.loose,
-                            alignment:
-                            AlignmentDirectional.centerEnd,
-                            children: <Widget>[
-                              SizedBox(
-                                width: MediaQuery.of(context)
-                                    .size
-                                    .width -
-                                    190,
-                                child: FlatButton(
-                                  onPressed: () {},
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 14),
-                                  color: Theme.of(context)
-                                      .backgroundColor,
-                                  shape: StadiumBorder(),
-                                  child: Container(
-                                    width: double.infinity,
-                                    padding:
-                                    const EdgeInsets.symmetric(
-                                        horizontal: 20),
-                                    child: Text(
-                                      'Purchase',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .primaryColor),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(width: 10),
-                          Expanded(
-                            child: FlatButton(
-                                onPressed: () {
-                                  if (currentUser
-                                      .value.apiToken ==
-                                      null) {
-                                    Navigator.of(context)
-                                        .pushNamed("/Login");
-                                  } else {
-                                    /* Navigator.of(context)
+                                    SizedBox(height: 10),
+                                    Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: _con.favorite?.id != null
+                                              ? OutlineButton(
+                                                  onPressed: () {
+                                                    _con.removeFromFavorite(
+                                                        _con.favorite);
+                                                  },
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 14),
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                  shape: StadiumBorder(),
+                                                  borderSide: BorderSide(
+                                                      color: Theme.of(context)
+                                                          .accentColor),
+                                                  child: Icon(
+                                                    Icons.favorite,
+                                                    color: Theme.of(context)
+                                                        .accentColor,
+                                                  ))
+                                              : FlatButton(
+                                                  onPressed: () {
+                                                    if (currentUser
+                                                            .value.apiToken ==
+                                                        null) {
+                                                      Navigator.of(context)
+                                                          .pushNamed("/Login");
+                                                    } else {
+                                                      _con.addToFavorite(
+                                                          _con.food);
+                                                    }
+                                                  },
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 14),
+                                                  color: Theme.of(context)
+                                                      .accentColor,
+                                                  shape: StadiumBorder(),
+                                                  child: Icon(
+                                                    Icons.favorite,
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
+                                                  )),
+                                        ),
+                                        SizedBox(width: 10),
+                                        Stack(
+                                          fit: StackFit.loose,
+                                          alignment:
+                                              AlignmentDirectional.centerEnd,
+                                          children: <Widget>[
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  190,
+                                              child: FlatButton(
+                                                onPressed: () {},
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 14),
+                                                color: Theme.of(context)
+                                                    .backgroundColor,
+                                                shape: StadiumBorder(),
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 20),
+                                                  child: Text(
+                                                    'Purchase',
+                                                    textAlign: TextAlign.start,
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColor),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(width: 10),
+                                        Expanded(
+                                          child: FlatButton(
+                                              onPressed: () {
+                                                if (currentUser
+                                                        .value.apiToken ==
+                                                    null) {
+                                                  Navigator.of(context)
+                                                      .pushNamed("/Login");
+                                                } else {
+                                                  /* Navigator.of(context)
                                         .push(new MaterialPageRoute<
                                         String>(
                                         builder: (context) =>
@@ -856,73 +881,81 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                                     });
                                   }
 */
-                                    _settingModalBottomSheet(context,_con.food.id,_con.food.restaurant.id);
-                                  }},
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 14),
-                                color:
-                                Theme.of(context).accentColor,
-                                shape: StadiumBorder(),
-                                child: Icon(
-                                  Icons.camera,
-                                  color: Theme.of(context)
-                                      .primaryColor,
-                                )),
-                          ),
+                                                  _settingModalBottomSheet(
+                                                      context,
+                                                      _con.food.id,
+                                                      _con.food.restaurant.id);
+                                                }
+                                              },
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 14),
+                                              color:
+                                                  Theme.of(context).accentColor,
+                                              shape: StadiumBorder(),
+                                              child: Icon(
+                                                Icons.camera,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                              )),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 10),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
                         ],
                       ),
-                      SizedBox(height: 10),
-                    ],
-                  ),
-                ),
               ),
-            )
-          ],
-        ),
       ),
+      onWillPop: () {
+        Navigator.of(context).pushReplacementNamed('/Details',
+            arguments: RouteArgument(
+                id: widget.routeArgument.param,
+                heroTag: widget.routeArgument.heroTag));
+
+        /*    Navigator.of(context).pushNamed('/Details',
+          arguments: RouteArgument(
+            id: widget.routeArgument.id,
+            heroTag: widget.routeArgument.heroTag,
+          ));*/
+      },
     );
   }
-  void _settingModalBottomSheet(context,String vouId,String serId){
+
+  void _settingModalBottomSheet(context, String vouId, String serId) {
     showModalBottomSheet(
         context: context,
-        builder: (BuildContext bc){
+        builder: (BuildContext bc) {
           return Container(
             child: new Wrap(
               children: <Widget>[
                 new ListTile(
                     leading: new Icon(Icons.code),
-                    title: new Text('Enter code'),
-                    onTap: ()  {
-                    Navigator.pop(context, true);
+                    title: new Text(S.of(context).enter_code),
+                    onTap: () {
+                      Navigator.pop(context, true);
 
-                    showDialog(
-                    context: context,
-                    builder:
-                    (BuildContext
-                    context) {
-                    return showDialogwindowDelete(vouId,serId
-                    );
-                    });
-
-                    }
-                ),
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return showDialogwindowDelete(vouId, serId);
+                          });
+                    }),
                 new ListTile(
                   leading: new Icon(Icons.settings_overscan_outlined),
-                  title: new Text('Scan code'),
+                  title: new Text(S.of(context).scan_code),
                   onTap: () {
-          Navigator.pop(context, true);
+                    Navigator.pop(context, true);
 
-
-
-          Navigator.of(context)
-                        .push(new MaterialPageRoute<
-                        String>(
-                        builder: (context) =>
-                            scanA(widget
-                                .routeArgument
-                                .id)))
+                    Navigator.of(context)
+                        .push(new MaterialPageRoute<String>(
+                            builder: (context) =>
+                                scanA(widget.routeArgument.id)))
                         .then((String value) {
-            /*showDialog(
+                      /*showDialog(
                 context: context,
                 builder:
                     (BuildContext
@@ -932,147 +965,133 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                           valueColor: new AlwaysStoppedAnimation<Color>(
                               Colors.purple)));
                 });*/
-            repository.scanF(value, userId,vouId, serId).then((valuee) {
-              print(valuee);
-              if (valuee.data== "null") {
+                      repository
+                          .scanF(value, userId, vouId, serId)
+                          .then((valuee) {
+                        print(valuee);
+                        if (valuee.data == "null") {
+                          Navigator.pop(context);
+                          Fluttertoast.showToast(
+                            msg: valuee.msg,
+                            textColor: Colors.white,
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            backgroundColor: Colors.deepOrangeAccent,
+                          );
+                        } else {
+                          Navigator.pop(context);
 
-                Navigator.pop(context);
-                Fluttertoast.showToast(
-                  msg:valuee.msg,
-                  textColor: Colors.white,
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  backgroundColor: Colors.deepOrangeAccent,
-                );
-              }
-              else {
-                Navigator.pop(context);
+                          String smil = S.of(context).smiles_added;
+                          Fluttertoast.showToast(
+                              msg: smil.replaceAll(
+                                  "#SMILES_AMOUNT", _con.food.smileA),
+                              toastLength: Toast.LENGTH_LONG);
+                          showDialog(
+                              context: context,
+                              child: Dialog(
+                                shape: BeveledRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                child:
+                                    RatingDialog(_con.food.id, _conR, userId),
+                              ));
+                        }
+                      }).catchError((e) {
+                        //  loader.remove();
 
-                String smil =
-                    'has been added ' +
-                        _con.food.smileA +
-                        ' for you';
-                Fluttertoast.showToast(
-                    msg: smil);
-                showDialog(
-                    context: context,
-                    child: Dialog(
-                      shape: BeveledRectangleBorder(
-                          borderRadius:
-                          BorderRadius.all(
-                              Radius
-                                  .circular(
-                                  10))),
-                      child: RatingDialog(_con.food.id, _conR, userId),
-                    ));
-              }
-            }).catchError((e) {
-              //  loader.remove();
-
-              Navigator.pop(context);
-              Fluttertoast.showToast(
-                msg: e.toString(),
-                textColor: Colors.white,
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                backgroundColor: Colors.deepOrangeAccent,
-              );
-            }).whenComplete(() {
-              // Helper.hideLoader(loader);
-            });
-
+                        Navigator.pop(context);
+                        Fluttertoast.showToast(
+                          msg: e.toString(),
+                          textColor: Colors.white,
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          backgroundColor: Colors.deepOrangeAccent,
+                        );
+                      }).whenComplete(() {
+                        // Helper.hideLoader(loader);
+                      });
                     });
-
-
                   },
                 ),
               ],
             ),
           );
-        }
-    );
+        });
   }
-  Widget showDialogwindowDelete(String vouId,String serId) {
+
+  Widget showDialogwindowDelete(String vouId, String serId) {
     return AlertDialog(
-      title: Column(children: [
-        Text(S.of(context).enterC),
-        Padding(
-          padding: EdgeInsets.fromLTRB(10, 30, 10, 30),
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            child:Directionality(
-                textDirection: TextDirection.ltr,child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.all(5),
-                    child: Container(
-                      // width: 8,
-                        height: 50,
-                        child: Center(
-                          child: Theme(
-                              data: new ThemeData(
-                                  primaryColor:
-                                  Colors.transparent,
-                                  // accentColor: Colors.orange,
-                                  hintColor: Colors.transparent),
-                              child: TextField(
-                                textAlign: TextAlign.center,
-                              //  textInputAction: TextInputAction.next,
-                                //  autofocus: true,
+      title: Column(
+        children: [
+          Text(S.of(context).enterC),
+          Padding(
+            padding: EdgeInsets.fromLTRB(10, 30, 10, 30),
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              child: Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(5),
+                          child: Container(
+                              // width: 8,
+                              height: 50,
+                              child: Center(
+                                child: Theme(
+                                    data: new ThemeData(
+                                        primaryColor: Colors.transparent,
+                                        // accentColor: Colors.orange,
+                                        hintColor: Colors.transparent),
+                                    child: TextField(
+                                      textAlign: TextAlign.center,
+                                      //  textInputAction: TextInputAction.next,
+                                      //  autofocus: true,
 
-                                controller: _numo,
-                                onChanged: (v){
-                                 // FocusScope.of(context).requestFocus(_twoN);
+                                      controller: _numo,
+                                      onChanged: (v) {
+                                        // FocusScope.of(context).requestFocus(_twoN);
+                                      },
 
-                                },
+                                      // maxLength: 1,
+                                      cursorColor: Colors.transparent,
+                                      style: TextStyle(color: Colors.black),
+                                      decoration: InputDecoration(
+                                        contentPadding:
+                                            EdgeInsets.only(bottom: 0.0),
 
-                               // maxLength: 1,
-                                cursorColor: Colors.transparent,
-                                style: TextStyle(
-                                    color: Colors.black),
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.only(
-                                      bottom: 0.0),
+                                        filled: true,
+                                        labelStyle: Theme.of(context)
+                                            .textTheme
+                                            .caption
+                                            .copyWith(
+                                                color: Theme.of(context)
+                                                    .primaryColor),
 
-                                  filled: true,
-                                  labelStyle: Theme.of(context)
-                                      .textTheme
-                                      .caption
-                                      .copyWith(
-                                      color: Theme.of(context)
-                                          .primaryColor),
-
-                                  fillColor: Colors.transparent,
-                                  //can also add icon to the end of the textfiled
-                                  //  suffixIcon: Icon(Icons.remove_red_eye),
-                                ),
-                              )),
+                                        fillColor: Colors.transparent,
+                                        //can also add icon to the end of the textfiled
+                                        //  suffixIcon: Icon(Icons.remove_red_eye),
+                                      ),
+                                    )),
+                              ),
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.withOpacity(0.3),
+                                  borderRadius: BorderRadius.circular(5),
+                                  border:
+                                      Border.all(color: Colors.red, width: 1))),
                         ),
-                        decoration: BoxDecoration(
-                            color: Colors.grey
-                                .withOpacity(0.3),
-                            borderRadius:
-                            BorderRadius.circular(5),
-                            border: Border.all(
-                                color:
-                                Colors.red,
-                                width: 1))),
-                  ),
-                ),
-
-              ],
-            )),
+                      ),
+                    ],
+                  )),
+            ),
           ),
-        ),
-
-      ],),
-
+        ],
+      ),
       actions: <Widget>[
         // usually buttons at the bottoReminiderItemDatem of the dialog
-
 
         GestureDetector(
           child: Container(
@@ -1088,15 +1107,14 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
             ),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(5)),
-                color:  Theme.of(context).hintColor.withOpacity(0.2)),
+                color: Theme.of(context).hintColor.withOpacity(0.2)),
           ),
           onTap: () async {
-
             Navigator.pop(context, true);
 
             SharedPreferences prefs = await SharedPreferences.getInstance();
             String userId = prefs.getString('userId');
-           /* showDialog(
+            /* showDialog(
                 context: context,
                 builder:
                     (BuildContext
@@ -1108,47 +1126,35 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                 });*/
             showDialog(
                 context: context,
-                builder:
-                    (BuildContext
-                context) {
-                  return   Center(
+                builder: (BuildContext context) {
+                  return Center(
                       child: CircularProgressIndicator(
                           valueColor: new AlwaysStoppedAnimation<Color>(
                               Colors.purple)));
                 });
-           // Future<qrM> ff=  _con.scanF(_numo.text, userId,vouId, serId);
+            // Future<qrM> ff=  _con.scanF(_numo.text, userId,vouId, serId);
 
-            repository.scanF(_numo.text, userId,vouId, serId).then((value) {
+            repository.scanF(_numo.text, userId, vouId, serId).then((value) {
               print(value);
-              if (value.data== "null") {
-
+              if (value.data == "null") {
                 Navigator.pop(context);
                 Fluttertoast.showToast(
-                  msg:value.msg,
+                  msg: value.msg,
                   textColor: Colors.white,
-                  toastLength: Toast.LENGTH_SHORT,
+                  toastLength: Toast.LENGTH_LONG,
                   gravity: ToastGravity.BOTTOM,
                   backgroundColor: Colors.deepOrangeAccent,
                 );
-              }
-              else {
+              } else {
                 Navigator.pop(context);
 
-                String smil =
-                    'has been added ' +
-                        _con.food.smileA +
-                        ' for you';
-                Fluttertoast.showToast(
-                    msg: smil);
+                String smil = 'has been added ' + _con.food.smileA + ' for you';
+                Fluttertoast.showToast(msg: smil);
                 showDialog(
                     context: context,
                     child: Dialog(
                       shape: BeveledRectangleBorder(
-                          borderRadius:
-                          BorderRadius.all(
-                              Radius
-                                  .circular(
-                                  10))),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: RatingDialog(_con.food.id, _conR, userId),
                     ));
               }
@@ -1159,7 +1165,7 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
               Fluttertoast.showToast(
                 msg: e.toString(),
                 textColor: Colors.white,
-                toastLength: Toast.LENGTH_SHORT,
+                toastLength: Toast.LENGTH_LONG,
                 gravity: ToastGravity.BOTTOM,
                 backgroundColor: Colors.deepOrangeAccent,
               );
@@ -1167,18 +1173,14 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
               // Helper.hideLoader(loader);
             });
 
-
-
-
-
             //   _buildSubmitForm(context, adsId);
           },
         )
       ],
     );
   }
-
 }
+
 class scanA extends StatefulWidget {
   final String idfood;
 
@@ -1251,7 +1253,7 @@ class _scanA extends StateMVC<scanA> {
                             }
                           },
                           child:
-                          Text(flashState, style: TextStyle(fontSize: 20)),
+                              Text(flashState, style: TextStyle(fontSize: 20)),
                         ),
                       ),
                       Container(
@@ -1272,7 +1274,7 @@ class _scanA extends StateMVC<scanA> {
                             }
                           },
                           child:
-                          Text(cameraState, style: TextStyle(fontSize: 20)),
+                              Text(cameraState, style: TextStyle(fontSize: 20)),
                         ),
                       )
                     ],
@@ -1352,8 +1354,4 @@ class _scanA extends StateMVC<scanA> {
 
     super.dispose();
   }
-
-
-
-
 }

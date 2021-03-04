@@ -15,6 +15,8 @@ import 'src/pages/delivery_addresses.dart';
 import 'src/pages/delivery_pickup.dart';
 import 'src/pages/details.dart';
 import 'src/pages/food.dart';
+import 'src/pages/foodCAtegro.dart';
+
 import 'src/pages/forget_password.dart';
 import 'src/pages/help.dart';
 import 'src/pages/languages.dart';
@@ -74,6 +76,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => MenuWidget(routeArgument: args as RouteArgument));
       case '/Food':
         return MaterialPageRoute(builder: (_) => FoodWidget(routeArgument: args as RouteArgument));
+      case '/FoodCat':
+        return MaterialPageRoute(builder: (_) => foodCategory(routeArgument: args as RouteArgument));
       case '/Category':
         return MaterialPageRoute(builder: (_) => CategoryWidget(routeArgument: args as RouteArgument));
       case '/Cart':

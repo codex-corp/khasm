@@ -285,5 +285,12 @@
   "rate_thanks" : "All done!",
   "rate_your_value" : "Your rate",
   "rate_about" : "Your reply will be highly appreciated",
-  "rate_add" : "Add"
+  "rate_add" : "Add",
+
+  "sorry" : "Sorry, You do not have enough Smiles to buy back this voucher",
+  "buy" : "To buy back",
+
+  "enter_code" : "Enter code",
+  "scan_code" : "Scan code",
+  "smiles_added" : "You won #SMILES_AMOUNT smiles! and has been added to your balance."
 }

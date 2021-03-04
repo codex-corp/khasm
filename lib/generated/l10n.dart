@@ -2864,6 +2864,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Sorry, You do not have enough Smiles to buy back this voucher`
+  String get sorry {
+    return Intl.message(
+      'Sorry, You do not have enough Smiles to buy back this voucher',
+      name: 'sorry',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To buy back`
+  String get buy {
+    return Intl.message(
+      'To buy back',
+      name: 'buy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter code`
+  String get enter_code {
+    return Intl.message(
+      'Enter code',
+      name: 'enter_code',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scan code`
+  String get scan_code {
+    return Intl.message(
+      'Scan code',
+      name: 'scan_code',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You won #SMILES_AMOUNT smiles! and has been added to your balance.`
+  String get smiles_added {
+    return Intl.message(
+      'You won #SMILES_AMOUNT smiles! and has been added to your balance.',
+      name: 'smiles_added',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

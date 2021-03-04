@@ -1,0 +1,51 @@
+# Automatically generated on 2021-03-04 UTC from https://codemagic.io/app/603a448ec9d4d7d5c713cc06/settings
+# Note that this configuration is not an exact match to UI settings. Review and adjust as necessary.
+
+workflows:
+  default-workflow:
+    name: Default Workflow
+    instance_type: mac_pro
+    max_build_duration: 60
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - |
+        # set up debug keystore
+        rm -f ~/.android/debug.keystore
+        keytool -genkeypair \
+          -alias androiddebugkey \
+          -keypass android \
+          -keystore ~/.android/debug.keystore \
+          -storepass android \
+          -dname 'CN=Android Debug,O=Android,C=US' \
+          -keyalg 'RSA' \
+          -keysize 2048 \
+          -validity 10000
+      - |
+        # set up local properties
+        echo "flutter.sdk=$HOME/programs/flutter" > "$FCI_BUILD_DIR/android/local.properties"
+      - flutter packages pub get
+      - flutter build apk --release
+      - find . -name "Podfile" -execdir pod install \;
+      - flutter build ios --release --no-codesign
+    artifacts:
+      - build/**/outputs/**/*.apk
+      - build/**/outputs/**/*.aab
+      - build/**/outputs/**/mapping.txt
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - flutter_drive.log
+    publishing:
+      email:
+        recipients:
+          - hany.alsamman@gmail.com
+      google_play:                        # For Android app
+        credentials: Encrypted(Z0FBQUFBQmdRT25RRS13UGZ0clRGeERXZ0RTR25rWXhmTHVseUNNX2EtbGtxQXBTU1hySkh6VV9YSkh1Y3k0VUg4OEJXczBwQ1NNVXNTamRrb0FtbmRQUFNpUmN0a1lLdW5uZkJ4OUdyUmxKN05kMllORXNhVzJXUUYtQWVjTTFhQlUzbG5oODBKc2t2RUJkU3h2am1PckZfUDhlT21GSk05RlRRRWROdUJFX0FSTFZtakNLbl9vTmhPeXk2ZEcxVHlHVnNLLXNreWNCZjNfWDJXSGpVXzRlMEViSEU5cmxrMUZaYktrMW9kcFMxNlJ4VVVsZnh3UUdwSHVVbjliUzM5eldhLWt0VmZ6Mnd6ZDJmMTJXS3pONlVCZWhNSW5BUFNaeW4tNVV6QVdxOXNJbmc2WGdvM0taZG44SWJlNk4yUnYtaVh5WjN4d2gwVGYwU084aEhLcl9DM3c3czlTY2ZtWWdlLVJKLTlEWTBveU1NeHJTX0tfRVN3Z1pkdHpRSlhCa0dLWVZMVjlvMlY2UjZMbC1VRk45dXdTaGRhN2VMckdhcm55cS1oZmZINzVXd2pWZU5SN2VIYjVhZFFNcWM1Y2ZYekF3TXJOamtPeGx1a2hOeHU4aVpYT2dNVjhXRlVHUktRSWo3R3NlWGd3TnVvbGNGaU5Od3VRZ0dDZGRzVF9kbGdUck1tS0JnNVNROFRqbUJXbVhDMGQyS1lIWExNMUdNN2dJTmhMbzRQdDlaVjdZUWR4cWJPQTMwRVNTUXk2VXJVUjhnSGZIQ1pTSVZiY2h1eEEyUVQ0d1VnM1lxZHJSRjZKNVlqdHExYXRIS1d5YVdPMUNRZGQzUlpWT1VwZXdCU1RpUU1yR1JVLUJhLXVjTnk2UDVfdnc2cXk5d0UtOWNsUC1NOFQ2T1lEbnBpQU9ZcUVpYVVTcFRaUnphRUNfZGwyalhPdHNYUklwcGhWMENWTW0ybkZoV2J6V2tNQmdBRW85dzdFNVVoN3JNTm5NaU9DVlpybmxORE5rQWkxc1B3NnQzR3poZ3NJZGhxYzRiWnpuYmtuNl9idmowUHJkMm4zSW92OTQ2Rlhya3licXphTmJTSXVyRWN4ZDBfM0YtelQtYjl4Ml9GckV0aFJobkdYdkV1Vnd4NzFVdTBXa0xvMGs5U01KaWJUWmUzU2hldlU3TW5nWjZHVnNGX3ZpaElOMTdkVF9IRWt6akdxSHotZUpNb2haejg2aDZ0OXctSUQtSDl5ZzFiejJTNlFtU0ZiYTdKeTlIZUhsS0hlUFhPbFVjOW84S0YzcXdvdGJoeUVVdTVNSkkyTzVUdG5QazN4UU1yTXY4T1NJbGtuUXFfejEyakxpM1FVNG9tTnVMZkt5aEtKMFd3cU9YY09qZXN3cmpHbmptOWY0VThuRDBBcExWT3ZVaU0wem5ZM1U1czB3OURRQjBvQ3ZmSGZRbmU4YTMzUHZRTkpLZTVCdy1ZTGZPUEdnUU8xWEVtb21JbkFvNHdMQ0s2bVpiMEZGSkd0d2RmWWc1cXB5Q0xPdHU1Y0JCNm9IcFhxV3Npcy0zVWdBZ21wYzgzN25uVjNrR2JxOUhJTjhmeHdRTVc2ajdLOUlaR1lPR1dGRF9KU3Q2NmRGX3MwV29kUEhVeXVjU2tubU1VV09QRUU2U0pQMEVNU3JYSW0wTkpfVldIUWF5UzZlTzUxQ2NpVWUyU05VNDhSajQwamZMcDdpSnFzTnc0dlgxbnJ5YmdYME9jai13dXlSVW1xU1Jwa0hmc05vTEJ3S1djZlM0Z1pXWmY3cmFJcU5udFl2UDVkS0NrU0FKdEhwS2ZSZU9yTWlwVnYyZ0RFSEZPMmJyNDNFTHQ2SEdYSnhKaDcxX1lQdktGVEg5cWxPTTl1dHFORkhiLWpENEFxQWtRQTFHNC1ia0s0VG8tOERSZkw4M2o3ck5qUUk2VDhfM2JERnVVR1JHVnhkX0pKNFNTSWYwaVY3ZkdHYjRkdXZ1cjJXMWhvd2NvRE9qUGQ1RFJQbjNfT2VoSGVORWpVZjVKbEg2aVRWb3dKWUtrNzJfYmdxWUlZNG5JcmFyNXlZQktreXpiSXJsb3V6MHQzREVCRHU1OXd5dUVkT0ZiOV9vcDJSOUN4VFMydzQyb29laWJTMWlSVmZOSXA2UlpZWHRuWEZkWE9lNURPVVdsVXlBTDZOUXB5am9NZGNhMi1EaTVXRFM3bmtpaERCQWVrWUk1WElubjVpQXBKbjI1SUhUTTZsVGNjNFN2enpDdGlPMHB0NFowVk5UOWpqSUkxRTZadWh6dU0zQlBBMFZVbFo3UmpVNjBoTldiOE5vU2F4aW0wZjRXVVBNQVhLYlppZzJOcVBOQVk0c1A3RWxUSzJKblp1WGFfUG12NGtDdUtWQ3B4aGp1dHZKRnlKMjd1TXNla0ZBd1h5c21VbHVxUXRYcEliVGZEZldyTURsR3pLSUNmN2NNTE9FaXBsZWZnaU96NExuX3ZFTHRsZ0R2RUdSU2EyOFRJLWNDNFFZalpzQzNzc1BQa0dOaHRscGtnYWZIOHhxcmVGMUcxVUc5QXY5UFN5SXFOa1NFOFBUbVB6ZGdrNW9fNTFESGZBTnFfQjFyTUJJRVdXdHNGTUlYVDl0eDdnVjRCSGZ0NXRuZWIyUHB4SHNPOXBaVkgyQU0wYS1SLTcxd2xFYm5JS3c0MU1UQ0FKR3E1OVdXX0JUdUtiYWwyWHBMQ001WVJ5R2VNTDc5MkVxdlN2VkN4ZHNyVWt0aE9sT2pnS2wwbS05VzZocjdsemEwVExpOHdXc0J0c09WYUktUU5wUjNXNU9lM3pXeEZCRTY5MU9RcWVKRE5jSkJUa2pZMERPeHFhN0pvclZkZFNIU3YzRDZjYVlPM0Z2c3IzUjhHMzdlTHJJUXc4M2lqRzFhUWMwVVFMeDdHT0lDcVFvOGtzWUNKRFo4RE9Ca3JmNmd0cEZaMF9Id1pKaUY2YVhHN2l5TVpJWFFiYW9TdXlkLWJScklhTmdoQXJ4azQ2em93YzBZUjlLTmVmeURRai1sb0x0YnRmclR1Uk9wdno0UU5JZnlpWTRZTzJudVZvYTlPejkwekhPR3lYUzVGdG1OS2VBRWRMd1NrblNNMjNWbHVwaE1lVnFiR3ptcWZrSEpOUjZaeU5TVGd4VmN5OHRSTGR0UlVHS3hXRXk3ZVFBRnVMY1Z0ZEhXOWttNTI0VXB5MXRIMnpJNEU3OGZIMDdHeUxXeTJkdkxSRzh3d3N4RHhqcmw0SHE3bHMzVEQ0SW1iRUZhLVR3Q0dXbENkbmpGWFVWa1JYX2J5UTBEamliaUJTR25iZTVGaHFKRHYtVm5HR2hCdXJfUndGdjBnNG41V0RqU0lDWHF4MkQzWk9UczZqczhLTlhad21Pbk1oVWVSdTE3S0FZc1Q5OHRFcGIyclhPV3hlOUVUSFRQaG1TcVItcUM3bjgzdWU1a09UU0hwUDRneVJDVUQyVHJTOFZzM2NfV2VoRlpjUlJOdFpJUlYtbE5ha3k0ejZUc1VsV2RTbjJWdkZSSnItSmtNcDNOWEpPWGs3dnV5ZGo1V21ETm9lMEMzeWpKMVl1Zm9KQjZuMDdRY2E1dFdrZjhqUU9aa2VpMkNnbWV0SGVZaG56clJBR213M0pmWjFJemthdVZob19lVS02bmdjZWhpTDVwYW5WR1JwanZRUHRxUloyaVdoRnJkeFhNa28tTkRTQUdFa21DY2ZmNWg3YTBBN0tseDJGckVhVFBGVFZKcDRGRDh5eFMxQVNqMFN1WlhTY18tcW14NnpOWVRCQ3hQcDRMVGJxd1NmaUtqOU9EWUhRNVpOakt5NTE4cWw0WUNBc0RuS2VXRjJOc3lPNFVfZmtDTHM3VlJ3VzBBRWRIZnhiQTZ2elhqZUE1c0VmdF9pNGZiTHk5dWtUUU5ndEo0U3ByVkpPZGF4NjhDX1JqQ18zZ1hwQjhOTHJOUmJVMXRSa2ZOU2NLd240Wlp2LUdCTkswUUZqVVhxLWRHNkdRNVJYSGI5Sk5vV0Npc25CVDBXVG9sbEl0WkN5VUJ1cUg1cWxrUzVBVE5FbDE4M0dLRURpN0Nya0drU0tscmE1X2hfTzd4allWVmJlRUVPS2NyMm82Z3pGMS1FWHRnRU5fbER2cHBLNTRXaFU2YjJEX29CRk5xZ21pMVp0cFpVSmVLbUxfUzFKdmxLOUx6eGNTaW1Oa0JSU0NMdkR6Nl9lU0xLcnZXQ01jU3RrS1VMZ1h3TElxbWJla1JNQmZ6aVA5Z1FVREk1dzUwYkZxNlZkRTVabUttaWR1bUoxRWR5NlBfUDROQkYwV0NVNF9HeEQwbUxPdjFHeWFPd3BEcnYxd1FhNENpdkxSWU1fd0ZtQUFCczNnT1dNTUQ1VjZYdXJnSHU3YmdFcHNOZWJnaW1GNjdIZFBuZzZlMEM4TjJZd3MzNWdmMkI5NHFNUGpoS1RCbEpoMWxRVjBkTjZaVEQxRFJiT0QwMkpkNm85aGprd1I4YjRmM1lYd1p5OFJaenVrTW00VEZiODNqREhIVHhUa1hjUGpmQUxLSmVrMmgydGxTd0EtZ0JvQk8yNEtlVURSTjRBdWxCdWUyWVZsdld1UTR0bFFDcjI4b0RvQkxmTWVMWWMtTGZqTVdIc0wzOWMyc0FORU1rdzFnZ05kSGRqSWF3ai1FMjR5U2FhVXctOXZfVzNMQ003R0E4eHZBWGFvdG90Tk02RDc5aUhuSFFBd2F2c2J0LVNYX3VYNEdJdUZiaWRSTnB1bXV6WFQwcnNneHMzejFud3JNOUhjSENQMnFpbVFER1hndGRoanVyeHJJeWQ0bHd1ZGpQWTdrd1Y1WERYQmZZeU14N2wxcmpzWTFabVliNWFIQXdEbm9HSTJhcTUtSmNCeEFYcDZ5ZFdPdU8ycTJ1LXdZMXNad2RDUF9Tbk8wbEJSUXdqZUxZYWNRY3p4cU1CODhhRnFFOGM0MlJDblZLMkJyRlcwWEZFZHduZ2x3SVQ4TzNpbk5sTHF4cm11TWtOUjk2dFZKbEM2cU82MVByZW9jTmF2Z1V4WFdod3NLVVRubGtIQ05TZlJ5cUxCcGs5MlFibThGNnhBQy1Gc1BlRWh6cmZDSWFwOE9ZT0ZIWE5zdUFzanJ2Slk1VGU1c0lyd1VBODhmal8wek1HVG9BQ0d1SmdYNlM2VDZsa2tsZG44TVFuVlNCTXlwRVUzOWtJYlNQazVoeTFscjBoWWlFSEZjT1BSZTRJV0liUmVkNE9IeE56Q1lOTjh2eTc0dHR0TVNDWXpNY0pOd2R2bWNUNXBMSFlVcDZVaHRoX29wYWtkV2VLRnVVNnNVUjF6T1JfOTNwNnV2dDlOMHBsRGFTRFNXTFBaSXNPTlBPQ05wd18yQmlleWdiZllxaDVUWE1YandKZnlnQkdfR3RBakp6OF9pdWlZQWtLM0NBRURZTGtUcDdGdVlFX3d1cERoY3BCUU12UkpqX2hWVlNLZXNnUzJiSXlxcm9NNXhTa3RYSDFTUVM3YlAwWG9HX0FBeXZjY0dnX3VETEwxaTVYUWMxRE1WWEliZHZsdWdaUl9qTG1YY1d2aDdUVEViTzlSeG9QdFYtalB0VnZ1YW1YVmhLVmNoZi13b2pYRjhMcDMyQUNfWkNLVlFxQ1k2OVhSanBvdTIzYnBaUTBHN0ZPeFpoS2tlQXZtcDBVcFNEamJFYzdGTFRGbjJyczlsdA==)       # JSON key file for Google Play service account
+        track: internal                   # Name of the track: internal, alpha, beta, production, internal app sharing
+        in_app_update_priority: 3         # Priority of the release (only set if in-app updates are supported): integer in range [0, 5]
+        rollout_fraction: 0.25            # Rollout fraction (set only if releasing to a fraction of users): value between (0, 1)
+#      app_store_connect:                  # For iOS app
+#        apple_id: name@example.com        # Email address used for login
+#        password: Encrypted(...)          # App-specific password
