@@ -23,7 +23,7 @@ class Food {
   bool isClosed = false;
   String msgUsag;
   String unit, smileb, smileA;
-  int  rede;
+  int rede;
   String packageItemsCount;
   bool featured;
   bool deliverable;
@@ -107,7 +107,7 @@ class Food {
     } catch (e) {
       id = '';
       name = '';
-      isvalid=02;
+      isvalid = 02;
       price = 0.0;
       smileb = '';
       smileA = '';

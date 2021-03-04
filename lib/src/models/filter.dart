@@ -77,6 +77,11 @@ class Filter {
       } else {
         query['searchFields'] = oldQuery['searchFields'];
       }
+      if (query['api_token'] != null) {
+        query['api_token'] = query['api_token'] + ';' + oldQuery['api_token'];
+      } else {
+        query['api_token'] = oldQuery['api_token'];
+      }
 
 //      query['search'] =
 //          oldQuery['search'] != null ? (query['search']) ?? '' + ';' + oldQuery['search'] : query['search'];

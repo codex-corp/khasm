@@ -26,14 +26,14 @@ import '../repository/user_repository.dart';
 import '../models/qrModel.dart';
 
 // ignore: must_be_immutable
-class FoodWidget extends StatefulWidget {
+class foodCategory extends StatefulWidget {
   RouteArgument routeArgument;
 
-  FoodWidget({Key key, this.routeArgument}) : super(key: key);
+  foodCategory({Key key, this.routeArgument}) : super(key: key);
 
   @override
-  _FoodWidgetState createState() {
-    return _FoodWidgetState();
+  _foodCategory createState() {
+    return _foodCategory();
   }
 }
 
@@ -42,12 +42,12 @@ const flashOff = 'FLASH OFF';
 const frontCamera = 'FRONT CAMERA';
 const backCamera = 'BACK CAMERA';
 
-class _FoodWidgetState extends StateMVC<FoodWidget> {
+class _foodCategory extends StateMVC<foodCategory> {
   FoodController _con;
   ReviewsController _conR;
   final _numo = TextEditingController();
 
-  _FoodWidgetState() : super(FoodController()) {
+  _foodCategory() : super(FoodController()) {
     _con = controller;
   }
   String userId;
@@ -881,15 +881,15 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
         ),
       ),
     ),
-    onWillPop: (){
-      Navigator.of(context).pushReplacementNamed('/Details', arguments: RouteArgument(id: widget.routeArgument.param, heroTag: widget.routeArgument.heroTag));
+      onWillPop: (){
+        Navigator.of(context).pushNamed('/Category', arguments: RouteArgument(id: widget.routeArgument.param));
 
-  /*    Navigator.of(context).pushNamed('/Details',
+        /*    Navigator.of(context).pushNamed('/Details',
           arguments: RouteArgument(
             id: widget.routeArgument.id,
             heroTag: widget.routeArgument.heroTag,
           ));*/
-    },);
+      },);
   }
   void _settingModalBottomSheet(context,String vouId,String serId){
     showModalBottomSheet(
@@ -902,16 +902,16 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                     leading: new Icon(Icons.code),
                     title: new Text('Enter code'),
                     onTap: ()  {
-                    Navigator.pop(context, true);
+                      Navigator.pop(context, true);
 
-                    showDialog(
-                    context: context,
-                    builder:
-                    (BuildContext
-                    context) {
-                    return showDialogwindowDelete(vouId,serId
-                    );
-                    });
+                      showDialog(
+                          context: context,
+                          builder:
+                              (BuildContext
+                          context) {
+                            return showDialogwindowDelete(vouId,serId
+                            );
+                          });
 
                     }
                 ),
@@ -919,11 +919,11 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                   leading: new Icon(Icons.settings_overscan_outlined),
                   title: new Text('Scan code'),
                   onTap: () {
-          Navigator.pop(context, true);
+                    Navigator.pop(context, true);
 
 
 
-          Navigator.of(context)
+                    Navigator.of(context)
                         .push(new MaterialPageRoute<
                         String>(
                         builder: (context) =>
@@ -931,7 +931,7 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                                 .routeArgument
                                 .id)))
                         .then((String value) {
-            /*showDialog(
+                      /*showDialog(
                 context: context,
                 builder:
                     (BuildContext
@@ -941,54 +941,54 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                           valueColor: new AlwaysStoppedAnimation<Color>(
                               Colors.purple)));
                 });*/
-            repository.scanF(value, userId,vouId, serId).then((valuee) {
-              print(valuee);
-              if (valuee.data== "null") {
+                      repository.scanF(value, userId,vouId, serId).then((valuee) {
+                        print(valuee);
+                        if (valuee.data== "null") {
 
-                Navigator.pop(context);
-                Fluttertoast.showToast(
-                  msg:valuee.msg,
-                  textColor: Colors.white,
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  backgroundColor: Colors.deepOrangeAccent,
-                );
-              }
-              else {
-                Navigator.pop(context);
+                          Navigator.pop(context);
+                          Fluttertoast.showToast(
+                            msg:valuee.msg,
+                            textColor: Colors.white,
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            backgroundColor: Colors.deepOrangeAccent,
+                          );
+                        }
+                        else {
+                          Navigator.pop(context);
 
-                String smil =
-                    'has been added ' +
-                        _con.food.smileA +
-                        ' for you';
-                Fluttertoast.showToast(
-                    msg: smil);
-                showDialog(
-                    context: context,
-                    child: Dialog(
-                      shape: BeveledRectangleBorder(
-                          borderRadius:
-                          BorderRadius.all(
-                              Radius
-                                  .circular(
-                                  10))),
-                      child: RatingDialog(_con.food.id, _conR, userId),
-                    ));
-              }
-            }).catchError((e) {
-              //  loader.remove();
+                          String smil =
+                              'has been added ' +
+                                  _con.food.smileA +
+                                  ' for you';
+                          Fluttertoast.showToast(
+                              msg: smil);
+                          showDialog(
+                              context: context,
+                              child: Dialog(
+                                shape: BeveledRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.all(
+                                        Radius
+                                            .circular(
+                                            10))),
+                                child: RatingDialog(_con.food.id, _conR, userId),
+                              ));
+                        }
+                      }).catchError((e) {
+                        //  loader.remove();
 
-              Navigator.pop(context);
-              Fluttertoast.showToast(
-                msg: e.toString(),
-                textColor: Colors.white,
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                backgroundColor: Colors.deepOrangeAccent,
-              );
-            }).whenComplete(() {
-              // Helper.hideLoader(loader);
-            });
+                        Navigator.pop(context);
+                        Fluttertoast.showToast(
+                          msg: e.toString(),
+                          textColor: Colors.white,
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          backgroundColor: Colors.deepOrangeAccent,
+                        );
+                      }).whenComplete(() {
+                        // Helper.hideLoader(loader);
+                      });
 
                     });
 
@@ -1029,16 +1029,16 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                                   hintColor: Colors.transparent),
                               child: TextField(
                                 textAlign: TextAlign.center,
-                              //  textInputAction: TextInputAction.next,
+                                //  textInputAction: TextInputAction.next,
                                 //  autofocus: true,
 
                                 controller: _numo,
                                 onChanged: (v){
-                                 // FocusScope.of(context).requestFocus(_twoN);
+                                  // FocusScope.of(context).requestFocus(_twoN);
 
                                 },
 
-                               // maxLength: 1,
+                                // maxLength: 1,
                                 cursorColor: Colors.transparent,
                                 style: TextStyle(
                                     color: Colors.black),
@@ -1105,7 +1105,7 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
 
             SharedPreferences prefs = await SharedPreferences.getInstance();
             String userId = prefs.getString('userId');
-           /* showDialog(
+            /* showDialog(
                 context: context,
                 builder:
                     (BuildContext
@@ -1125,7 +1125,7 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                           valueColor: new AlwaysStoppedAnimation<Color>(
                               Colors.purple)));
                 });
-           // Future<qrM> ff=  _con.scanF(_numo.text, userId,vouId, serId);
+            // Future<qrM> ff=  _con.scanF(_numo.text, userId,vouId, serId);
 
             repository.scanF(_numo.text, userId,vouId, serId).then((value) {
               print(value);

@@ -180,6 +180,7 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                           return FoodListItemWidget(
                             heroTag: 'favorites_list',
                             food: _con.foods.elementAt(index),
+                            catId: widget.routeArgument.id,
                           );
                         },
                       ),
@@ -209,7 +210,8 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                               onPressed: () {
                                 if (currentUser.value.apiToken == null) {
                                   Navigator.of(context).pushNamed('/Login');
-                                } else {
+                                }
+                                else {
                                   if (_con.isSameRestaurants(
                                       _con.foods.elementAt(index))) {
                                     _con.addToCart(_con.foods.elementAt(index));
@@ -232,7 +234,9 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
                                     );
                                   }
                                 }
-                              });
+                              },
+                            catId: widget.routeArgument.id,
+                          );
                         }),
                       ),
                     )

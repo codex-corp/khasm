@@ -92,9 +92,13 @@ Future<Stream<Food>> searchFoods(String search, Address address) async {
 Future<Stream<Food>> getFoodsByCategory(categoryId) async {
   Uri uri = Helper.getUri('api/foods');
   Map<String, dynamic> _queryParams = {};
+  User _user = userRepo.currentUser.value;
+
   SharedPreferences prefs = await SharedPreferences.getInstance();
   Filter filter = Filter.fromJSON(json.decode(prefs.getString('filter') ?? '{}'));
   _queryParams['with'] = 'restaurant';
+  _queryParams['api_token'] = _user.apiToken;
+
   _queryParams['search'] = 'category_id:$categoryId';
   _queryParams['searchFields'] = 'category_id:=';
 

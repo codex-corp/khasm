@@ -303,7 +303,25 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                                           ),onTap: (){
                                           //  scan();
                                          // Navigator.of(context).pushNamed('/Food', arguments: RouteArgument(id: _con.featuredFoods.elementAt(index).id, heroTag: 'home_food_carousel'));
-                                          Fluttertoast.showToast(msg:_con.featuredFoods[index].msgUsag.toString());
+
+                                          print(_con.featuredFoods.elementAt(index).toString());
+                                          if(_con.featuredFoods.elementAt(index).rede==1){
+                                            if(currentUser.value.totals=="null"){
+                                              showDialog(context: context, builder: (_) => showdd());
+
+                                            }else{
+                                              if(int.parse(currentUser.value.totals)>= int.parse(_con.featuredFoods.elementAt(index).smileb)){
+
+                                              }else{
+                                                showDialog(context: context, builder: (_) => showdd());
+                                              }
+                                            }
+
+                                          }else{
+                                            Navigator.of(context).pushReplacementNamed('/Food', arguments: RouteArgument(id: _con.featuredFoods.elementAt(index).id, heroTag: 'home_food_carousel',param: _con.restaurant.id));
+
+                                          }
+
                                         },),):
                                         GestureDetector(
                                           child: FoodItemWidget(
@@ -325,7 +343,7 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                                             }
 
                                           }else{
-                                            Navigator.of(context).pushNamed('/Food', arguments: RouteArgument(id: _con.featuredFoods.elementAt(index).id, heroTag: 'home_food_carousel'));
+                                            Navigator.of(context).pushReplacementNamed('/Food', arguments: RouteArgument(id: _con.featuredFoods.elementAt(index).id, heroTag: 'home_food_carousel',param: _con.restaurant.id));
 
                                           }
 
@@ -413,7 +431,9 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                           alignment: Alignment.center,
 
                           child: FlatButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
                               child: Text(S.of(context).yes,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
