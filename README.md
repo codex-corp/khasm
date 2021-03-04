@@ -1,4 +1,6 @@
-"# khasm" 
+"# khasm"
+
+[![Codemagic build status](https://api.codemagic.io/apps/603a448ec9d4d7d5c713cc06/603a448ec9d4d7d5c713cc05/status_badge.svg)](https://codemagic.io/apps/603a448ec9d4d7d5c713cc06/603a448ec9d4d7d5c713cc05/latest_build)
 
 * `flutter clean`
 
