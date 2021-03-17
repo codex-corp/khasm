@@ -1,3 +1,5 @@
+import 'package:food_delivery_app/src/models/routFood.dart';
+
 import '../repository/user_repository.dart' as repository;
 import 'dart:io';
 import 'package:flutter/scheduler.dart';
@@ -27,7 +29,7 @@ import '../models/qrModel.dart';
 
 // ignore: must_be_immutable
 class FoodWidget extends StatefulWidget {
-  RouteArgument routeArgument;
+  RouteArgumentFood routeArgument;
 
   FoodWidget({Key key, this.routeArgument}) : super(key: key);
 
@@ -941,7 +943,7 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                           valueColor: new AlwaysStoppedAnimation<Color>(
                               Colors.purple)));
                 });*/
-            repository.scanF(value, userId,vouId, serId).then((valuee) {
+            repository.scanF(value, userId,vouId, serId,widget.routeArgument.rede).then((valuee) {
               print(valuee);
               if (valuee.data== "null") {
 
@@ -959,7 +961,7 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
 
                 String smil =
                     'has been added ' +
-                        _con.food.smileA +
+                        _con.food.smileb +
                         ' for you';
                 Fluttertoast.showToast(
                     msg: smil);
@@ -1127,7 +1129,7 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
                 });
            // Future<qrM> ff=  _con.scanF(_numo.text, userId,vouId, serId);
 
-            repository.scanF(_numo.text, userId,vouId, serId).then((value) {
+            repository.scanF(_numo.text, userId,vouId, serId,widget.routeArgument.rede).then((value) {
               print(value);
               if (value.data== "null") {
 
@@ -1145,7 +1147,7 @@ class _FoodWidgetState extends StateMVC<FoodWidget> {
 
                 String smil =
                     'has been added ' +
-                        _con.food.smileA +
+                        _con.food.smileb +
                         ' for you';
                 Fluttertoast.showToast(
                     msg: smil);

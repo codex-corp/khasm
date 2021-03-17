@@ -48,7 +48,7 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(child:  Scaffold(
       key: _con.scaffoldKey,
       drawer: DrawerWidget(context),
       endDrawer: FilterWidget(onFilter: (filter) {
@@ -158,92 +158,99 @@ class _CategoryWidgetState extends StateMVC<CategoryWidget> {
               ),
               _con.foods.isEmpty
                   ? _con.res == false
-                      ? CircularLoadingWidget(height: 500)
-                      : Center(
-                          child: Text(
-                            S.of(context).nodata,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, color: Colors.red,fontSize: 20,fontStyle: FontStyle.italic),
-                          ),
-                        )
+                  ? CircularLoadingWidget(height: 500)
+                  : Center(
+                child: Text(
+                  S.of(context).nodata,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.red,fontSize: 20,fontStyle: FontStyle.italic),
+                ),
+              )
                   : Offstage(
-                      offstage: this.layout != 'list',
-                      child: ListView.separated(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        primary: false,
-                        itemCount: _con.foods.length,
-                        separatorBuilder: (context, index) {
-                          return SizedBox(height: 10);
-                        },
-                        itemBuilder: (context, index) {
-                          return FoodListItemWidget(
-                            heroTag: 'favorites_list',
-                            food: _con.foods.elementAt(index),
-                            catId: widget.routeArgument.id,
-                          );
-                        },
-                      ),
-                    ),
+                offstage: this.layout != 'list',
+                child: ListView.separated(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  primary: false,
+                  itemCount: _con.foods.length,
+                  separatorBuilder: (context, index) {
+                    return SizedBox(height: 10);
+                  },
+                  itemBuilder: (context, index) {
+                    return FoodListItemWidget(
+                      heroTag: 'favorites_list',
+                      food: _con.foods.elementAt(index),
+                      catId: widget.routeArgument.id,
+                    );
+                  },
+                ),
+              ),
               _con.foods.isEmpty
-                      ? CircularLoadingWidget(height: 500)
-                      : Offstage(
-                      offstage: this.layout != 'grid',
-                      child: GridView.count(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        primary: false,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 20,
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        // Create a grid with 2 columns. If you change the scrollDirection to
-                        // horizontal, this produces 2 rows.
-                        crossAxisCount: MediaQuery.of(context).orientation ==
-                                Orientation.portrait
-                            ? 2
-                            : 4,
-                        // Generate 100 widgets that display their index in the List.
-                        children: List.generate(_con.foods.length, (index) {
-                          return FoodGridItemWidget(
-                              heroTag: 'category_grid',
-                              food: _con.foods.elementAt(index),
-                              onPressed: () {
-                                if (currentUser.value.apiToken == null) {
-                                  Navigator.of(context).pushNamed('/Login');
-                                }
-                                else {
-                                  if (_con.isSameRestaurants(
-                                      _con.foods.elementAt(index))) {
-                                    _con.addToCart(_con.foods.elementAt(index));
-                                  } else {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        // return object of type Dialog
-                                        return AddToCartAlertDialogWidget(
-                                            oldFood:
-                                                _con.carts.elementAt(0)?.food,
-                                            newFood:
-                                                _con.foods.elementAt(index),
-                                            onPressed: (food, {reset: true}) {
-                                              return _con.addToCart(
-                                                  _con.foods.elementAt(index),
-                                                  reset: true);
-                                            });
-                                      },
-                                    );
-                                  }
-                                }
+                  ? CircularLoadingWidget(height: 500)
+                  : Offstage(
+                offstage: this.layout != 'grid',
+                child: GridView.count(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  primary: false,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 20,
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  // Create a grid with 2 columns. If you change the scrollDirection to
+                  // horizontal, this produces 2 rows.
+                  crossAxisCount: MediaQuery.of(context).orientation ==
+                      Orientation.portrait
+                      ? 2
+                      : 4,
+                  // Generate 100 widgets that display their index in the List.
+                  children: List.generate(_con.foods.length, (index) {
+                    return FoodGridItemWidget(
+                      heroTag: 'category_grid',
+                      food: _con.foods.elementAt(index),
+                      onPressed: () {
+                        if (currentUser.value.apiToken == null) {
+                          Navigator.of(context).pushNamed('/Login');
+                        }
+                        else {
+                          if (_con.isSameRestaurants(
+                              _con.foods.elementAt(index))) {
+                            _con.addToCart(_con.foods.elementAt(index));
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                // return object of type Dialog
+                                return AddToCartAlertDialogWidget(
+                                    oldFood:
+                                    _con.carts.elementAt(0)?.food,
+                                    newFood:
+                                    _con.foods.elementAt(index),
+                                    onPressed: (food, {reset: true}) {
+                                      return _con.addToCart(
+                                          _con.foods.elementAt(index),
+                                          reset: true);
+                                    });
                               },
-                            catId: widget.routeArgument.id,
-                          );
-                        }),
-                      ),
-                    )
+                            );
+                          }
+                        }
+                      },
+                      catId: widget.routeArgument.id,
+                    );
+                  }),
+                ),
+              )
             ],
           ),
         ),
       ),
-    );
+    ),
+      onWillPop: (){
+        Navigator.of(context)
+            .pushReplacementNamed('/Pages', arguments: 2);
+      },);
+
+
+
   }
 }

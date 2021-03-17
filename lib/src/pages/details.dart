@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:food_delivery_app/src/models/routFood.dart';
 import 'package:food_delivery_app/src/repository/user_repository.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -32,8 +33,8 @@ class DetailsWidget extends StatefulWidget {
 class _DetailsWidgetState extends StateMVC<DetailsWidget> {
   RestaurantController _con;
 
-
   var _autoEnableFlash = false;
+
   _DetailsWidgetState() : super(RestaurantController()) {
     _con = controller;
   }
@@ -51,7 +52,7 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _con.scaffoldKey,
-     /*   floatingActionButton: FloatingActionButton.extended(
+        /*   floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             Navigator.of(context).pushNamed('/Menu', arguments: new RouteArgument(id: widget.routeArgument.id));
           },
@@ -79,14 +80,17 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                       shrinkWrap: false,
                       slivers: <Widget>[
                         SliverAppBar(
-                          backgroundColor: Theme.of(context).accentColor.withOpacity(0.9),
+                          backgroundColor:
+                              Theme.of(context).accentColor.withOpacity(0.9),
                           expandedHeight: 300,
                           elevation: 0,
-                         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+                          iconTheme: IconThemeData(
+                              color: Theme.of(context).primaryColor),
                           flexibleSpace: FlexibleSpaceBar(
                             collapseMode: CollapseMode.parallax,
                             background: Hero(
-                              tag: (widget?.routeArgument?.heroTag ?? '') + _con.restaurant.id,
+                              tag: (widget?.routeArgument?.heroTag ?? '') +
+                                  _con.restaurant.id,
                               child: CachedNetworkImage(
                                 fit: BoxFit.cover,
                                 imageUrl: _con.restaurant.image.url,
@@ -94,7 +98,8 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                                   'assets/img/loading.gif',
                                   fit: BoxFit.cover,
                                 ),
-                                errorWidget: (context, url, error) => Icon(Icons.error),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
                               ),
                             ),
                           ),
@@ -103,7 +108,8 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                           child: Wrap(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(right: 20, left: 20, bottom: 10, top: 25),
+                                padding: const EdgeInsets.only(
+                                    right: 20, left: 20, bottom: 10, top: 25),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
@@ -113,7 +119,9 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                                         overflow: TextOverflow.fade,
                                         softWrap: false,
                                         maxLines: 2,
-                                        style: Theme.of(context).textTheme.headline3,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline3,
                                       ),
                                     ),
                                     SizedBox(
@@ -121,18 +129,27 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                                       child: Chip(
                                         padding: EdgeInsets.all(0),
                                         label: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: <Widget>[
                                             Text(_con.restaurant.rate,
-                                                style: Theme.of(context).textTheme.bodyText1.merge(TextStyle(color: Theme.of(context).primaryColor))),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1
+                                                    .merge(TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColor))),
                                             Icon(
                                               Icons.star_border,
-                                              color: Theme.of(context).primaryColor,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
                                               size: 16,
                                             ),
                                           ],
                                         ),
-                                        backgroundColor: Theme.of(context).accentColor.withOpacity(0.9),
+                                        backgroundColor: Theme.of(context)
+                                            .accentColor
+                                            .withOpacity(0.9),
                                         shape: StadiumBorder(),
                                       ),
                                     ),
@@ -143,59 +160,97 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                                 children: <Widget>[
                                   SizedBox(width: 20),
                                   Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 3),
-                                    decoration:
-                                        BoxDecoration(color: _con.restaurant.closed ? Colors.grey : Colors.green, borderRadius: BorderRadius.circular(24)),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 3),
+                                    decoration: BoxDecoration(
+                                        color: _con.restaurant.closed
+                                            ? Colors.grey
+                                            : Colors.green,
+                                        borderRadius:
+                                            BorderRadius.circular(24)),
                                     child: _con.restaurant.closed
                                         ? Text(
                                             S.of(context).closed,
-                                            style: Theme.of(context).textTheme.caption.merge(TextStyle(color: Theme.of(context).primaryColor)),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .caption
+                                                .merge(TextStyle(
+                                                    color: Theme.of(context)
+                                                        .primaryColor)),
                                           )
                                         : Text(
                                             S.of(context).open,
-                                            style: Theme.of(context).textTheme.caption.merge(TextStyle(color: Theme.of(context).primaryColor)),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .caption
+                                                .merge(TextStyle(
+                                                    color: Theme.of(context)
+                                                        .primaryColor)),
                                           ),
                                   ),
                                   SizedBox(width: 10),
                                   Expanded(child: SizedBox(height: 0)),
                                   Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 3),
                                     decoration: BoxDecoration(
-                                        color: Helper.canDelivery(_con.restaurant) ? Colors.green : Colors.grey, borderRadius: BorderRadius.circular(24)),
+                                        color:
+                                            Helper.canDelivery(_con.restaurant)
+                                                ? Colors.green
+                                                : Colors.grey,
+                                        borderRadius:
+                                            BorderRadius.circular(24)),
                                     child: Text(
-                                      Helper.getDistance(_con.restaurant.distance, Helper.of(context).trans(setting.value.distanceUnit)),
-                                      style: Theme.of(context).textTheme.caption.merge(TextStyle(color: Theme.of(context).primaryColor)),
+                                      Helper.getDistance(
+                                          _con.restaurant.distance,
+                                          Helper.of(context).trans(
+                                              setting.value.distanceUnit)),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .caption
+                                          .merge(TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryColor)),
                                     ),
                                   ),
                                   SizedBox(width: 20),
                                 ],
                               ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                                child: Helper.applyHtml(context, _con.restaurant.description),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 12),
+                                child: Helper.applyHtml(
+                                    context, _con.restaurant.description),
                               ),
-                              ImageThumbCarouselWidget(galleriesList: _con.galleries),
+                              ImageThumbCarouselWidget(
+                                  galleriesList: _con.galleries),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
                                 child: ListTile(
                                   dense: true,
-                                  contentPadding: EdgeInsets.symmetric(vertical: 0),
+                                  contentPadding:
+                                      EdgeInsets.symmetric(vertical: 0),
                                   leading: Icon(
                                     Icons.stars,
                                     color: Theme.of(context).hintColor,
                                   ),
                                   title: Text(
                                     S.of(context).information,
-                                    style: Theme.of(context).textTheme.headline4,
+                                    style:
+                                        Theme.of(context).textTheme.headline4,
                                   ),
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                                child: Helper.applyHtml(context, _con.restaurant.information),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 12),
+                                child: Helper.applyHtml(
+                                    context, _con.restaurant.information),
                               ),
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 20),
                                 margin: const EdgeInsets.symmetric(vertical: 5),
                                 color: Theme.of(context).primaryColor,
                                 child: Row(
@@ -206,7 +261,9 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                                         _con.restaurant.address ?? '',
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 2,
-                                        style: Theme.of(context).textTheme.bodyText1,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1,
                                       ),
                                     ),
                                     SizedBox(width: 10),
@@ -216,14 +273,20 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                                       child: FlatButton(
                                         padding: EdgeInsets.all(0),
                                         onPressed: () {
-                                          Navigator.of(context).pushNamed('/Pages', arguments: new RouteArgument(id: '1', param: _con.restaurant));
+                                          Navigator.of(context).pushNamed(
+                                              '/Pages',
+                                              arguments: new RouteArgument(
+                                                  id: '1',
+                                                  param: _con.restaurant));
                                         },
                                         child: Icon(
                                           Icons.directions,
                                           color: Theme.of(context).primaryColor,
                                           size: 24,
                                         ),
-                                        color: Theme.of(context).accentColor.withOpacity(0.9),
+                                        color: Theme.of(context)
+                                            .accentColor
+                                            .withOpacity(0.9),
                                         shape: StadiumBorder(),
                                       ),
                                     ),
@@ -231,7 +294,8 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                                 ),
                               ),
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 20),
                                 margin: const EdgeInsets.symmetric(vertical: 5),
                                 color: Theme.of(context).primaryColor,
                                 child: Row(
@@ -241,7 +305,9 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                                       child: Text(
                                         '${_con.restaurant.phone} \n${_con.restaurant.mobile}',
                                         overflow: TextOverflow.ellipsis,
-                                        style: Theme.of(context).textTheme.bodyText1,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1,
                                       ),
                                     ),
                                     SizedBox(width: 10),
@@ -251,14 +317,17 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                                       child: FlatButton(
                                         padding: EdgeInsets.all(0),
                                         onPressed: () {
-                                          launch("tel:${_con.restaurant.mobile}");
+                                          launch(
+                                              "tel:${_con.restaurant.mobile}");
                                         },
                                         child: Icon(
                                           Icons.call,
                                           color: Theme.of(context).primaryColor,
                                           size: 24,
                                         ),
-                                        color: Theme.of(context).accentColor.withOpacity(0.9),
+                                        color: Theme.of(context)
+                                            .accentColor
+                                            .withOpacity(0.9),
                                         shape: StadiumBorder(),
                                       ),
                                     ),
@@ -268,24 +337,29 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                               _con.featuredFoods.isEmpty
                                   ? SizedBox(height: 0)
                                   : Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
                                       child: ListTile(
                                         dense: true,
-                                        contentPadding: EdgeInsets.symmetric(vertical: 0),
+                                        contentPadding:
+                                            EdgeInsets.symmetric(vertical: 0),
                                         leading: Icon(
                                           Icons.local_offer,
                                           color: Theme.of(context).hintColor,
                                         ),
                                         title: Text(
                                           S.of(context).featured_foods,
-                                          style: Theme.of(context).textTheme.headline4,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline4,
                                         ),
                                       ),
                                     ),
                               _con.featuredFoods.isEmpty
                                   ? SizedBox(height: 0)
                                   : ListView.separated(
-                                      padding: EdgeInsets.symmetric(vertical: 10),
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 10),
                                       scrollDirection: Axis.vertical,
                                       shrinkWrap: true,
                                       primary: false,
@@ -294,96 +368,207 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                                         return SizedBox(height: 10);
                                       },
                                       itemBuilder: (context, index) {
-                                        print(_con.featuredFoods[index].isvalid.toString());
-                                        return _con.featuredFoods[index].isvalid.toString()=='0'?
-                                        Container(color: Color(0xFFBF360C),child: GestureDetector(
-                                          child: FoodItemWidget(
-                                            heroTag: 'details_featured_food',
-                                            food: _con.featuredFoods.elementAt(index),
-                                          ),onTap: (){
-                                          //  scan();
-                                         // Navigator.of(context).pushNamed('/Food', arguments: RouteArgument(id: _con.featuredFoods.elementAt(index).id, heroTag: 'home_food_carousel'));
+                                        print(_con.featuredFoods[index].isvalid
+                                            .toString());
+                                        return _con.featuredFoods[index].isvalid
+                                                    .toString() ==
+                                                '0'
+                                            ? Container(
+                                                color: Color(0xFFBF360C),
+                                                child: GestureDetector(
+                                                  child: FoodItemWidget(
+                                                    heroTag:
+                                                        'details_featured_food',
+                                                    food: _con.featuredFoods
+                                                        .elementAt(index),
+                                                  ),
+                                                  onTap: () {
+                                                    //  scan();
+                                                    // Navigator.of(context).pushNamed('/Food', arguments: RouteArgument(id: _con.featuredFoods.elementAt(index).id, heroTag: 'home_food_carousel'));
 
-                                          print(_con.featuredFoods.elementAt(index).toString());
-                                          if(_con.featuredFoods.elementAt(index).rede==1){
-                                            if(currentUser.value.totals=="null"){
-                                              showDialog(context: context, builder: (_) => showdd());
-
-                                            }else{
-                                              if(int.parse(currentUser.value.totals)>= int.parse(_con.featuredFoods.elementAt(index).smileb)){
-
-                                              }else{
-                                                showDialog(context: context, builder: (_) => showdd());
-                                              }
-                                            }
-
-                                          }else{
-                                            Navigator.of(context).pushReplacementNamed('/Food', arguments: RouteArgument(id: _con.featuredFoods.elementAt(index).id, heroTag: 'home_food_carousel',param: _con.restaurant.id));
-
-                                          }
-
-                                        },),):
-                                        GestureDetector(
-                                          child: FoodItemWidget(
-                                            heroTag: 'details_featured_food',
-                                            food: _con.featuredFoods.elementAt(index),
-                                          ),onTap: (){
-                                          //  scan();
-                                          print(_con.featuredFoods.elementAt(index).toString());
-                                          if(_con.featuredFoods.elementAt(index).rede==1){
-                                            if(currentUser.value.totals=="null"){
-                                              showDialog(context: context, builder: (_) => showdd());
-
-                                            }else{
-                                              if(int.parse(currentUser.value.totals)>= int.parse(_con.featuredFoods.elementAt(index).smileb)){
-
-                                              }else{
-                                                showDialog(context: context, builder: (_) => showdd());
-                                              }
-                                            }
-
-                                          }else{
-                                            Navigator.of(context).pushReplacementNamed('/Food', arguments: RouteArgument(id: _con.featuredFoods.elementAt(index).id, heroTag: 'home_food_carousel',param: _con.restaurant.id));
-
-                                          }
-
-                                        },);
+                                                    print(_con.featuredFoods
+                                                        .elementAt(index)
+                                                        .toString());
+                                                    if (_con.featuredFoods
+                                                            .elementAt(index)
+                                                            .rede ==
+                                                        1) {
+                                                      if (currentUser
+                                                              .value.totals ==
+                                                          "null") {
+                                                        showDialog(
+                                                            context: context,
+                                                            builder: (_) =>
+                                                                showdd());
+                                                      } else {
+                                                        if (int.parse(
+                                                                currentUser
+                                                                    .value
+                                                                    .totals) >=
+                                                            int.parse(_con
+                                                                .featuredFoods
+                                                                .elementAt(
+                                                                    index)
+                                                                .smileA)) {
+                                                          Navigator.of(context)
+                                                              .pushReplacementNamed(
+                                                              '/Food',
+                                                              arguments: RouteArgumentFood(
+                                                                  id: _con
+                                                                      .featuredFoods
+                                                                      .elementAt(
+                                                                      index)
+                                                                      .id,
+                                                                  heroTag:
+                                                                  'home_food_carousel',
+                                                                  param: _con
+                                                                      .restaurant
+                                                                      .id,rede:'1',smiA: _con
+                                                                  .featuredFoods
+                                                                  .elementAt(
+                                                                  index)
+                                                                  .smileA ));
+                                                        } else {
+                                                          showDialog(
+                                                              context: context,
+                                                              builder: (_) =>
+                                                                  showdd());
+                                                        }
+                                                      }
+                                                    } else {
+                                                      Navigator.of(context)
+                                                          .pushReplacementNamed(
+                                                              '/Food',
+                                                              arguments: RouteArgumentFood(
+                                                                  id: _con
+                                                                      .featuredFoods
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .id,
+                                                                  heroTag:
+                                                                      'home_food_carousel',
+                                                                  param: _con
+                                                                      .restaurant
+                                                                      .id,rede:'0',smiA: '0'));
+                                                    }
+                                                  },
+                                                ),
+                                              )
+                                            : GestureDetector(
+                                                child: FoodItemWidget(
+                                                  heroTag:
+                                                      'details_featured_food',
+                                                  food: _con.featuredFoods
+                                                      .elementAt(index),
+                                                ),
+                                                onTap: () {
+                                                  //  scan();
+                                                  print(_con.featuredFoods
+                                                      .elementAt(index)
+                                                      .toString());
+                                                  if (_con.featuredFoods
+                                                          .elementAt(index)
+                                                          .rede ==
+                                                      1) {
+                                                    if (currentUser
+                                                            .value.totals ==
+                                                        "null") {
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (_) =>
+                                                              showdd());
+                                                    } else {
+                                                      if (int.parse(currentUser
+                                                              .value.totals) >=
+                                                          int.parse(_con
+                                                              .featuredFoods
+                                                              .elementAt(index)
+                                                              .smileA)) {
+                                                        Navigator.of(context)
+                                                            .pushReplacementNamed(
+                                                            '/Food',
+                                                            arguments: RouteArgumentFood(
+                                                                id: _con
+                                                                    .featuredFoods
+                                                                    .elementAt(
+                                                                    index)
+                                                                    .id,
+                                                                heroTag:
+                                                                'home_food_carousel',
+                                                                param: _con
+                                                                    .restaurant
+                                                                    .id,rede:'1',smiA: _con
+                                                                .featuredFoods
+                                                                .elementAt(
+                                                                index)
+                                                                .smileA ));
+                                                      } else {
+                                                        showDialog(
+                                                            context: context,
+                                                            builder: (_) =>
+                                                                showdd());
+                                                      }
+                                                    }
+                                                  } else {
+                                                    Navigator.of(context)
+                                                        .pushReplacementNamed(
+                                                            '/Food',
+                                                            arguments: RouteArgumentFood(
+                                                                id: _con
+                                                                    .featuredFoods
+                                                                    .elementAt(
+                                                                        index)
+                                                                    .id,
+                                                                heroTag:
+                                                                    'home_food_carousel',
+                                                                param: _con
+                                                                    .restaurant
+                                                                    .id,rede:'0',smiA: '0'));
+                                                  }
+                                                },
+                                              );
                                       },
                                     ),
                               SizedBox(height: 100),
                               _con.reviews.isEmpty
                                   ? SizedBox(height: 5)
                                   : Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10, horizontal: 20),
                                       child: ListTile(
                                         dense: true,
-                                        contentPadding: EdgeInsets.symmetric(vertical: 0),
+                                        contentPadding:
+                                            EdgeInsets.symmetric(vertical: 0),
                                         leading: Icon(
                                           Icons.recent_actors,
                                           color: Theme.of(context).hintColor,
                                         ),
                                         title: Text(
                                           S.of(context).what_they_say,
-                                          style: Theme.of(context).textTheme.headline4,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline4,
                                         ),
                                       ),
                                     ),
                               _con.reviews.isEmpty
                                   ? SizedBox(height: 5)
                                   : Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                                      child: ReviewsListWidget(reviewsList: _con.reviews),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 10),
+                                      child: ReviewsListWidget(
+                                          reviewsList: _con.reviews),
                                     ),
                             ],
                           ),
                         ),
                       ],
                     ),
-
                   ],
                 ),
         ));
   }
+
   Widget showdd() {
     return AlertDialog(
       // contentPadding: EdgeInsets.zero,
@@ -399,7 +584,6 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
           padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
           child: Column(
             children: [
-
               Padding(
                   padding: EdgeInsets.fromLTRB(15, 15, 15, 25),
                   child: Text(
@@ -410,7 +594,6 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                         fontSize: 14,
                         fontWeight: FontWeight.bold),
                   )),
-
               Align(
                 alignment: Alignment.bottomLeft,
                 child: Container(
@@ -419,8 +602,7 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                     decoration: BoxDecoration(
                         border: Border(
                             top: BorderSide(
-                                color: Colors.orange
-                                    .withOpacity(0.2),
+                                color: Colors.orange.withOpacity(0.2),
                                 width: 1))),
                     height: 60,
                     child: Row(
@@ -429,7 +611,6 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                       children: <Widget>[
                         Container(
                           alignment: Alignment.center,
-
                           child: FlatButton(
                               onPressed: () {
                                 Navigator.pop(context);
@@ -440,7 +621,6 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                                       color: Colors.green,
                                       fontWeight: FontWeight.bold))),
                         ),
-
                       ],
                     )),
               )

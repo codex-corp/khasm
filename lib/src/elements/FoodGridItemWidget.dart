@@ -1,3 +1,4 @@
+import 'package:food_delivery_app/src/models/routFood.dart';
 import 'package:food_delivery_app/src/repository/user_repository.dart';
 
 import '../../generated/l10n.dart';
@@ -30,7 +31,7 @@ class _FoodGridItemWidgetState extends State<FoodGridItemWidget> {
             showDialog(context: context, builder: (_) => showdd(context));
 
           }else{
-            if(int.parse(currentUser.value.totals)>= int.parse(widget.food.smileb)){
+            if(int.parse(currentUser.value.totals)>= int.parse(widget.food.smileA)){
 
             }else{
               showDialog(context: context, builder: (_) => showdd(context));
@@ -39,7 +40,7 @@ class _FoodGridItemWidgetState extends State<FoodGridItemWidget> {
 
         }
         else{
-          Navigator.of(context).pushNamed('/FoodCat', arguments: new RouteArgument(heroTag: this.widget.heroTag, id: this.widget.food.id,param: this.widget.catId));
+          Navigator.of(context).pushNamed('/FoodCat', arguments: new RouteArgumentFood(heroTag: this.widget.heroTag, id: this.widget.food.id,param: this.widget.catId,rede: widget.food.rede.toString()));
 
         }
 
@@ -100,7 +101,7 @@ class _FoodGridItemWidgetState extends State<FoodGridItemWidget> {
                               ),
                               Padding(
                                   child: Text(
-                                    widget.food.smileb,
+                                    widget.food.smileA,
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontWeight:

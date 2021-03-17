@@ -146,7 +146,7 @@ class FoodItemWidget extends StatelessWidget {
                                             ),
                                             Padding(
                                                 child: Text(
-                                                  food.smileb,
+                                                  food.smileA,
                                                   style: TextStyle(
                                                       color: Colors.white,
                                                       fontWeight:

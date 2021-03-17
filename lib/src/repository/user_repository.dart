@@ -46,10 +46,15 @@ Future<User> login(String phone,String token,String codeC,String islog) async {
   }
   return currentUser.value;
 }
-Future<qrM> scanF(String qrcode,String userid,String vouid,String serid) async {
+Future<qrM> scanF(String qrcode,String userid,String vouid,String serid,String rede) async {
   String url;
+if(rede=='1'){
+  url = '${GlobalConfiguration().getString('api_base_url')}voucher_deduction?qr_code='+qrcode+'&user_id='+userid+'&voucher_id='+vouid+'&service_id='+serid+'&smile_on='+'1';
 
-    url = '${GlobalConfiguration().getString('api_base_url')}voucher_deduction?qr_code='+qrcode+'&user_id='+userid+'&voucher_id='+vouid+'&service_id='+serid;
+}else{
+  url = '${GlobalConfiguration().getString('api_base_url')}voucher_deduction?qr_code='+qrcode+'&user_id='+userid+'&voucher_id='+vouid+'&service_id='+serid+'&smile_on='+'0';
+
+}
     //  url = '${GlobalConfiguration().getString('api_base_url')}signin?mobile_no='+phone+'&country_code='+codeC+'&device_token='+token;
 
 

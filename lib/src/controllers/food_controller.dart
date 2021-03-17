@@ -30,26 +30,6 @@ class FoodController extends ControllerMVC {
 
 
 
-  void scanF(String qrcode,String userid,String vouid,String serid) async {
-    // FocusScope.of(context).unfocus();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-
-      repository.scanF(qrcode,userid,vouid,serid).then((value) {
-        print(value);
-resqr = value;
-
-      }).catchError((e) {
-      //  loader.remove();
-
-        scaffoldKey?.currentState?.showSnackBar(SnackBar(
-          content: Text(e.toString()),
-        ));
-      }).whenComplete(() {
-       // Helper.hideLoader(loader);
-      });
-
-  }
 
 
   void listenForFood({String foodId, String message}) async {

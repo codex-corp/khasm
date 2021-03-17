@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/src/models/routFood.dart';
 import 'src/pages/categoryPAge.dart';
 import 'src/pages/codePage.dart';
 import 'src/pages/packagePage.dart';
@@ -74,9 +75,9 @@ class RouteGenerator {
       case '/Menu':
         return MaterialPageRoute(builder: (_) => MenuWidget(routeArgument: args as RouteArgument));
       case '/Food':
-        return MaterialPageRoute(builder: (_) => FoodWidget(routeArgument: args as RouteArgument));
+        return MaterialPageRoute(builder: (_) => FoodWidget(routeArgument: args as RouteArgumentFood));
       case '/FoodCat':
-        return MaterialPageRoute(builder: (_) => foodCategory(routeArgument: args as RouteArgument));
+        return MaterialPageRoute(builder: (_) => foodCategory(routeArgument: args as RouteArgumentFood));
       case '/Category':
         return MaterialPageRoute(builder: (_) => CategoryWidget(routeArgument: args as RouteArgument));
       case '/Cart':

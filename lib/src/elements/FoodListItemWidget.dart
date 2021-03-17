@@ -1,3 +1,4 @@
+import 'package:food_delivery_app/src/models/routFood.dart';
 import 'package:food_delivery_app/src/repository/user_repository.dart';
 
 import '../../generated/l10n.dart';
@@ -13,43 +14,60 @@ class FoodListItemWidget extends StatelessWidget {
   Food food;
   String catId;
 
-  FoodListItemWidget({Key key, this.heroTag, this.food,this.catId}) : super(key: key);
+  FoodListItemWidget({Key key, this.heroTag, this.food, this.catId})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      splashColor: Theme.of(context).accentColor,
-      focusColor: Theme.of(context).accentColor,
-      highlightColor: Theme.of(context).primaryColor,
+      splashColor: Theme
+          .of(context)
+          .accentColor,
+      focusColor: Theme
+          .of(context)
+          .accentColor,
+      highlightColor: Theme
+          .of(context)
+          .primaryColor,
       onTap: () {
-
-        if(food.rede==1){
-          if(currentUser.value.totals=="null"){
+        if (food.rede == 1) {
+          if (currentUser.value.totals == "null") {
             showDialog(context: context, builder: (_) => showdd(context));
+          } else {
+            if (int.parse(currentUser.value.totals) >= int.parse(food.smileA)) {
+              Navigator.of(context).pushNamed('/FoodCat',
+                  arguments: new RouteArgumentFood(heroTag: this.heroTag,
+                      id: this.food.id,
+                      param: this.catId,
+                      rede: '1',
+                    )
+        );
 
-          }else{
-            if(int.parse(currentUser.value.totals)>= int.parse(food.smileb)){
-
-            }else{
-              showDialog(context: context, builder: (_) => showdd(context));
-            }
-          }
+        }else{
+        showDialog(context: context, builder: (_) => showdd(context));
+        }
+        }
 
         }
         else{
-          Navigator.of(context).pushNamed('/FoodCat', arguments: new RouteArgument(heroTag: this.heroTag, id: this.food.id,param: this.catId));
+        Navigator.of(context).pushNamed('/FoodCat', arguments: new RouteArgumentFood(heroTag: this.heroTag, id: this.food.id,param: this.catId,     rede: '0',));
 
         }
-
 
 
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor.withOpacity(0.9),
+          color: Theme
+              .of(context)
+              .primaryColor
+              .withOpacity(0.9),
           boxShadow: [
-            BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.1), blurRadius: 5, offset: Offset(0, 2)),
+            BoxShadow(color: Theme
+                .of(context)
+                .focusColor
+                .withOpacity(0.1), blurRadius: 5, offset: Offset(0, 2)),
           ],
         ),
         child: Row(
@@ -62,7 +80,8 @@ class FoodListItemWidget extends StatelessWidget {
                 width: 60,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(5)),
-                  image: DecorationImage(image: NetworkImage(food.image.thumb), fit: BoxFit.cover),
+                  image: DecorationImage(
+                      image: NetworkImage(food.image.thumb), fit: BoxFit.cover),
                 ),
               ),
             ),
@@ -79,13 +98,19 @@ class FoodListItemWidget extends StatelessWidget {
                           food.name,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
-                          style: Theme.of(context).textTheme.subtitle1,
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .subtitle1,
                         ),
                         Text(
                           food.restaurant.name,
                           overflow: TextOverflow.fade,
                           softWrap: false,
-                          style: Theme.of(context).textTheme.caption,
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .caption,
                         ),
                         food.rede == 1
                             ? Visibility(
@@ -113,7 +138,7 @@ class FoodListItemWidget extends StatelessWidget {
                                         ),
                                         Padding(
                                             child: Text(
-                                              food.smileb,
+                                              food.smileA,
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontWeight:
@@ -124,7 +149,9 @@ class FoodListItemWidget extends StatelessWidget {
                                       ],
                                     ),
                                     Padding(
-                                        child: Text(S.of(context).buy,
+                                        child: Text(S
+                                            .of(context)
+                                            .buy,
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontWeight:
@@ -163,7 +190,9 @@ class FoodListItemWidget extends StatelessWidget {
                                     ),
                                     Padding(
                                       child: Text(
-                                        S.of(context).buy,
+                                        S
+                                            .of(context)
+                                            .buy,
                                       ),
                                       padding: EdgeInsets.all(3),
                                     )
@@ -177,7 +206,10 @@ class FoodListItemWidget extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 8),
-                  Helper.getPrice(food.price, context, style: Theme.of(context).textTheme.headline4),
+                  Helper.getPrice(food.price, context, style: Theme
+                      .of(context)
+                      .textTheme
+                      .headline4),
                 ],
               ),
             )
@@ -186,6 +218,7 @@ class FoodListItemWidget extends StatelessWidget {
       ),
     );
   }
+
   Widget showdd(BuildContext context) {
     return AlertDialog(
       // contentPadding: EdgeInsets.zero,
@@ -205,7 +238,9 @@ class FoodListItemWidget extends StatelessWidget {
               Padding(
                   padding: EdgeInsets.fromLTRB(15, 15, 15, 25),
                   child: Text(
-                    S.of(context).sorry,
+                    S
+                        .of(context)
+                        .sorry,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.black,
@@ -216,7 +251,10 @@ class FoodListItemWidget extends StatelessWidget {
               Align(
                 alignment: Alignment.bottomLeft,
                 child: Container(
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
                     alignment: Alignment.bottomLeft,
                     decoration: BoxDecoration(
                         border: Border(
@@ -236,7 +274,9 @@ class FoodListItemWidget extends StatelessWidget {
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              child: Text(S.of(context).yes,
+                              child: Text(S
+                                  .of(context)
+                                  .yes,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Colors.green,
