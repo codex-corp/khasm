@@ -32,6 +32,7 @@ class _FoodGridItemWidgetState extends State<FoodGridItemWidget> {
 
           }else{
             if(int.parse(currentUser.value.totals)>= int.parse(widget.food.smileA)){
+              Navigator.of(context).pushNamed('/FoodCat', arguments: new RouteArgumentFood(heroTag: this.widget.heroTag, id: this.widget.food.id,param: this.widget.catId,rede: widget.food.rede.toString()));
 
             }else{
               showDialog(context: context, builder: (_) => showdd(context));
